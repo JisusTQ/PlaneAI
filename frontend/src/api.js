@@ -1,4 +1,5 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+// Se quita la "/" final para evitar rutas como "//chat" (404 en el backend).
+const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/+$/, "");
 
 async function pedir(ruta, opciones) {
   const res = await fetch(`${API_URL}${ruta}`, opciones);

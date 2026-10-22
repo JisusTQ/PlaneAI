@@ -27,6 +27,11 @@ class Settings(BaseSettings):
     APP_ENV: str = "development"
     CORS_ORIGINS: str = "http://localhost:5173"
 
+    # --- Reglas de carga académica (motor de validación) ---
+    # Valores configurables: confirmar contra el Reglamento Estudiantil vigente.
+    CREDITOS_MIN: int = 8
+    CREDITOS_MAX: int = 24
+
     # Lee automáticamente el archivo backend/.env (ruta absoluta _ENV_FILE).
     model_config = SettingsConfigDict(
         env_file=str(_ENV_FILE),

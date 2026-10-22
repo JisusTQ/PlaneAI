@@ -210,6 +210,31 @@ que permite detectar choques al armar el plan:
 
 ---
 
+## 🧮 Motor determinista (grafo + validador)
+
+La IA **no decide** si una matrícula es válida. Esa garantía la da un motor en
+Python puro, y el agente solo lo invoca y explica su resultado.
+
+- **`grafo_service`** (OE1): construye el pensum como **grafo dirigido acíclico**
+  (arista = prerrequisito → materia), verifica la aciclicidad con el algoritmo de
+  Kahn (orden topológico) y calcula la **criticidad** de cada materia (cuántas
+  dependen de ella, de forma transitiva).
+- **`validador_service`** (OE2): verifica las restricciones duras de una carga
+  (prerrequisitos, correquisitos, oferta y cupos, choques de horario, tope de
+  créditos) y **genera alternativas** con búsqueda con poda, ordenadas por
+  criticidad. Toda alternativa generada se vuelve a pasar por el validador.
+- El agente tiene dos herramientas nuevas: `proponer_cargas` y `validar_carga`.
+- Límites de créditos configurables con `CREDITOS_MIN` / `CREDITOS_MAX`.
+
+### Pruebas
+
+```bash
+cd backend
+pytest -q        # banco de casos del grafo y del motor (datos simulados)
+```
+
+---
+
 ## 🔌 API REST
 
 | Método | Ruta | Descripción |
@@ -218,6 +243,9 @@ que permite detectar choques al armar el plan:
 | `GET` | `/cursos` | Catálogo de materias (pensum). Filtro opcional `?nivel=N` |
 | `GET` | `/cursos/{codigo}/grupos` | Grupos, cupos y horarios **en vivo** de una materia |
 | `GET` | `/cursos/en-vivo` | Oferta completa (todas las materias y grupos) **en vivo** |
+| `GET` | `/pensum/grafo` | Modelo del plan de estudios como DAG: aciclicidad, conteos por nivel y materias más críticas (OE1) |
+| `POST` | `/planeacion/validar` | Valida una carga con el motor determinista: prerrequisitos, correquisitos, cupos, choques y créditos (OE2) |
+| `POST` | `/planeacion/proponer` | Genera hasta 3 cargas factibles, priorizadas por criticidad curricular (OE2) |
 | `POST` | `/chat` | Mensaje del estudiante → el **agente** consulta las fuentes y responde con Gemini |
 
 > El catálogo (`/cursos`) y la oferta (`/cursos/{codigo}/grupos`) comparten el mismo

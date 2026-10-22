@@ -13,7 +13,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
-from app.routers import chat, cursos
+from app.routers import chat, cursos, planeacion
 from app.services import udea_horarios_service as udea
 from app.services import udea_pensum_service as pensum
 
@@ -57,3 +57,4 @@ def health_check():
 
 app.include_router(cursos.router)
 app.include_router(chat.router)
+app.include_router(planeacion.router)

@@ -1,15 +1,17 @@
 """
 Agente Gemini con tool-calling sobre datos en vivo de la UdeA.
 
-Se le entregan dos herramientas (`consultar_pensum` y `consultar_horarios_udea`)
-y el modelo decide cuándo invocarlas; el SDK ejecuta el bucle agéntico
-automáticamente (enable_automatic_function_calling).
+Herramientas: `consultar_pensum`, `consultar_horarios_udea`, `proponer_cargas`
+y `validar_carga`. Las dos últimas delegan en el motor DETERMINISTA
+(validador_service): la IA no decide si una carga es válida, solo la explica.
+El SDK ejecuta el bucle agéntico (enable_automatic_function_calling).
 """
 import google.generativeai as genai
 
 from app.config import get_settings
 from app.services import udea_horarios_service as udea
 from app.services import udea_pensum_service as pensum
+from app.services import validador_service as motor
 
 settings = get_settings()
 
@@ -18,27 +20,22 @@ SYSTEM_PROMPT = """Eres "PlaneAI", un asistente de planeación académica para e
 del programa de Ingeniería de Sistemas de la Universidad de Antioquia (UdeA).
 
 Tu objetivo es ayudar a armar horarios y recomendar materias. Reglas estrictas:
-1. Cuando el estudiante mencione un SEMESTRE o NIVEL (p. ej. "soy de primer
-   semestre"), PRIMERO usa la herramienta `consultar_pensum` con ese nivel para
-   saber qué materias le corresponden (nivel = semestre: 1=primero, 2=segundo…)
-   y sus prerrequisitos.
-2. LUEGO consulta los grupos de esas materias con `consultar_horarios_udea`
-   pasándolas TODAS en UNA sola llamada, separadas por punto y coma ";"
-   (no la llames una vez por materia). Solo recomienda materias que correspondan
-   al nivel del estudiante y que tengan cupos disponibles.
-3. Para CUALQUIER dato de grupos, cupos, horarios o profesores DEBES usar
-   `consultar_horarios_udea`. NUNCA inventes grupos, cupos, horarios ni profesores.
-4. Puedes llamar las herramientas varias veces. Cruza pensum y oferta por el
-   NOMBRE de la materia; algunas materias del pensum pueden no estar ofertadas
-   este semestre (dilo con honestidad).
-5. Si pide algo "en la mañana", filtra horarios antes de las 12:00; "en la tarde",
-   de 12:00 en adelante.
-6. Si un grupo tiene 0 cupos disponibles, adviértelo y sugiere otro grupo.
-7. Respeta los prerrequisitos que entrega `consultar_pensum`: si una materia exige
-   prerrequisitos, menciónalo.
-8. Al proponer un horario, evita CHOQUES (dos materias el mismo día a la misma hora).
-9. Responde en español, de forma clara, breve y organizada (usa listas cuando ayude).
-10. Si una herramienta devuelve un error o no encuentra datos, dilo con honestidad."""
+1. Para RECOMENDAR una carga usa SIEMPRE `proponer_cargas`. Necesitas saber qué
+   materias tiene aprobadas el estudiante: pregúntalo si no lo dijo. Si solo dice
+   su semestre (p. ej. "voy para cuarto"), asume aprobados los niveles anteriores
+   ("nivel:1-3") y dile explícitamente que hiciste esa suposición.
+2. Si el estudiante trae su PROPIA propuesta de materias/grupos, verifícala con
+   `validar_carga`. Nunca afirmes que una carga es válida si el validador no lo
+   confirma; si hay errores, explícalos y sugiere cómo corregirlos.
+3. Las cargas que devuelven las herramientas YA cumplen prerrequisitos,
+   correquisitos, cupos, choques de horario y límite de créditos: tu trabajo es
+   EXPLICARLAS de forma clara (por qué esas materias, en qué horario), no cambiarlas.
+4. Usa `consultar_pensum` para preguntas sobre materias, niveles y requisitos, y
+   `consultar_horarios_udea` para grupos, cupos, horarios o profesores (varias
+   materias en UNA llamada, separadas por ";"). NUNCA inventes datos.
+5. Franjas: "mañana" = antes de las 12:00, "tarde" = 12:00-18:00, "noche" = 18:00+.
+6. Responde en español, claro, breve y organizado (usa listas o tablas cuando ayude).
+7. Si una herramienta devuelve un error o no encuentra datos, dilo con honestidad."""
 
 
 def _formatear_materia(m) -> list[str]:
@@ -142,6 +139,78 @@ def consultar_pensum(nivel: int = 0) -> str:
         return f"Error al consultar el pensum de la UdeA: {exc}"
 
 
+def _formatear_resultado(r) -> str:
+    estado = "VÁLIDA" if r.valida else "NO VÁLIDA"
+    lineas = [f"Carga {estado} — {r.creditos} créditos."]
+    lineas += [f"  · {m['nombre']} (código {m['codigo']}, gr {m['grupo'] or '-'}, {m['creditos']} cr)" for m in r.materias]
+    lineas += [f"  ERROR: {e['mensaje']}" for e in r.errores]
+    lineas += [f"  Aviso: {a['mensaje']}" for a in r.advertencias]
+    return "\n".join(lineas)
+
+
+def proponer_cargas(aprobadas: str = "", max_creditos: int = 0, franja: str = "") -> str:
+    """Genera con el MOTOR DETERMINISTA hasta 3 cargas académicas factibles
+    (cumplen prerrequisitos, correquisitos, cupos, sin choques de horario y
+    dentro del límite de créditos), priorizando las materias más críticas.
+
+    Args:
+        aprobadas: materias aprobadas separadas por coma. Acepta códigos,
+            nombres o rangos de nivel, p. ej. "nivel:1-3, cálculo integral".
+        max_creditos: tope de créditos deseado (0 = el máximo reglamentario).
+        franja: "manana", "tarde", "noche" o vacío para cualquier horario.
+
+    Returns:
+        Texto con cada alternativa: materias, grupos, horario y créditos.
+    """
+    try:
+        p_idx = pensum.catalogo_por_codigo()
+        codigos, no_rec = motor.resolver_aprobadas(aprobadas, p_idx)
+        cargas = motor.proponer_en_vivo(codigos, max_creditos or None, franja or None)
+        if not cargas:
+            return "El motor no encontró cargas factibles con esas condiciones."
+        oferta = {m.codigo: m for m in udea.obtener_oferta()}
+        bloques = [f"Materias aprobadas reconocidas: {len(codigos)}."]
+        if no_rec:
+            bloques.append(f"No reconocidas: {', '.join(no_rec)}.")
+        for i, c in enumerate(cargas, 1):
+            lineas = [f"Alternativa {i} — {c['creditos']} créditos (validada por el motor):"]
+            for m in c["materias"]:
+                g = motor._buscar_grupo(oferta.get(str(m["codigo"])), m["grupo"])
+                ses = "; ".join(f"{s.dia} {s.hora_inicio}-{s.hora_fin}" for s in g.horario) if g else ""
+                lineas.append(f"  · {m['nombre']} (código {m['codigo']}) gr {m['grupo']} [{ses}] {m['creditos']} cr")
+            bloques.append("\n".join(lineas))
+        return "\n\n".join(bloques)
+    except Exception as exc:  # noqa: BLE001
+        return f"Error en el motor de recomendación: {exc}"
+
+
+def validar_carga(aprobadas: str = "", propuesta: str = "") -> str:
+    """Verifica con el MOTOR DETERMINISTA si una carga es válida: prerrequisitos,
+    correquisitos, oferta y cupos, choques de horario y límite de créditos.
+
+    Args:
+        aprobadas: materias aprobadas separadas por coma (códigos, nombres o
+            rangos de nivel como "nivel:1-3").
+        propuesta: materias a matricular como "codigo:grupo" separadas por ";",
+            p. ej. "2554206:1; 2554207:3". El grupo es opcional.
+
+    Returns:
+        Veredicto (VÁLIDA / NO VÁLIDA), créditos y la lista de errores o avisos.
+    """
+    try:
+        p_idx = pensum.catalogo_por_codigo()
+        codigos, no_rec = motor.resolver_aprobadas(aprobadas, p_idx)
+        elecciones = motor.resolver_propuesta(propuesta)
+        if not elecciones:
+            return "La propuesta está vacía o mal formada: usa 'codigo:grupo; codigo:grupo'."
+        texto = _formatear_resultado(motor.validar_en_vivo(codigos, elecciones))
+        if no_rec:
+            texto += f"\n  Aviso: no se reconocieron como aprobadas: {', '.join(no_rec)}."
+        return texto
+    except Exception as exc:  # noqa: BLE001
+        return f"Error en el validador: {exc}"
+
+
 def _api_key_valida() -> bool:
     """Comprueba que la GEMINI_API_KEY esté configurada (no es el placeholder)."""
     key = settings.GEMINI_API_KEY or ""
@@ -197,7 +266,7 @@ def responder(mensaje: str, historial: list[dict] | None = None) -> tuple[str, l
     model = genai.GenerativeModel(
         model_name=settings.GEMINI_MODEL,
         system_instruction=SYSTEM_PROMPT,
-        tools=[consultar_pensum, consultar_horarios_udea],
+        tools=[consultar_pensum, consultar_horarios_udea, proponer_cargas, validar_carga],
     )
     chat = model.start_chat(
         history=_a_history_gemini(historial or []),

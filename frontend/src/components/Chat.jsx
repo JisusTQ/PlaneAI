@@ -39,11 +39,13 @@ const SALUDO = {
 const NOMBRE_TOOL = {
   consultar_pensum: "Pensum",
   consultar_horarios_udea: "Cupos y horarios",
+  proponer_cargas: "Motor: generó cargas",
+  validar_carga: "Motor: validó la carga",
 };
 
 function etiquetaPaso(paso) {
   const nombre = NOMBRE_TOOL[paso.herramienta] || paso.herramienta;
-  const arg = paso.args?.nivel || paso.args?.materia || "";
+  const arg = paso.args?.nivel || paso.args?.materia || paso.args?.franja || "";
   const corto = arg.length > 30 ? `${arg.slice(0, 30)}…` : arg;
   return corto ? `${nombre}: ${corto}` : nombre;
 }
