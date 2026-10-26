@@ -242,3 +242,24 @@ def test_api_grafo_y_validar(datos_en_vivo_simulados):
 
     p = cliente.post("/planeacion/proponer", json={"aprobadas": [101, 103]}).json()
     assert len(p) >= 1
+
+
+def test_malla_incluye_requisitos_y_criticidad():
+    vertices = {m["codigo"]: m for m in grafo.malla(PENSUM)}
+    assert len(vertices) == len(PENSUM)
+    assert {"codigo": 101, "tipo": "PRERREQ"} in vertices[201]["requisitos"]
+    assert vertices[101]["dependientes"] == 3  # 201, 203 y 301 dependen de Cálculo Diferencial
+
+
+def test_api_malla_y_propuesta_con_horario(datos_en_vivo_simulados):
+    from fastapi.testclient import TestClient
+
+    from app.main import app
+
+    cliente = TestClient(app)
+    m = cliente.get("/pensum/malla").json()
+    assert len(m["materias"]) == len(PENSUM)
+
+    p = cliente.post("/planeacion/proponer", json={"aprobadas": [101, 103]}).json()
+    materia = p[0]["materias"][0]
+    assert materia["horario"] and materia["cupos_disponibles"] > 0

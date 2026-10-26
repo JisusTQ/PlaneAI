@@ -1,65 +1,73 @@
 # Frontend — PlaneAI UdeA
 
-Interfaz web del asistente, construida con **React + Vite**.
+Interfaz web de PlaneAI, construida con **React + Vite**. Responsiva (escritorio,
+tableta y móvil), con modo claro/oscuro y animaciones con `framer-motion`.
 
-Consume la API del backend (FastAPI) para dos vistas: el **chat con el agente** y
-la **vista de cupos en vivo**. No contiene lógica de negocio: solo presenta lo que
-devuelve el backend.
+No contiene lógica de negocio: la validez de una carga la decide el **motor
+determinista del backend**; el frontend solo la presenta y la hace interactiva.
+
+## Vistas y objetivos del anteproyecto
+
+| Vista | Qué hace | Objetivo |
+|---|---|---|
+| **Inicio** | Malla en miniatura con el avance del estudiante, verificación del modelo del pensum y materias más críticas | — |
+| **Mi malla** | Pensum como grafo dirigido acíclico: al pasar el cursor se ve la cadena de prerrequisitos y lo que desbloquea; modo para marcar aprobadas; color por criticidad; vista lista para móvil; carga de la historia académica (por semestre o pegando el texto de MARES) | OE1 |
+| **Planificador** | El motor genera hasta 3 cargas sin choques (tope de créditos, franja, electivas) con horario semanal; modo manual con vista previa de grupos, detección de cruces y validación con el motor | OE2 |
+| **Asistente** | Chat con el agente; cada respuesta muestra las fuentes consultadas (pensum, oferta, motor); puede compartir las materias aprobadas como contexto | OE3 |
+| **Oferta y cupos** | Grupos, horarios, profesores y cupos en vivo; agrega grupos a la carga | OE2 |
+| **Evaluación** | Cuestionario SUS con cálculo del puntaje, resultados con exportación a CSV y banco de 40 preguntas para medir la exactitud del asistente | OE3, OE4 |
+| **Sobre el proyecto** | Problema, objetivos con indicadores, metodología y equipo | — |
+
+La historia académica, la carga en edición, las conversaciones y las respuestas
+de evaluación se guardan **solo en el navegador** (`localStorage`).
 
 ## Estructura
 
 ```
 frontend/
 ├── index.html
-├── package.json
+├── public/favicon.svg
 ├── vite.config.js
 └── src/
-    ├── main.jsx              # Punto de montaje de React
-    ├── App.jsx              # Componente raíz (pestañas: chat + cupos)
-    ├── index.css           # Estilos
-    ├── api.js              # Cliente HTTP: única capa que habla con la API
-    └── components/
-        ├── Chat.jsx        # Chat conversacional con el agente (/chat)
-        └── VistaCupos.jsx  # Cursos + cupos/horarios en vivo
+    ├── main.jsx                 # Montaje de React + MotionConfig
+    ├── App.jsx                  # Shell: barra lateral, barra inferior móvil, rutas por hash
+    ├── lib/
+    │   ├── api.js               # Única capa que habla con la API
+    │   ├── AppContext.jsx       # Estado global: malla, historia, carga, tema, servidor
+    │   ├── malla.js             # Estados, recorridos del grafo y disposición por columnas
+    │   ├── horario.js           # Días, horas, cruces y colores
+    │   ├── evaluacion.js        # Ítems SUS y banco de preguntas
+    │   └── storage.js           # localStorage seguro y exportación CSV
+    ├── components/              # Logo, MallaGrafo, MallaMini, Horario, Grupos, PanelMateria…
+    ├── views/                   # Inicio, Malla, Planificador, Asistente, Oferta, Evaluacion, Proyecto
+    └── styles/                  # base.css (tokens), shell.css, vistas.css
 ```
 
-## Vistas principales
+## Cliente API (`src/lib/api.js`)
 
-1. **Chat conversacional** (`Chat.jsx`) — el estudiante escribe y PlaneAI responde.
-   El backend es un **agente Gemini** que consulta en vivo el pensum y los cupos de
-   la UdeA; el frontend solo envía el mensaje a `POST /chat` y muestra la respuesta.
-2. **Vista de cupos** (`VistaCupos.jsx`) — lista los cursos del catálogo
-   (`GET /cursos`) y, al elegir uno, muestra sus grupos, cupos y horarios
-   **en vivo** (`GET /cursos/{id}/grupos`).
+| Función | Endpoint |
+|---|---|
+| `salud()` | `GET /health` |
+| `obtenerMalla()` | `GET /pensum/malla` |
+| `obtenerResumenGrafo()` | `GET /pensum/grafo` |
+| `listarCursos()` / `obtenerGrupos(c)` | `GET /cursos`, `GET /cursos/{codigo}/grupos` |
+| `proponerCargas(...)` | `POST /planeacion/proponer` |
+| `validarCarga(...)` | `POST /planeacion/validar` |
+| `enviarMensaje(...)` / `obtenerSugerencias(...)` | `POST /chat`, `POST /chat/sugerencias` |
 
-## Cliente API (`src/api.js`)
-
-| Función | Endpoint | Uso |
-|---|---|---|
-| `listarCursos()` | `GET /cursos` | Catálogo de cursos |
-| `obtenerGrupos(id)` | `GET /cursos/{id}/grupos` | Grupos/cupos/horarios en vivo |
-| `enviarMensaje(texto)` | `POST /chat` | Pregunta al agente |
-
-La URL base de la API se toma de la variable de entorno **`VITE_API_URL`** y, si no
-está definida, usa `http://localhost:8000` por defecto.
-
-## Cómo ejecutar
+## Ejecutar
 
 ```bash
 npm install
-npm run dev
-#   App: http://localhost:5173
+cp .env.example .env.local   # Windows: copy .env.example .env.local
+npm run dev                  # http://localhost:5173
 ```
 
-Requiere el **backend en ejecución** (ver el README principal). Si el backend no
-está en `http://localhost:8000`, crea un archivo `.env` en esta carpeta:
+`VITE_API_URL` apunta al backend (por defecto `http://localhost:8000`). En Vercel
+se configura como variable de entorno con la URL de Render.
 
-```
-VITE_API_URL=http://localhost:8001
-```
+## Logo
 
-y asegúrate de que el origen del frontend (p. ej. `http://localhost:5173`) esté
-incluido en `CORS_ORIGINS` del backend.
-
-> **Nota:** Vite elige otro puerto automáticamente si el 5173 está ocupado; en ese
-> caso, agrega ese nuevo origen a `CORS_ORIGINS` del backend.
+El logo actual es un SVG provisional en `src/components/Logo.jsx` y
+`public/favicon.svg`. Para usar el definitivo, reemplaza esos dos SVG (o pon
+`logo.svg` en `public/` y cámbialo en `Logo.jsx`).

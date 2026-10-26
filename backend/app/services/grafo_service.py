@@ -139,9 +139,32 @@ def resumen_grafo(materias: list[MateriaPensum], top: int = 10) -> dict:
     }
 
 
+def malla(materias: list[MateriaPensum]) -> list[dict]:
+    """Vértices del grafo listos para dibujar la malla: cada materia con sus
+    requisitos (PRERREQ/CORREQ) y su criticidad (dependientes transitivos)."""
+    crit = criticidad(construir_grafo(materias))
+    return [
+        {
+            "codigo": m.codigo,
+            "nombre": m.nombre,
+            "nivel": m.nivel,
+            "creditos": m.creditos,
+            "tipo": m.tipo,
+            "requisitos": [{"codigo": r.codigo, "tipo": r.tipo} for r in m.requisitos],
+            "dependientes": crit.get(m.codigo, 0),
+        }
+        for m in sorted(materias, key=lambda x: (x.nivel, x.codigo))
+    ]
+
+
 # --------------------------------------------------------------------------- #
 #  Acceso sobre el pensum en vivo (con la caché del servicio de pensum)
 # --------------------------------------------------------------------------- #
+def malla_en_vivo() -> dict:
+    materias = pensum.obtener_pensum()
+    return {"version_pensum": pensum.version_actual(), "materias": malla(materias)}
+
+
 def resumen_en_vivo(top: int = 10) -> dict:
     datos = resumen_grafo(pensum.obtener_pensum(), top=top)
     datos["version_pensum"] = pensum.version_actual()

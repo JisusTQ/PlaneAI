@@ -12,7 +12,10 @@ responde en lenguaje natural.
 **Sin base de datos:** toda la información se obtiene en tiempo real de fuentes
 oficiales; el backend solo necesita una API key de Gemini para funcionar.
 
-- **Autor:** jesus.torresq@udea.edu.co
+- **Autores:** 
+- Jesús Estiven Torres Quintero (jesus.torresq@udea.edu.co)
+- Ana María Granada Rodas (ana.granada1@udea.edu.co)
+- Juan Pablo Ramos Vélez (juanp.ramos@udea.edu.co)
 - **Programa:** Ingeniería de Sistemas — Facultad de Ingeniería, UdeA
 
 ---
@@ -84,7 +87,7 @@ recomendaciones basadas en datos reales.
 
 | Capa | Tecnología | Rol |
 |---|---|---|
-| Frontend | **React + Vite** | Chat conversacional y vista de cupos |
+| Frontend | **React + Vite** | Malla interactiva, planificador con horario, asistente, oferta y evaluación (SUS) |
 | Backend | **Python 3.13 + FastAPI** | API REST, validación, orquestación |
 | IA | **Google Gemini** (tool-calling) | Agente que consulta las fuentes y razona |
 | Fuentes en vivo | **requests + regex/JSON** | Cupos/horarios (`pub_cuposprog`) y pensum (Cursum) |
@@ -244,8 +247,9 @@ pytest -q        # banco de casos del grafo y del motor (datos simulados)
 | `GET` | `/cursos/{codigo}/grupos` | Grupos, cupos y horarios **en vivo** de una materia |
 | `GET` | `/cursos/en-vivo` | Oferta completa (todas las materias y grupos) **en vivo** |
 | `GET` | `/pensum/grafo` | Modelo del plan de estudios como DAG: aciclicidad, conteos por nivel y materias más críticas (OE1) |
+| `GET` | `/pensum/malla` | Malla completa para dibujar el grafo: materias con requisitos (PRERREQ/CORREQ) y criticidad (OE1) |
 | `POST` | `/planeacion/validar` | Valida una carga con el motor determinista: prerrequisitos, correquisitos, cupos, choques y créditos (OE2) |
-| `POST` | `/planeacion/proponer` | Genera hasta 3 cargas factibles, priorizadas por criticidad curricular (OE2) |
+| `POST` | `/planeacion/proponer` | Genera hasta 3 cargas factibles, priorizadas por criticidad curricular; cada materia incluye horario, profesor, aula y cupos del grupo (OE2) |
 | `POST` | `/chat` | Mensaje del estudiante → el **agente** consulta las fuentes y responde con Gemini |
 
 > El catálogo (`/cursos`) y la oferta (`/cursos/{codigo}/grupos`) comparten el mismo

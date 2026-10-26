@@ -1,0 +1,116 @@
+/* ---------- Estructura general ---------- */
+.shell {
+  display: grid;
+  grid-template-columns: var(--rail) 1fr;
+  height: 100dvh;
+}
+.saltar { position: absolute; left: -999px; top: 8px; z-index: 99; background: var(--verde); color: var(--sobre-verde); padding: 8px 14px; border-radius: 8px; }
+.saltar:focus { left: 8px; }
+
+.rail {
+  display: flex; flex-direction: column; gap: 22px;
+  padding: 20px 14px 16px;
+  border-right: 1px solid var(--linea);
+  background: var(--superficie);
+  overflow-y: auto;
+}
+.rail-logo { text-align: left; padding: 4px 8px; border-radius: var(--r-m); }
+.logo { display: inline-flex; align-items: center; gap: 11px; }
+.logo-texto { display: grid; line-height: 1.15; }
+.logo-texto b { font-size: 1.15rem; font-weight: 800; font-variation-settings: "wdth" 120; letter-spacing: -0.03em; }
+.logo-texto small { font-size: var(--t-xs); color: var(--tinta-3); font-variation-settings: "wdth" 90; }
+
+.rail-nav { display: grid; gap: 2px; }
+.rail-item {
+  position: relative;
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: var(--r-m);
+  color: var(--tinta-2); font-weight: 560; text-align: left;
+  transition: color 0.15s, background 0.15s;
+}
+.rail-item > svg, .rail-item > span { position: relative; z-index: 1; }
+.rail-item:hover { color: var(--tinta); background: var(--superficie-2); }
+.rail-item.on { color: var(--verde); font-weight: 680; }
+.rail-item.on:hover { background: transparent; }
+.rail-marca { position: absolute; inset: 0; background: var(--verde-suave); border-radius: var(--r-m); z-index: 0; }
+.rail-item.sutil { font-size: var(--t-s); padding: 8px 12px; }
+
+.rail-pie { margin-top: auto; display: grid; gap: 8px; }
+.rail-fila { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 4px 0; border-top: 1px solid var(--linea); padding-top: 12px; }
+
+.avance {
+  display: flex; align-items: center; gap: 10px; text-align: left;
+  padding: 8px 10px; border-radius: var(--r-m); background: var(--papel);
+}
+.avance:hover { background: var(--superficie-2); }
+.avance span { display: grid; line-height: 1.25; }
+.avance b { font-size: var(--t-s); font-weight: 680; }
+.avance small { font-size: var(--t-xs); color: var(--tinta-3); }
+.avance svg { transform: rotate(-90deg); flex: none; }
+.avance-pista { fill: none; stroke: var(--linea); stroke-width: 5; }
+.avance-arco { fill: none; stroke: var(--oro); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 0.6s cubic-bezier(.2,.8,.2,1); }
+
+.tema { display: inline-flex; background: var(--superficie-2); border-radius: var(--r-pill); padding: 3px; }
+.tema button { width: 28px; height: 26px; display: grid; place-items: center; border-radius: var(--r-pill); color: var(--tinta-3); }
+.tema button.on { background: var(--superficie); color: var(--tinta); box-shadow: var(--sombra); }
+
+.estado-srv { display: inline-flex; align-items: center; gap: 7px; font-size: var(--t-xs); font-weight: 600; color: var(--tinta-2); }
+.estado-srv i { width: 8px; height: 8px; border-radius: 50%; background: var(--tinta-3); }
+.estado-srv.ok i { background: var(--brote); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brote) 25%, transparent); }
+.estado-srv.despertando i, .estado-srv.verificando i { background: var(--oro); animation: latido 1.2s ease-in-out infinite; }
+.estado-srv.caido i { background: var(--rojo); }
+.estado-srv.caido { color: var(--rojo); }
+@keyframes latido { 50% { opacity: 0.3; } }
+
+.contenido { overflow-y: auto; overflow-x: hidden; outline: none; scroll-behavior: smooth; }
+.vista-wrap { min-height: 100%; display: flex; flex-direction: column; }
+.vista-wrap > .vista { width: 100%; }
+.vista { padding: 34px clamp(18px, 3.4vw, 48px) 60px; max-width: 1320px; margin: 0 auto; }
+.vista-cab { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 24px; margin-bottom: 24px; }
+.vista-cab .bajada { margin-top: 8px; }
+
+.barra-movil, .tabbar { display: none; }
+.velo { position: fixed; inset: 0; background: rgb(8 20 14 / 0.45); z-index: 40; backdrop-filter: blur(2px); }
+.hoja {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 41;
+  background: var(--superficie); border-radius: var(--r-l) var(--r-l) 0 0;
+  padding: 10px 16px calc(18px + env(safe-area-inset-bottom));
+  display: grid; gap: 4px; box-shadow: var(--sombra-alta);
+  max-height: 88dvh; overflow-y: auto;
+}
+.hoja-cab { display: flex; align-items: center; justify-content: space-between; padding: 6px 4px 8px; }
+.hoja-cab b { font-size: var(--t-l); font-variation-settings: "wdth" 110; }
+.hoja-item { display: flex; align-items: center; gap: 14px; padding: 14px 10px; border-radius: var(--r-m); font-weight: 580; text-align: left; }
+.hoja-item:hover { background: var(--superficie-2); }
+.hoja-tema { display: flex; justify-content: space-between; align-items: center; padding: 12px 10px 0; color: var(--tinta-2); font-size: var(--t-s); }
+
+/* ---------- Móvil y tableta ---------- */
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .rail { display: none; }
+  .barra-movil {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; padding-top: calc(10px + env(safe-area-inset-top));
+    background: color-mix(in srgb, var(--superficie) 88%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--linea);
+    position: sticky; top: 0; z-index: 20;
+  }
+  .barra-logo { display: inline-flex; align-items: center; gap: 9px; }
+  .barra-logo b { font-size: 1.1rem; font-weight: 800; font-variation-settings: "wdth" 120; letter-spacing: -0.03em; }
+  .contenido { padding-bottom: calc(var(--tabbar) + env(safe-area-inset-bottom)); }
+  .vista { padding: 22px 16px 40px; }
+  .tabbar {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    height: calc(var(--tabbar) + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background: color-mix(in srgb, var(--superficie) 92%, transparent);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid var(--linea);
+  }
+  .tabbar button { display: grid; justify-items: center; align-content: center; gap: 3px; font-size: 0.6875rem; font-weight: 600; color: var(--tinta-3); }
+  .tabbar button.on { color: var(--verde); }
+  .tabbar button.on svg { stroke-width: 2.4; }
+  .titulo-vista { font-size: 1.6rem; }
+}
