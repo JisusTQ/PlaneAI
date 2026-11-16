@@ -82,3 +82,8 @@ def test_respaldo_invalido_no_oculta_el_error_principal(monkeypatch, con_clave):
     monkeypatch.setattr(g, "_conversar", conversar)
     with pytest.raises(g.IASaturada):
         g.responder("hola")
+
+
+def test_estado_no_cacheable():
+    r = TestClient(app).get("/estado")
+    assert r.status_code == 200 and r.headers["cache-control"] == "no-store"

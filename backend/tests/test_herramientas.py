@@ -62,3 +62,9 @@ def test_sin_api_key_se_reporta(monkeypatch):
     except ValueError as e:
         assert "GEMINI_API_KEY" in str(e)
     assert g.sugerencias([]) == []
+
+
+def test_sugerencias_apagadas_por_defecto(monkeypatch):
+    monkeypatch.setattr(g.settings, "GEMINI_API_KEY", "clave")
+    assert g.settings.SUGERENCIAS_IA is False
+    assert g.sugerencias([{"rol": "user", "texto": "hola"}]) == []

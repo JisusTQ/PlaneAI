@@ -432,7 +432,7 @@ _PROMPT_SUGERENCIAS = (
 
 def sugerencias(historial: list[dict]) -> list[str]:
     """Genera hasta 3 preguntas de seguimiento contextuales (sin herramientas)."""
-    if not _api_key_valida():
+    if not settings.SUGERENCIAS_IA or not _api_key_valida():
         return []
     try:
         genai.configure(api_key=settings.GEMINI_API_KEY)

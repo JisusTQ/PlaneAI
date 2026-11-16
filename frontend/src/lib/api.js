@@ -28,7 +28,7 @@ const post = (cuerpo) => ({
 
 const soloMensajes = (historial) => historial.map((m) => ({ rol: m.rol, texto: m.texto }));
 
-export const salud = () => pedir("/health", {}, { timeout: 8000 });
+export const salud = () => pedir(`/estado?t=${Date.now()}`, { cache: "no-store" }, { timeout: 8000 });
 
 // OE1 — modelo del plan de estudios
 export const obtenerMalla = () => pedir("/pensum/malla");

@@ -9,7 +9,7 @@ Ejecutar:  uvicorn app.main:app --reload
 import threading
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
@@ -52,7 +52,17 @@ app.add_middleware(
 
 @app.get("/health", tags=["Sistema"])
 def health_check():
+    """Chequeo de salud que usa Render (healthCheckPath)."""
     return {"status": "ok", "app": settings.APP_NAME, "env": settings.APP_ENV}
+
+
+@app.get("/estado", tags=["Sistema"])
+def estado(response: Response):
+    """Estado para el indicador de la interfaz. Se separa de /health porque el
+    borde de Render llegó a responder 503 en caché a /health para peticiones
+    desde el navegador; esta ruta se marca como no cacheable."""
+    response.headers["Cache-Control"] = "no-store"
+    return {"status": "ok", "app": settings.APP_NAME, "modelo": settings.GEMINI_MODEL}
 
 
 app.include_router(cursos.router)
