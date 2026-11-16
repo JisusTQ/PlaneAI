@@ -34,7 +34,7 @@ def construir_grafo(materias: list[MateriaPensum]) -> dict[int, set[int]]:
     sucesores: dict[int, set[int]] = {c: set() for c in codigos}
     for m in materias:
         for r in m.requisitos:
-            if r.tipo.upper().startswith("PRE") and r.codigo in codigos:
+            if pensum.es_prerrequisito(r) and r.codigo in codigos:
                 sucesores[r.codigo].add(m.codigo)
     return sucesores
 
@@ -97,17 +97,13 @@ def resumen_grafo(materias: list[MateriaPensum], top: int = 10) -> dict:
     for m in materias:
         por_tipo[m.tipo or "N/D"] += 1
 
-    requisitos_externos = sorted(
-        {
-            r.codigo
-            for m in materias
-            for r in m.requisitos
-            if r.codigo not in por_codigo
-        }
-    )
-    correquisitos = sum(
-        1 for m in materias for r in m.requisitos if r.tipo.upper().startswith("CO")
-    )
+    requisitos_externos = sorted({r.codigo for m in materias for r in m.requisitos if pensum.es_externo(r)})
+    por_creditos: dict[int, list[int]] = defaultdict(list)
+    for m in materias:
+        for r in m.requisitos:
+            if pensum.es_req_creditos(r):
+                por_creditos[r.codigo].append(m.codigo)
+    correquisitos = sum(1 for m in materias for r in m.requisitos if pensum.es_correquisito(r))
 
     mas_criticas = sorted(
         (c for c in crit if por_codigo[c].nivel != NIVEL_ELECTIVAS),
@@ -126,6 +122,9 @@ def resumen_grafo(materias: list[MateriaPensum], top: int = 10) -> dict:
         "es_aciclico": not en_ciclo,
         "materias_en_ciclo": en_ciclo,
         "requisitos_fuera_del_pensum": requisitos_externos,
+        "requisitos_por_creditos": [
+            {"creditos_minimos": c, "materias": sorted(cods)} for c, cods in sorted(por_creditos.items())
+        ],
         "orden_topologico_valido": len(orden) == len(sucesores),
         "materias_mas_criticas": [
             {
@@ -162,12 +161,13 @@ def malla(materias: list[MateriaPensum]) -> list[dict]:
 # --------------------------------------------------------------------------- #
 def malla_en_vivo() -> dict:
     materias = pensum.obtener_pensum()
-    return {"version_pensum": pensum.version_actual(), "materias": malla(materias)}
+    return {"version_pensum": pensum.version_actual(), "origen_datos": pensum.origen_actual(), "materias": malla(materias)}
 
 
 def resumen_en_vivo(top: int = 10) -> dict:
     datos = resumen_grafo(pensum.obtener_pensum(), top=top)
     datos["version_pensum"] = pensum.version_actual()
+    datos["origen_datos"] = pensum.origen_actual()
     return datos
 
 

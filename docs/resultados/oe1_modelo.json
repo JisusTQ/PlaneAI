@@ -1,0 +1,177 @@
+{
+  "fecha": "2026-11-15",
+  "version_pensum": 5,
+  "origen": "snapshot",
+  "resumen": {
+    "materias_totales": 108,
+    "materias_obligatorias": 44,
+    "creditos_obligatorios": 128,
+    "niveles": 9,
+    "por_nivel": {
+      "1": {
+        "materias": 7,
+        "creditos": 16
+      },
+      "2": {
+        "materias": 6,
+        "creditos": 17
+      },
+      "3": {
+        "materias": 5,
+        "creditos": 17
+      },
+      "4": {
+        "materias": 6,
+        "creditos": 17
+      },
+      "5": {
+        "materias": 4,
+        "creditos": 13
+      },
+      "6": {
+        "materias": 6,
+        "creditos": 18
+      },
+      "7": {
+        "materias": 4,
+        "creditos": 14
+      },
+      "8": {
+        "materias": 5,
+        "creditos": 15
+      },
+      "9": {
+        "materias": 1,
+        "creditos": 1
+      }
+    },
+    "por_tipo": {
+      "OBLIGATORIA": 44,
+      "ELECTIVA": 64
+    },
+    "aristas_prerrequisito": 84,
+    "correquisitos": 5,
+    "es_aciclico": true,
+    "materias_en_ciclo": [],
+    "requisitos_fuera_del_pensum": [
+      2539101
+    ],
+    "requisitos_por_creditos": [
+      {
+        "creditos_minimos": 16,
+        "materias": [
+          2508026,
+          2508030,
+          2508031,
+          2508032,
+          2508033
+        ]
+      },
+      {
+        "creditos_minimos": 48,
+        "materias": [
+          2508024,
+          2508025,
+          2508027,
+          2508028,
+          2508029,
+          2508034
+        ]
+      },
+      {
+        "creditos_minimos": 60,
+        "materias": [
+          2517204,
+          2517206,
+          2517208,
+          2566122,
+          2566604
+        ]
+      },
+      {
+        "creditos_minimos": 65,
+        "materias": [
+          2508401
+        ]
+      },
+      {
+        "creditos_minimos": 132,
+        "materias": [
+          2508001,
+          2508002,
+          2508003,
+          2508004,
+          2508005
+        ]
+      }
+    ],
+    "orden_topologico_valido": true,
+    "materias_mas_criticas": [
+      {
+        "codigo": 2555101,
+        "nombre": "ÁLGEBRA Y TRIGONOMETRÍA",
+        "nivel": 1,
+        "dependientes": 30
+      },
+      {
+        "codigo": 2555131,
+        "nombre": "CÁLCULO DIFERENCIAL",
+        "nivel": 1,
+        "dependientes": 30
+      },
+      {
+        "codigo": 2555231,
+        "nombre": "CÁLCULO INTEGRAL",
+        "nivel": 2,
+        "dependientes": 28
+      },
+      {
+        "codigo": 2508307,
+        "nombre": "TÉCNICAS DE PROGRAMACIÓN Y LABORATORIO",
+        "nivel": 3,
+        "dependientes": 28
+      },
+      {
+        "codigo": 2508308,
+        "nombre": "TEORÍA DE LA PROBABILIDAD Y COLAS",
+        "nivel": 3,
+        "dependientes": 19
+      },
+      {
+        "codigo": 2508403,
+        "nombre": "ANÁLISIS Y DISEÑO DE SISTEMAS I",
+        "nivel": 4,
+        "dependientes": 16
+      },
+      {
+        "codigo": 2508208,
+        "nombre": "LÓGICA Y REPRESENTACIÓN I",
+        "nivel": 2,
+        "dependientes": 14
+      },
+      {
+        "codigo": 2555121,
+        "nombre": "GEOMETRÍA VECTORIAL Y ANALÍTICA",
+        "nivel": 1,
+        "dependientes": 13
+      },
+      {
+        "codigo": 2508306,
+        "nombre": "LÓGICA Y REPRESENTACIÓN II",
+        "nivel": 3,
+        "dependientes": 13
+      },
+      {
+        "codigo": 2508120,
+        "nombre": "INTRODUCCIÓN A LA INGENIERÍA DE SISTEMAS",
+        "nivel": 1,
+        "dependientes": 12
+      }
+    ]
+  },
+  "consistencia_niveles": [],
+  "cotejo": {
+    "estado": "hoja creada, pendiente de cotejo",
+    "archivo": "docs/datos/cotejo_plan_publicado.csv"
+  }
+}

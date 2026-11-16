@@ -103,12 +103,14 @@ export function AppProvider({ children }) {
 
   const derivados = useMemo(() => {
     const { porCodigo, sucesores } = indices(malla.materias);
-    const estados = new Map(malla.materias.map((m) => [m.codigo, estadoMateria(m, aprobadas)]));
+    // Créditos de todo lo aprobado (obligatorias y electivas): base de los requisitos por créditos.
+    const creditosAcumulados = malla.materias.filter((m) => aprobadas.has(m.codigo)).reduce((a, m) => a + m.creditos, 0);
+    const estados = new Map(malla.materias.map((m) => [m.codigo, estadoMateria(m, aprobadas, creditosAcumulados)]));
     const obligatorias = malla.materias.filter((m) => m.nivel !== NIVEL_ELECTIVAS);
     const creditosTotales = obligatorias.reduce((a, m) => a + m.creditos, 0);
     const creditosAprobados = obligatorias.filter((m) => aprobadas.has(m.codigo)).reduce((a, m) => a + m.creditos, 0);
     const habilitadas = malla.materias.filter((m) => estados.get(m.codigo) === "habilitada");
-    return { porCodigo, sucesores, estados, obligatorias, creditosTotales, creditosAprobados, habilitadas };
+    return { porCodigo, sucesores, estados, obligatorias, creditosTotales, creditosAprobados, creditosAcumulados, habilitadas };
   }, [malla.materias, aprobadas]);
 
   // --- Carga armada a mano en el planificador (persistida) ---

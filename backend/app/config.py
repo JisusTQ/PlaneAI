@@ -28,7 +28,8 @@ class Settings(BaseSettings):
     CORS_ORIGINS: str = "http://localhost:5173"
 
     # --- Reglas de carga académica (motor de validación) ---
-    # Valores configurables: confirmar contra el Reglamento Estudiantil vigente.
+    # Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981):
+    # art. 67 -> mínimo 8 créditos; art. 66 -> tiempo completo de 14 a 24.
     CREDITOS_MIN: int = 8
     CREDITOS_MAX: int = 24
 

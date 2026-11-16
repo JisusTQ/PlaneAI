@@ -1,16 +1,22 @@
 // Lógica de la malla en el cliente: estados por materia, recorridos del grafo y disposición para dibujarlo.
 export const NIVEL_ELECTIVAS = 99;
 
-export const esPre = (r) => (r.tipo || "").toUpperCase().startsWith("PRE");
-export const esCo = (r) => (r.tipo || "").toUpperCase().startsWith("CO");
+// Tipos normalizados por el backend: PRERREQ, CORREQ, CREDITOS (el "código" es el
+// número de créditos aprobados exigidos) y EXTERNO (materia de otra versión del plan).
+export const esPre = (r) => (r.tipo || "").toUpperCase() === "PRERREQ";
+export const esCo = (r) => (r.tipo || "").toUpperCase() === "CORREQ";
+export const esCreditos = (r) => (r.tipo || "").toUpperCase() === "CREDITOS";
+export const esExterno = (r) => (r.tipo || "").toUpperCase() === "EXTERNO";
 
 export const etiquetaNivel = (n) => (n === NIVEL_ELECTIVAS ? "Electivas" : `Semestre ${n}`);
 export const etiquetaNivelCorta = (n) => (n === NIVEL_ELECTIVAS ? "Elect." : `S${n}`);
 
-/** aprobada | habilitada | bloqueada */
-export function estadoMateria(m, aprobadas) {
+/** aprobada | habilitada | bloqueada (prerrequisitos y créditos aprobados mínimos). */
+export function estadoMateria(m, aprobadas, creditosAcumulados = 0) {
   if (aprobadas.has(m.codigo)) return "aprobada";
-  return m.requisitos.filter(esPre).every((r) => aprobadas.has(r.codigo)) ? "habilitada" : "bloqueada";
+  const pre = m.requisitos.filter(esPre).every((r) => aprobadas.has(r.codigo));
+  const cred = m.requisitos.filter(esCreditos).every((r) => creditosAcumulados >= r.codigo);
+  return pre && cred ? "habilitada" : "bloqueada";
 }
 
 /** Índices de sucesores (prerrequisito -> materias que lo exigen) y predecesores. */

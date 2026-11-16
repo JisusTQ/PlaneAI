@@ -13,7 +13,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
-from app.routers import chat, cursos, planeacion
+from app.routers import chat, cursos, evaluacion, planeacion
 from app.services import udea_horarios_service as udea
 from app.services import udea_pensum_service as pensum
 
@@ -37,7 +37,7 @@ async def lifespan(_app: FastAPI):
 app = FastAPI(
     title=settings.APP_NAME,
     description="Asistente de planeación académica para la Facultad de Ingeniería UdeA.",
-    version="0.2.0",
+    version="1.0.0",
     lifespan=lifespan,
 )
 
@@ -58,3 +58,4 @@ def health_check():
 app.include_router(cursos.router)
 app.include_router(chat.router)
 app.include_router(planeacion.router)
+app.include_router(evaluacion.router)

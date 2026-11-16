@@ -1,0 +1,1411 @@
+{
+ "fuente": "Portal Cursum UdeA (wsingenieria.udea.edu.co:8094/cursum/ingenieria) — programa 504, Ingeniería de Sistemas",
+ "programa": 504,
+ "version": 5,
+ "fecha_captura": "2026-11-15",
+ "materias": [
+  {
+   "materia": 2508120,
+   "nombreMateria": "INTRODUCCIÓN A LA INGENIERÍA DE SISTEMAS",
+   "nivel": 1,
+   "creditos": 1,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": []
+  },
+  {
+   "materia": 2536101,
+   "nombreMateria": "DESCUBRIENDO LA FÍSICA",
+   "nivel": 1,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": []
+  },
+  {
+   "materia": 2537101,
+   "nombreMateria": "VIVAMOS LA UNIVERSIDAD",
+   "nivel": 1,
+   "creditos": 1,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": []
+  },
+  {
+   "materia": 2555101,
+   "nombreMateria": "ÁLGEBRA Y TRIGONOMETRÍA",
+   "nivel": 1,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": []
+  },
+  {
+   "materia": 2555121,
+   "nombreMateria": "GEOMETRÍA VECTORIAL Y ANALÍTICA",
+   "nivel": 1,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": []
+  },
+  {
+   "materia": 2555131,
+   "nombreMateria": "CÁLCULO DIFERENCIAL",
+   "nivel": 1,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2555101,
+     "tipoRequisito": "CORREQ"
+    }
+   ]
+  },
+  {
+   "materia": 9025101,
+   "nombreMateria": "ENGLISH 1",
+   "nivel": 1,
+   "creditos": 2,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": []
+  },
+  {
+   "materia": 2508207,
+   "nombreMateria": "MATEMÁTICAS DISCRETAS I",
+   "nivel": 2,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508120,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508208,
+   "nombreMateria": "LÓGICA Y REPRESENTACIÓN I",
+   "nivel": 2,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508207,
+     "tipoRequisito": "CORREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2539130,
+   "nombreMateria": "ESPAÑOL ACADÉMICO",
+   "nivel": 2,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2537101,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2555221,
+   "nombreMateria": "ÁLGEBRA LINEAL",
+   "nivel": 2,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2555101,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2555121,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2555231,
+   "nombreMateria": "CÁLCULO INTEGRAL",
+   "nivel": 2,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2555101,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2555131,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 9025102,
+   "nombreMateria": "ENGLISH 2",
+   "nivel": 2,
+   "creditos": 2,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 9025101,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508303,
+   "nombreMateria": "MATEMÁTICAS DISCRETAS II",
+   "nivel": 3,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508207,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508306,
+   "nombreMateria": "LÓGICA Y REPRESENTACIÓN II",
+   "nivel": 3,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508208,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2508303,
+     "tipoRequisito": "CORREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508307,
+   "nombreMateria": "TÉCNICAS DE PROGRAMACIÓN Y LABORATORIO",
+   "nivel": 3,
+   "creditos": 4,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508306,
+     "tipoRequisito": "CORREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508308,
+   "nombreMateria": "TEORÍA DE LA PROBABILIDAD Y COLAS",
+   "nivel": 3,
+   "creditos": 4,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2555231,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2536201,
+   "nombreMateria": "FÍSICA MECÁNICA",
+   "nivel": 3,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2536101,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2555121,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2555131,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508402,
+   "nombreMateria": "LÓGICA Y REPRESENTACIÓN III",
+   "nivel": 4,
+   "creditos": 4,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508306,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2508308,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508403,
+   "nombreMateria": "ANÁLISIS Y DISEÑO DE SISTEMAS I",
+   "nivel": 4,
+   "creditos": 4,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508307,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508407,
+   "nombreMateria": "ECUACIONES DIFERENCIALES Y MÉTODOS NUMÉRICOS",
+   "nivel": 4,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508307,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2555221,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2555231,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508408,
+   "nombreMateria": "MÉTODOS ESTADISTICOS",
+   "nivel": 4,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508308,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2517450,
+   "nombreMateria": "CÁTEDRA DE FORMACIÓN CIUDADANA Y CONSTITUCIONAL",
+   "nivel": 4,
+   "creditos": 1,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": []
+  },
+  {
+   "materia": 9025103,
+   "nombreMateria": "ENGLISH 3",
+   "nivel": 4,
+   "creditos": 2,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 9025102,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508506,
+   "nombreMateria": "ANÁLISIS Y DISEÑO DE SISTEMAS II",
+   "nivel": 5,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508403,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508507,
+   "nombreMateria": "ESTRUCTURA DE DATOS Y LABORATORIO",
+   "nivel": 5,
+   "creditos": 4,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508402,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508508,
+   "nombreMateria": "TEORÍA DE LENGUAJES Y LABORATORIO",
+   "nivel": 5,
+   "creditos": 4,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508402,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 9025104,
+   "nombreMateria": "ENGLISH 4",
+   "nivel": 5,
+   "creditos": 2,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 9025103,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508509,
+   "nombreMateria": "MODELOS Y SIMULACIÓN DE SISTEMAS I",
+   "nivel": 6,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508407,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2508408,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508608,
+   "nombreMateria": "ARQUITECTURA DE SOFTWARE",
+   "nivel": 6,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508506,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2508609,
+     "tipoRequisito": "CORREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508609,
+   "nombreMateria": "BASES DE DATOS Y LABORATORIO",
+   "nivel": 6,
+   "creditos": 4,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508507,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508610,
+   "nombreMateria": "COMUNICACIONES Y LABORATORIO",
+   "nivel": 6,
+   "creditos": 4,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508402,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508700,
+   "nombreMateria": "PROYECTO INTEGRADOR I",
+   "nivel": 6,
+   "creditos": 2,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": []
+  },
+  {
+   "materia": 9025105,
+   "nombreMateria": "ENGLISH 5",
+   "nivel": 6,
+   "creditos": 2,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 9025104,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508611,
+   "nombreMateria": "MODELOS Y SIMULACIÓN DE SISTEMAS II",
+   "nivel": 7,
+   "creditos": 4,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508509,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508702,
+   "nombreMateria": "FUNDAMENTOS DE SISTEMAS DE INFORMACIÓN",
+   "nivel": 7,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508403,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508703,
+   "nombreMateria": "CALIDAD DE SOFTWARE",
+   "nivel": 7,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508608,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508716,
+   "nombreMateria": "ARQUITECTURA DE COMPUTADORES Y LABORATORIO",
+   "nivel": 7,
+   "creditos": 4,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508303,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508701,
+   "nombreMateria": "FUNDAMENTOS DE INVESTIGACIÓN",
+   "nivel": 8,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508506,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508840,
+   "nombreMateria": "COMUNICACIONES II",
+   "nivel": 8,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508610,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508841,
+   "nombreMateria": "GESTIÓN DE PROYECTOS DE SISTEMAS DE INFORMACIÓN",
+   "nivel": 8,
+   "creditos": 3,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508702,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508842,
+   "nombreMateria": "SISTEMAS OPERATIVOS Y LABORATORIO",
+   "nivel": 8,
+   "creditos": 4,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508507,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2508716,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508902,
+   "nombreMateria": "PROYECTO INTEGRADOR II - ÁREA ELECTIVA",
+   "nivel": 8,
+   "creditos": 2,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508700,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508836,
+   "nombreMateria": "ÉTICA PROFESIONAL",
+   "nivel": 9,
+   "creditos": 1,
+   "tipoMateria": "OBLIGATORIA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508701,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508001,
+   "nombreMateria": "SEMESTRE DE INDUSTRIA",
+   "nivel": 99,
+   "creditos": 12,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 132,
+     "tipoRequisito": "PRERREQCRED"
+    },
+    {
+     "materiaRequisito": 2508701,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508002,
+   "nombreMateria": "TRABAJO DE GRADO",
+   "nivel": 99,
+   "creditos": 12,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 132,
+     "tipoRequisito": "PRERREQCRED"
+    },
+    {
+     "materiaRequisito": 2508701,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508003,
+   "nombreMateria": "EMPRESARISMO",
+   "nivel": 99,
+   "creditos": 12,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 132,
+     "tipoRequisito": "PRERREQCRED"
+    },
+    {
+     "materiaRequisito": 2508701,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508004,
+   "nombreMateria": "PROYECTOS DE INVESTIGACIÓN",
+   "nivel": 99,
+   "creditos": 12,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 132,
+     "tipoRequisito": "PRERREQCRED"
+    },
+    {
+     "materiaRequisito": 2508701,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508005,
+   "nombreMateria": "PRÁCTICA SOCIAL",
+   "nivel": 99,
+   "creditos": 12,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 132,
+     "tipoRequisito": "PRERREQCRED"
+    },
+    {
+     "materiaRequisito": 2508701,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508020,
+   "nombreMateria": "ELECTIVA SOCIO HUMANÍSTICA I",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": []
+  },
+  {
+   "materia": 2508021,
+   "nombreMateria": "ELECTIVA SOCIO HUMANÍSTICA II",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": []
+  },
+  {
+   "materia": 2508022,
+   "nombreMateria": "ELECTIVA SOCIO HUMANÍSTICA III",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": []
+  },
+  {
+   "materia": 2508023,
+   "nombreMateria": "INTRODUCCIÓN A LAS CIENCIAS",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": []
+  },
+  {
+   "materia": 2508024,
+   "nombreMateria": "HISTORIA CONTEMPORÁNEA",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 48,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2508025,
+   "nombreMateria": "HISTORIA DE LA INGENIERÍA",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 48,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2508026,
+   "nombreMateria": "ARGUMENTACIÓN Y LECTOESCRITURA",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 16,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2508027,
+   "nombreMateria": "INTRODUCCIÓN A LA PSICOLOGÍA",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 48,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2508028,
+   "nombreMateria": "RAZONAMIENTO Y CONOCIMIENTO",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 48,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2508029,
+   "nombreMateria": "LEGISLACIÓN",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 48,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2508030,
+   "nombreMateria": "PENSAMIENTO CRÍTICO Y NUEVAS TECNOLOGÍAS",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 16,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2508031,
+   "nombreMateria": "PENSAR LA HISTORIA",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 16,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2508032,
+   "nombreMateria": "HUMANIDAD Y ECONOMÍA",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 16,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2508033,
+   "nombreMateria": "CIENCIA TÉCNICA Y SOCIEDAD",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 16,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2508034,
+   "nombreMateria": "ESTRATEGIAS PSICOSOCIALES PARA EL INGENIERO DE SISTEMAS",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 48,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2508035,
+   "nombreMateria": "FILOSOFÍA DE LA INTELIGENCIA ARTIFICIAL",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2539130,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508036,
+   "nombreMateria": "ÉTICA DE LA INTELIGENCIA ARTIFICIAL",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2539130,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508037,
+   "nombreMateria": "MOTIVACIÓN HUMANA Y TECNOLOGÍA",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2539101,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508038,
+   "nombreMateria": "LA PSICOLOGÍA DE LAS MAQUINAS",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2539101,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508401,
+   "nombreMateria": "INTRODUCCION A LA INTELINGENCIA ARTIFICIAL PARA LAS CCIAS E INGENIERIAS",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 65,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2508910,
+   "nombreMateria": "ELECTIVA INGENIERÍA DE SOFTWARE Y SISTEMAS DE INFORMACIÓN I",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": []
+  },
+  {
+   "materia": 2508911,
+   "nombreMateria": "ELECTIVA INGENIERÍA DE SOFTWARE Y SISTEMAS DE INFORMACIÓN II",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": []
+  },
+  {
+   "materia": 2508912,
+   "nombreMateria": "ELECTIVA INGENIERÍA DE SOFTWARE Y SISTEMAS D INFORMACIÓN III",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": []
+  },
+  {
+   "materia": 2508913,
+   "nombreMateria": "INGENIERÍA WEB",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508609,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508914,
+   "nombreMateria": "BIG DATA",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508609,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508915,
+   "nombreMateria": "PRUEBAS DE SOFTWARE",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508703,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508916,
+   "nombreMateria": "DESARROLLO DE APLICACIONES EMPRESARIALES",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508608,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2508609,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508917,
+   "nombreMateria": "GESTIÓN DE TIC",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508702,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508918,
+   "nombreMateria": "SEGURIDAD DE LA INFORMACIÓN",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508610,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508921,
+   "nombreMateria": "BLOCKCHAIN",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508608,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2555231,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508940,
+   "nombreMateria": "ELECTIVA CIENCIA DE LA COMPUTACIÓN I",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": []
+  },
+  {
+   "materia": 2508941,
+   "nombreMateria": "ELECTIVA CIENCIA DE LA COMPUTACIÓN II",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": []
+  },
+  {
+   "materia": 2508942,
+   "nombreMateria": "ELECTIVA CIENCIA DE LA COMPUTACIÓN III",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": []
+  },
+  {
+   "materia": 2508943,
+   "nombreMateria": "OPTIMIZACIÓN",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508308,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508944,
+   "nombreMateria": "MATEMÁTCIAS DISCRETAS III",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508303,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508945,
+   "nombreMateria": "MATEMÁTICAS DISCRETAS IV",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508303,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508946,
+   "nombreMateria": "FUNDAMENTOS DE DEEP LEARNING",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508611,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508947,
+   "nombreMateria": "FUNDAMENTOS EN PROCESAMIENTO DE LENGUAJE NATURAL",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508611,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508970,
+   "nombreMateria": "ELECTIVA INGENIERÍA DE COMPUTADORES Y COMUNICACIÓN D DATOS I",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": []
+  },
+  {
+   "materia": 2508971,
+   "nombreMateria": "ELECTIVA INGENIERÍA D COMPUTADORES Y COMUNICACIÓN D DATOS II",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": []
+  },
+  {
+   "materia": 2508972,
+   "nombreMateria": "ELECTIVA INGENIERÍA D COMPUTADOR Y COMUNICACIÓN D DATOS III",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": []
+  },
+  {
+   "materia": 2508973,
+   "nombreMateria": "DISEÑO DE CIRCUITOS DIGITALES",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508303,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508974,
+   "nombreMateria": "SISTEMAS PARALELOS",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508716,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508975,
+   "nombreMateria": "SISTEMAS EMBEBIDOS",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508716,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508976,
+   "nombreMateria": "SEMINARIO VOZ IP",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508610,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508977,
+   "nombreMateria": "PROCESAMIENTO DIGITAL DE IMÁGENES",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508716,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508978,
+   "nombreMateria": "COMPUTACIÓN MÓVIL",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508716,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2508979,
+   "nombreMateria": "INTERNET DE LAS COSAS",
+   "nivel": 99,
+   "creditos": 4,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508610,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2508716,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2517204,
+   "nombreMateria": "HABILIDADES GERENCIALES",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 60,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2517206,
+   "nombreMateria": "HABILIDADES COMUNICATIVAS (LECTO ESCRITURA II)",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 60,
+     "tipoRequisito": "PRERREQCRED"
+    },
+    {
+     "materiaRequisito": 2539130,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2517208,
+   "nombreMateria": "GESTIÓN HUMANA PARA INGENIEROS",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 60,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2536302,
+   "nombreMateria": "FÍSICA DE ONDAS",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508407,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2536201,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2555231,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2536311,
+   "nombreMateria": "FÍSICA DE CAMPOS",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508407,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2536201,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2555231,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2536321,
+   "nombreMateria": "FISICA TERMICA",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2508407,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2536201,
+     "tipoRequisito": "PRERREQ"
+    },
+    {
+     "materiaRequisito": 2555231,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2536500,
+   "nombreMateria": "LABORATORIO INTEGRADO DE FISICA",
+   "nivel": 99,
+   "creditos": 1,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2536321,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2536501,
+   "nombreMateria": "LAB INTEGRADO DE FISICA",
+   "nivel": 99,
+   "creditos": 1,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2536302,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2536503,
+   "nombreMateria": "LAB INTEGRADO DE FISICA",
+   "nivel": 99,
+   "creditos": 1,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 2536311,
+     "tipoRequisito": "PRERREQ"
+    }
+   ]
+  },
+  {
+   "materia": 2566122,
+   "nombreMateria": "ÉTICA Y RESPONSABILIDAD SOCIAL EN LA FORMACIÓN DE INGENIERIA",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 60,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  },
+  {
+   "materia": 2566604,
+   "nombreMateria": "SOCIO HUMANÍSTICA IV",
+   "nivel": 99,
+   "creditos": 3,
+   "tipoMateria": "ELECTIVA",
+   "requisitos": [
+    {
+     "materiaRequisito": 60,
+     "tipoRequisito": "PRERREQCRED"
+    }
+   ]
+  }
+ ]
+}

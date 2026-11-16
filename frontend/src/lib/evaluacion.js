@@ -36,46 +36,44 @@ export function lecturaSus(p) {
   return { texto: "Deficiente", tono: "error" };
 }
 
-// OE3 — banco de preguntas para medir la exactitud del asistente (editable por el equipo).
-export const BANCO_INICIAL = [
-  "¿Qué materias tiene el primer semestre de Ingeniería de Sistemas?",
-  "¿Cuántos créditos tiene el plan de estudios en total?",
-  "¿Cuántos niveles tiene el pensum?",
-  "¿Cuáles son los prerrequisitos de Cálculo Integral?",
-  "¿Qué materias se desbloquean al aprobar Cálculo Diferencial?",
-  "¿Física Mecánica tiene algún correquisito?",
-  "¿Qué materias del segundo semestre exigen haber visto Álgebra y Trigonometría?",
-  "¿Cuántos créditos tiene Matemáticas Discretas?",
-  "¿En qué semestre se ve Bases de Datos?",
-  "¿Cuál es la materia que más materias desbloquea en el pensum?",
-  "¿Qué electivas ofrece el programa?",
-  "¿Puedo ver Estructuras de Datos si no he aprobado Matemáticas Discretas?",
-  "¿Qué grupos de Cálculo Integral tienen cupo?",
-  "¿Qué profesores dictan Matemáticas Discretas este semestre?",
-  "¿En qué horario se dicta Álgebra Lineal?",
-  "¿Qué materias del tercer semestre se pueden ver en la mañana?",
-  "¿Hay grupos de Física Mecánica en la noche?",
-  "¿Qué grupos están llenos en las materias de segundo semestre?",
-  "¿En qué aula se dicta el grupo 1 de Cálculo Diferencial?",
-  "¿Qué materias tienen pocos cupos disponibles?",
-  "Soy de primer semestre, ¿qué puedo matricular en la mañana?",
-  "Voy para tercer semestre, recomiéndame una carga sin choques.",
-  "Aprobé todo primer semestre: propónme una carga de máximo 16 créditos.",
-  "Voy para cuarto semestre y solo puedo estudiar en la tarde, ¿qué me sirve?",
-  "Recomiéndame una carga que priorice las materias más críticas.",
-  "¿Por qué me recomiendas esa materia primero?",
-  "Valida esta carga: Cálculo Integral grupo 1 y Álgebra Lineal grupo 2.",
-  "¿Mi propuesta tiene choques de horario?",
-  "¿Puedo matricular Física Mecánica sin su laboratorio?",
-  "¿Cuál es el máximo de créditos que el motor permite por semestre?",
-  "Si pierdo Cálculo Integral, ¿qué materias se retrasan?",
-  "¿Qué me falta para poder ver Ingeniería de Software?",
-  "¿Qué materias de quinto semestre son prerrequisito de muchas otras?",
-  "Ármame un horario con todas las clases antes de las 12.",
-  "¿Qué combinación de grupos me deja los viernes libres?",
-  "¿Cuántos créditos sumo si matriculo todo el segundo semestre?",
-  "¿Qué pasa si una materia no está ofertada este semestre?",
-  "¿Cómo sé que la carga que me recomiendas es válida?",
-  "¿De dónde sacas la información de cupos y horarios?",
-  "¿Qué diferencia hay entre prerrequisito y correquisito en el pensum?",
-];
+/** Parser de CSV (comillas dobles, comas y saltos de línea dentro de campos). */
+function parsearCsv(texto) {
+  const filas = [];
+  let fila = [], campo = "", comillas = false;
+  const t = texto.replace(/^\uFEFF/, "");
+  for (let i = 0; i < t.length; i++) {
+    const c = t[i];
+    if (comillas) {
+      if (c === '"' && t[i + 1] === '"') { campo += '"'; i++; }
+      else if (c === '"') comillas = false;
+      else campo += c;
+    } else if (c === '"') comillas = true;
+    else if (c === ",") { fila.push(campo); campo = ""; }
+    else if (c === "\n" || c === "\r") {
+      if (c === "\r" && t[i + 1] === "\n") i++;
+      fila.push(campo); filas.push(fila); fila = []; campo = "";
+    } else campo += c;
+  }
+  if (campo || fila.length) { fila.push(campo); filas.push(fila); }
+  return filas.filter((f) => f.some((x) => x.trim()));
+}
+
+/**
+ * Lee un CSV exportado por "Exportar CSV" (otro equipo o navegador) y devuelve
+ * respuestas SUS válidas. El puntaje se recalcula a partir de los 10 ítems.
+ */
+export function leerCsvSus(texto) {
+  const [cab, ...filas] = parsearCsv(texto);
+  if (!cab) return [];
+  const col = (n) => cab.findIndex((h) => h.trim().toLowerCase() === n);
+  const items = Array.from({ length: 10 }, (_, i) => col(`p${i + 1}`));
+  if (items.some((i) => i < 0)) throw new Error("El archivo no tiene las columnas p1 a p10 del cuestionario SUS.");
+  return filas
+    .map((f, n) => {
+      const respuestas = items.map((i) => Number(f[i]));
+      if (respuestas.some((r) => !(r >= 1 && r <= 5))) return null;
+      const fecha = f[col("fecha")] || new Date().toISOString();
+      return { id: Date.parse(fecha) + n || Date.now() + n, fecha, participante: (f[col("participante")] || "").trim(), respuestas, puntaje: puntajeSus(respuestas), comentario: (f[col("comentario")] || "").trim() };
+    })
+    .filter(Boolean);
+}

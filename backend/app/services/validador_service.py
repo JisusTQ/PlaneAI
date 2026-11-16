@@ -4,14 +4,16 @@ Motor DETERMINISTA de validación y recomendación de cargas académicas.  [OE2]
 La IA no decide si una matrícula es válida: este módulo lo verifica con reglas
 explícitas y el agente solo explica el resultado.
 
-Restricciones duras verificadas:
-  1. La materia existe en el pensum y no está aprobada.
-  2. Prerrequisitos (PRERREQ) cumplidos en la historia académica.
-  3. Correquisitos (CORREQ) aprobados o incluidos en la misma carga.
-  4. La materia está ofertada, el grupo existe y tiene cupos.
-  5. Los grupos elegidos no tienen choques de horario.
-  6. El total de créditos respeta el límite máximo configurado.
-(El mínimo de créditos se reporta como advertencia.)
+Restricciones duras verificadas (catálogo completo en reglas_service):
+  1. La materia existe en el pensum y no está aprobada (Reglamento, art. 64).
+  2. Prerrequisitos (PRERREQ) cumplidos en la historia académica (art. 42).
+  3. Requisitos de créditos aprobados mínimos (PRERREQCRED del plan).
+  4. Correquisitos (CORREQ) aprobados o incluidos en la misma carga (art. 43).
+  5. La materia está ofertada, el grupo existe y tiene cupos.
+  6. Los grupos elegidos no tienen choques de horario (art. 68).
+  7. El total de créditos no supera el máximo (art. 66: 24 créditos).
+(Mínimo de 8 créditos —art. 67—, tiempo parcial —art. 66— y requisitos con
+código de otra versión del plan se reportan como advertencias.)
 
 Las funciones validar_carga y proponer_cargas son puras (reciben el pensum y la
 oferta) para poder probarlas con datos simulados; las versiones *_en_vivo usan
@@ -31,6 +33,7 @@ from app.services.udea_pensum_service import MateriaPensum
 
 NIVEL_ELECTIVAS = pensum.NIVEL_ELECTIVAS
 MAX_NODOS_BUSQUEDA = 20_000  # tope de exploración del generador (poda dura)
+TIEMPO_COMPLETO_MIN = 14  # Reglamento Estudiantil, art. 66
 
 
 @dataclass
@@ -74,9 +77,24 @@ def _en_franja(g: GrupoVivo, franja: str | None) -> bool:
     if f.startswith("man"):
         return all(_hora(s.hora_fin) <= 12 for s in g.horario)
     if f.startswith("tar"):
-        return all(12 <= _hora(s.hora_inicio) < 18 for s in g.horario)
+        return all(_hora(s.hora_inicio) >= 12 and _hora(s.hora_fin) <= 18 for s in g.horario)
     if f.startswith("noc"):
         return all(_hora(s.hora_inicio) >= 18 for s in g.horario)
+    return True
+
+
+def creditos_aprobados(pensum_idx: dict[int, MateriaPensum], aprobadas: set[int]) -> int:
+    """Créditos acumulados por las materias aprobadas que existen en el pensum."""
+    return sum(pensum_idx[c].creditos for c in aprobadas if c in pensum_idx)
+
+
+def requisitos_academicos_cumplidos(m: MateriaPensum, aprobadas: set[int], creditos_ok: int) -> bool:
+    """Prerrequisitos y requisitos de créditos (los que bloquean la matrícula)."""
+    for r in m.requisitos:
+        if pensum.es_prerrequisito(r) and r.codigo not in aprobadas:
+            return False
+        if pensum.es_req_creditos(r) and creditos_ok < r.codigo:
+            return False
     return True
 
 
@@ -107,6 +125,7 @@ def validar_carga(
     elegidos: list[tuple[int, GrupoVivo]] = []
     codigos_propuesta = [e.codigo for e in propuesta]
     creditos = 0
+    creditos_ok = creditos_aprobados(pensum_idx, aprobadas)
 
     def err(tipo: str, codigo: int | None, msg: str):
         errores.append({"tipo": tipo, "codigo": codigo, "mensaje": msg})
@@ -129,10 +148,24 @@ def validar_carga(
 
         for r in m.requisitos:
             nombre_req = pensum_idx[r.codigo].nombre if r.codigo in pensum_idx else str(r.codigo)
-            if r.tipo.upper().startswith("PRE") and r.codigo not in aprobadas:
-                err("prerrequisito", m.codigo, f"{m.nombre} exige haber aprobado {nombre_req}.")
-            elif r.tipo.upper().startswith("CO") and r.codigo not in aprobadas and r.codigo not in codigos_propuesta:
-                err("correquisito", m.codigo, f"{m.nombre} exige cursar a la vez (o tener aprobada) {nombre_req}.")
+            if pensum.es_prerrequisito(r) and r.codigo not in aprobadas:
+                err("prerrequisito", m.codigo, f"{m.nombre} exige haber aprobado {nombre_req} (art. 42).")
+            elif pensum.es_correquisito(r) and r.codigo not in aprobadas and r.codigo not in codigos_propuesta:
+                err("correquisito", m.codigo, f"{m.nombre} exige cursar a la vez (o tener aprobada) {nombre_req} (art. 43).")
+            elif pensum.es_req_creditos(r) and creditos_ok < r.codigo:
+                err(
+                    "creditos_requisito",
+                    m.codigo,
+                    f"{m.nombre} exige {r.codigo} créditos aprobados y llevas {creditos_ok}.",
+                )
+            elif pensum.es_externo(r) and r.codigo not in aprobadas:
+                advertencias.append(
+                    {
+                        "tipo": "requisito_externo",
+                        "codigo": m.codigo,
+                        "mensaje": f"{m.nombre} pide la materia {r.codigo}, que no está en la versión vigente del plan; confirma la equivalencia con tu asesor.",
+                    }
+                )
 
         ofertada = oferta_idx.get(str(m.codigo))
         if ofertada is None:
@@ -159,14 +192,18 @@ def validar_carga(
                 err(
                     "choque_horario",
                     c1,
-                    f"{pensum_idx[c1].nombre} (gr {g1.numero}) choca con {pensum_idx[c2].nombre} (gr {g2.numero}): {', '.join(cruces)}.",
+                    f"{pensum_idx[c1].nombre} (gr {g1.numero}) choca con {pensum_idx[c2].nombre} (gr {g2.numero}): {', '.join(cruces)} (art. 68).",
                 )
 
     if creditos > creditos_max:
-        err("creditos_max", None, f"La carga suma {creditos} créditos y el máximo configurado es {creditos_max}.")
+        err("creditos_max", None, f"La carga suma {creditos} créditos y el máximo es {creditos_max} (art. 66).")
     if propuesta and creditos < creditos_min:
         advertencias.append(
-            {"tipo": "creditos_min", "codigo": None, "mensaje": f"La carga suma {creditos} créditos, por debajo del mínimo configurado ({creditos_min})."}
+            {"tipo": "creditos_min", "codigo": None, "mensaje": f"La carga suma {creditos} créditos, por debajo del mínimo de {creditos_min} (art. 67); solo se admite por fuerza mayor o si te faltan menos créditos para terminar."}
+        )
+    elif propuesta and creditos < TIEMPO_COMPLETO_MIN:
+        advertencias.append(
+            {"tipo": "tiempo_parcial", "codigo": None, "mensaje": f"Con {creditos} créditos la matrícula es de tiempo parcial; tiempo completo es de {TIEMPO_COMPLETO_MIN} a 24 (art. 66)."}
         )
 
     return Resultado(valida=not errores, creditos=creditos, errores=errores, advertencias=advertencias, materias=detalle)
@@ -180,13 +217,14 @@ def materias_habilitadas(
     aprobadas: set[int],
     incluir_electivas: bool = False,
 ) -> list[MateriaPensum]:
-    """Materias no aprobadas cuyos PRERREQUISITOS ya están cumplidos."""
+    """Materias no aprobadas cuyos prerrequisitos y requisitos de créditos ya se cumplen."""
+    creditos_ok = creditos_aprobados(pensum_idx, aprobadas)
     return [
         m
         for m in pensum_idx.values()
         if m.codigo not in aprobadas
         and (incluir_electivas or m.nivel != NIVEL_ELECTIVAS)
-        and all(r.codigo in aprobadas for r in m.requisitos if r.tipo.upper().startswith("PRE"))
+        and requisitos_academicos_cumplidos(m, aprobadas, creditos_ok)
     ]
 
 

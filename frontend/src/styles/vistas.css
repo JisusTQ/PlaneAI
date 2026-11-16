@@ -355,6 +355,9 @@
 .fuentes { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .fuente { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: var(--r-pill); font-size: var(--t-xs); font-weight: 600; background: var(--verde-suave); color: var(--verde); }
 .fuente.sin { background: var(--superficie-2); color: var(--tinta-3); }
+a.fuente { text-decoration: none; }
+a.fuente:hover { text-decoration: underline; }
+.fuente small { font-weight: 500; opacity: 0.85; }
 .escribiendo { display: inline-flex; gap: 5px; padding: 8px 0; }
 .escribiendo span { width: 7px; height: 7px; border-radius: 50%; background: var(--tinta-3); animation: rebote 1.1s infinite ease-in-out; }
 .escribiendo span:nth-child(2) { animation-delay: 0.15s; }

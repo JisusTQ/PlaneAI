@@ -94,7 +94,8 @@ recomendaciones basadas en datos reales.
 | Configuración | **pydantic-settings** | Lectura tipada de variables de entorno (.env) |
 
 > **Sin base de datos:** no se usa PostgreSQL, ORM ni migraciones. La única
-> dependencia externa de configuración es la `GEMINI_API_KEY`.
+> dependencia externa de configuración es la `GEMINI_API_KEY`. El Reglamento
+> Estudiantil indexado para el RAG vive en `backend/app/data/`.
 >
 > **Nota:** el backend requiere **Python 3.13**. Con 3.14 fallan los *wheels* de
 > algunas dependencias fijadas (`pydantic-core`).
@@ -160,15 +161,23 @@ golpearlos en cada mensaje):
 
 ---
 
-## 🤖 El agente (tool-calling)
+## 🤖 El agente (tool-calling + RAG)
 
-El chat usa Gemini con **llamada automática a funciones**. Se le entregan dos
+El chat usa Gemini con **llamada automática a funciones**. Tiene seis
 herramientas y el modelo decide cuándo invocarlas:
 
 | Herramienta | Qué hace |
 |---|---|
-| `consultar_pensum(nivel)` | Materias de un nivel/semestre **con sus prerrequisitos** (del pensum oficial). |
+| `consultar_reglamento(pregunta)` | **RAG**: recupera los artículos pertinentes del Reglamento Estudiantil (Acuerdo Superior 1 de 1981) con su cita. |
+| `buscar_en_malla(consulta)` | **RAG**: busca una materia por nombre o tema (nivel, créditos, requisitos y lo que desbloquea). |
+| `consultar_pensum(nivel)` | Materias de un nivel/semestre **con sus requisitos** (del pensum oficial). |
 | `consultar_horarios_udea(materia)` | Grupos, cupos, horarios y profesores en vivo. Acepta **varias materias** separadas por `;` para consultarlas en una sola llamada. |
+| `proponer_cargas` / `validar_carga` | Delegan en el motor determinista (ver abajo). |
+
+**Trazabilidad:** cada herramienta registra la fuente que consultó y `/chat`
+devuelve la lista `fuentes` (p. ej. *Reglamento Estudiantil, art. 66*); el
+modelo además termina cada respuesta con una línea **Fuentes**. La recuperación
+usa BM25 en español (`rag_service`), sin costo de API y determinista.
 
 **Ejemplo de razonamiento** ante *"Soy de primer semestre, ¿qué materias puedo
 matricular en la mañana?"*:
@@ -229,11 +238,30 @@ Python puro, y el agente solo lo invoca y explica su resultado.
 - El agente tiene dos herramientas nuevas: `proponer_cargas` y `validar_carga`.
 - Límites de créditos configurables con `CREDITOS_MIN` / `CREDITOS_MAX`.
 
-### Pruebas
+- Requisitos por créditos: Cursum marca algunos como `PRERREQCRED` (p. ej. 132
+  créditos aprobados para las modalidades de grado); se validan contra los
+  créditos aprobados del estudiante.
+- Si Cursum no responde, se usa la copia local `app/data/pensum_504_v5.json`.
+
+### Pruebas y evidencias
 
 ```bash
 cd backend
-pytest -q        # banco de casos del grafo y del motor (datos simulados)
+pytest -q --cov=app                  # 91 pruebas (grafo, motor, reglas, RAG, herramientas, SUS)
+python scripts/verificar_modelo.py   # OE1 → docs/resultados/oe1_modelo.md
+python scripts/banco_motor.py        # OE2 → 25 escenarios + auditor independiente
+python scripts/evaluar_asistente.py  # OE3 → banco de 40 preguntas contra la API
+python scripts/analizar_sus.py X.csv # OE4 → análisis SUS
+```
+
+Ver [`docs/README.md`](docs/README.md): estado por objetivo, evidencias y
+diferencias con el anteproyecto para el informe.
+
+### Docker
+
+```bash
+docker build -t planeai-backend backend
+GEMINI_API_KEY=tu_clave docker compose up --build   # backend + frontend
 ```
 
 ---
@@ -250,7 +278,10 @@ pytest -q        # banco de casos del grafo y del motor (datos simulados)
 | `GET` | `/pensum/malla` | Malla completa para dibujar el grafo: materias con requisitos (PRERREQ/CORREQ) y criticidad (OE1) |
 | `POST` | `/planeacion/validar` | Valida una carga con el motor determinista: prerrequisitos, correquisitos, cupos, choques y créditos (OE2) |
 | `POST` | `/planeacion/proponer` | Genera hasta 3 cargas factibles, priorizadas por criticidad curricular; cada materia incluye horario, profesor, aula y cupos del grupo (OE2) |
-| `POST` | `/chat` | Mensaje del estudiante → el **agente** consulta las fuentes y responde con Gemini |
+| `GET` | `/reglas` | Catálogo de reglas académicas R01–R11 con su artículo del Reglamento (OE1) |
+| `POST` | `/chat` | Mensaje del estudiante → el **agente** consulta las fuentes y responde con Gemini; devuelve `respuesta`, `pasos` y `fuentes` (OE3) |
+| `GET` | `/evaluacion/banco` | Banco de 40 preguntas (malla y reglamento) con respuesta y fuente esperadas (OE3) |
+| `POST` | `/evaluacion/banco/{id}` | Lanza una pregunta del banco al asistente y la precalifica (OE3) |
 
 > El catálogo (`/cursos`) y la oferta (`/cursos/{codigo}/grupos`) comparten el mismo
 > **código** de materia, así que el cruce entre ambos es directo.

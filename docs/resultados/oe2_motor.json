@@ -1,0 +1,539 @@
+{
+  "escenarios": [
+    {
+      "id": "E01",
+      "descripcion": "Primíparo sin materias aprobadas",
+      "aprobadas": 0,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 1,
+      "cumplen": 1,
+      "creditos": [
+        17
+      ],
+      "ejemplo": [
+        "ÁLGEBRA Y TRIGONOMETRÍA",
+        "CÁLCULO DIFERENCIAL",
+        "GEOMETRÍA VECTORIAL Y ANALÍTICA",
+        "INTRODUCCIÓN A LA INGENIERÍA DE SISTEMAS",
+        "DESCUBRIENDO LA FÍSICA",
+        "VIVAMOS LA UNIVERSIDAD",
+        "ENGLISH 1",
+        "CÁTEDRA DE FORMACIÓN CIUDADANA Y CONSTITUCIONAL"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E02",
+      "descripcion": "Aprobó todo el nivel 1",
+      "aprobadas": 7,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 3,
+      "cumplen": 3,
+      "creditos": [
+        17,
+        17,
+        16
+      ],
+      "ejemplo": [
+        "CÁLCULO INTEGRAL",
+        "LÓGICA Y REPRESENTACIÓN I",
+        "MATEMÁTICAS DISCRETAS I",
+        "FÍSICA MECÁNICA",
+        "ESPAÑOL ACADÉMICO",
+        "ENGLISH 2"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E03",
+      "descripcion": "Aprobó niveles 1 y 2",
+      "aprobadas": 13,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 1,
+      "cumplen": 1,
+      "creditos": [
+        10
+      ],
+      "ejemplo": [
+        "TEORÍA DE LA PROBABILIDAD Y COLAS",
+        "FÍSICA MECÁNICA",
+        "ENGLISH 3",
+        "CÁTEDRA DE FORMACIÓN CIUDADANA Y CONSTITUCIONAL"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E04",
+      "descripcion": "Aprobó niveles 1 a 3",
+      "aprobadas": 18,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 1,
+      "cumplen": 1,
+      "creditos": [
+        21
+      ],
+      "ejemplo": [
+        "ANÁLISIS Y DISEÑO DE SISTEMAS I",
+        "LÓGICA Y REPRESENTACIÓN III",
+        "ECUACIONES DIFERENCIALES Y MÉTODOS NUMÉRICOS",
+        "ARQUITECTURA DE COMPUTADORES Y LABORATORIO",
+        "MÉTODOS ESTADISTICOS",
+        "ENGLISH 3",
+        "CÁTEDRA DE FORMACIÓN CIUDADANA Y CONSTITUCIONAL"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E05",
+      "descripcion": "Aprobó niveles 1 a 4",
+      "aprobadas": 24,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 1,
+      "cumplen": 1,
+      "creditos": [
+        24
+      ],
+      "ejemplo": [
+        "ARQUITECTURA DE COMPUTADORES Y LABORATORIO",
+        "ESTRUCTURA DE DATOS Y LABORATORIO",
+        "COMUNICACIONES Y LABORATORIO",
+        "MODELOS Y SIMULACIÓN DE SISTEMAS I",
+        "FUNDAMENTOS DE SISTEMAS DE INFORMACIÓN",
+        "ENGLISH 4",
+        "TEORÍA DE LENGUAJES Y LABORATORIO"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E06",
+      "descripcion": "Aprobó niveles 1 a 5",
+      "aprobadas": 28,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 3,
+      "cumplen": 3,
+      "creditos": [
+        17,
+        17,
+        18
+      ],
+      "ejemplo": [
+        "ARQUITECTURA DE COMPUTADORES Y LABORATORIO",
+        "FUNDAMENTOS DE INVESTIGACIÓN",
+        "ARQUITECTURA DE SOFTWARE",
+        "BASES DE DATOS Y LABORATORIO",
+        "FUNDAMENTOS DE SISTEMAS DE INFORMACIÓN"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E07",
+      "descripcion": "Aprobó niveles 1 a 6",
+      "aprobadas": 34,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 1,
+      "cumplen": 1,
+      "creditos": [
+        17
+      ],
+      "ejemplo": [
+        "ARQUITECTURA DE COMPUTADORES Y LABORATORIO",
+        "FUNDAMENTOS DE INVESTIGACIÓN",
+        "MODELOS Y SIMULACIÓN DE SISTEMAS II",
+        "FUNDAMENTOS DE SISTEMAS DE INFORMACIÓN",
+        "CALIDAD DE SOFTWARE"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E08",
+      "descripcion": "Aprobó niveles 1 a 7",
+      "aprobadas": 38,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 1,
+      "cumplen": 1,
+      "creditos": [
+        10
+      ],
+      "ejemplo": [
+        "FUNDAMENTOS DE INVESTIGACIÓN",
+        "GESTIÓN DE PROYECTOS DE SISTEMAS DE INFORMACIÓN",
+        "SISTEMAS OPERATIVOS Y LABORATORIO"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E09",
+      "descripcion": "Aprobó niveles 1 a 8 (solo le queda Ética y la modalidad de grado)",
+      "aprobadas": 43,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 3,
+      "cumplen": 3,
+      "creditos": [
+        22,
+        22,
+        22
+      ],
+      "ejemplo": [
+        "ÉTICA PROFESIONAL",
+        "ELECTIVA SOCIO HUMANÍSTICA II",
+        "HISTORIA DE LA INGENIERÍA",
+        "INTRODUCCIÓN A LA PSICOLOGÍA",
+        "LEGISLACIÓN",
+        "PENSAMIENTO CRÍTICO Y NUEVAS TECNOLOGÍAS",
+        "FILOSOFÍA DE LA INTELIGENCIA ARTIFICIAL",
+        "ELECTIVA INGENIERÍA DE SOFTWARE Y SISTEMAS DE INFORMACIÓN II"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E10",
+      "descripcion": "Primíparo que solo estudia en la mañana",
+      "aprobadas": 0,
+      "tope": 24,
+      "franja": "manana",
+      "propuestas": 1,
+      "cumplen": 1,
+      "creditos": [
+        6
+      ],
+      "ejemplo": [
+        "ÁLGEBRA Y TRIGONOMETRÍA",
+        "INTRODUCCIÓN A LA INGENIERÍA DE SISTEMAS",
+        "VIVAMOS LA UNIVERSIDAD",
+        "CÁTEDRA DE FORMACIÓN CIUDADANA Y CONSTITUCIONAL"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E11",
+      "descripcion": "Niveles 1-2 aprobados, solo en la tarde",
+      "aprobadas": 13,
+      "tope": 24,
+      "franja": "tarde",
+      "propuestas": 1,
+      "cumplen": 1,
+      "creditos": [
+        5
+      ],
+      "ejemplo": [
+        "FÍSICA MECÁNICA",
+        "ENGLISH 3"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E12",
+      "descripcion": "Niveles 1-4 aprobados, solo en la noche",
+      "aprobadas": 24,
+      "tope": 24,
+      "franja": "noche",
+      "propuestas": 1,
+      "cumplen": 1,
+      "creditos": [
+        7
+      ],
+      "ejemplo": [
+        "ESTRUCTURA DE DATOS Y LABORATORIO",
+        "MODELOS Y SIMULACIÓN DE SISTEMAS I"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E13",
+      "descripcion": "Niveles 1-3 aprobados con tope de 12 créditos (trabaja)",
+      "aprobadas": 18,
+      "tope": 12,
+      "franja": "cualquiera",
+      "propuestas": 3,
+      "cumplen": 3,
+      "creditos": [
+        12,
+        12,
+        12
+      ],
+      "ejemplo": [
+        "ANÁLISIS Y DISEÑO DE SISTEMAS I",
+        "LÓGICA Y REPRESENTACIÓN III",
+        "ECUACIONES DIFERENCIALES Y MÉTODOS NUMÉRICOS",
+        "CÁTEDRA DE FORMACIÓN CIUDADANA Y CONSTITUCIONAL"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E14",
+      "descripcion": "Niveles 1-3 aprobados con tope de 16 créditos",
+      "aprobadas": 18,
+      "tope": 16,
+      "franja": "cualquiera",
+      "propuestas": 3,
+      "cumplen": 3,
+      "creditos": [
+        16,
+        16,
+        15
+      ],
+      "ejemplo": [
+        "ANÁLISIS Y DISEÑO DE SISTEMAS I",
+        "LÓGICA Y REPRESENTACIÓN III",
+        "ECUACIONES DIFERENCIALES Y MÉTODOS NUMÉRICOS",
+        "MÉTODOS ESTADISTICOS",
+        "ENGLISH 3"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E15",
+      "descripcion": "Niveles 1-5 aprobados, quiere el máximo (24)",
+      "aprobadas": 28,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 3,
+      "cumplen": 3,
+      "creditos": [
+        17,
+        17,
+        18
+      ],
+      "ejemplo": [
+        "ARQUITECTURA DE COMPUTADORES Y LABORATORIO",
+        "FUNDAMENTOS DE INVESTIGACIÓN",
+        "ARQUITECTURA DE SOFTWARE",
+        "BASES DE DATOS Y LABORATORIO",
+        "FUNDAMENTOS DE SISTEMAS DE INFORMACIÓN"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E16",
+      "descripcion": "Perdió Cálculo Diferencial en nivel 1",
+      "aprobadas": 6,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 3,
+      "cumplen": 3,
+      "creditos": [
+        14,
+        14,
+        13
+      ],
+      "ejemplo": [
+        "CÁLCULO DIFERENCIAL",
+        "LÓGICA Y REPRESENTACIÓN I",
+        "MATEMÁTICAS DISCRETAS I",
+        "ESPAÑOL ACADÉMICO",
+        "ENGLISH 2"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E17",
+      "descripcion": "Niveles 1-2 sin Matemáticas Discretas I (rezago en la cadena crítica)",
+      "aprobadas": 12,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 1,
+      "cumplen": 1,
+      "creditos": [
+        13
+      ],
+      "ejemplo": [
+        "TEORÍA DE LA PROBABILIDAD Y COLAS",
+        "MATEMÁTICAS DISCRETAS I",
+        "FÍSICA MECÁNICA",
+        "ENGLISH 3",
+        "CÁTEDRA DE FORMACIÓN CIUDADANA Y CONSTITUCIONAL"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E18",
+      "descripcion": "Niveles 1-3 sin Técnicas de Programación",
+      "aprobadas": 17,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 3,
+      "cumplen": 3,
+      "creditos": [
+        12,
+        11,
+        10
+      ],
+      "ejemplo": [
+        "LÓGICA Y REPRESENTACIÓN III",
+        "ARQUITECTURA DE COMPUTADORES Y LABORATORIO",
+        "MÉTODOS ESTADISTICOS",
+        "CÁTEDRA DE FORMACIÓN CIUDADANA Y CONSTITUCIONAL"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E19",
+      "descripcion": "Niveles 1-4 sin Inglés 3 ni Métodos Estadísticos",
+      "aprobadas": 22,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 3,
+      "cumplen": 3,
+      "creditos": [
+        22,
+        20,
+        20
+      ],
+      "ejemplo": [
+        "ARQUITECTURA DE COMPUTADORES Y LABORATORIO",
+        "ESTRUCTURA DE DATOS Y LABORATORIO",
+        "MÉTODOS ESTADISTICOS",
+        "COMUNICACIONES Y LABORATORIO",
+        "FUNDAMENTOS DE SISTEMAS DE INFORMACIÓN",
+        "TEORÍA DE LENGUAJES Y LABORATORIO"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E20",
+      "descripcion": "Niveles 1-5 incluyendo electivas habilitadas",
+      "aprobadas": 28,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 3,
+      "cumplen": 3,
+      "creditos": [
+        23,
+        23,
+        23
+      ],
+      "ejemplo": [
+        "ARQUITECTURA DE COMPUTADORES Y LABORATORIO",
+        "FUNDAMENTOS DE INVESTIGACIÓN",
+        "ARQUITECTURA DE SOFTWARE",
+        "BASES DE DATOS Y LABORATORIO",
+        "FUNDAMENTOS DE SISTEMAS DE INFORMACIÓN",
+        "ELECTIVA SOCIO HUMANÍSTICA II",
+        "HISTORIA DE LA INGENIERÍA"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E21",
+      "descripcion": "Niveles 1-6 con electivas y tope de 15 créditos",
+      "aprobadas": 34,
+      "tope": 15,
+      "franja": "cualquiera",
+      "propuestas": 3,
+      "cumplen": 3,
+      "creditos": [
+        14,
+        14,
+        13
+      ],
+      "ejemplo": [
+        "ARQUITECTURA DE COMPUTADORES Y LABORATORIO",
+        "FUNDAMENTOS DE INVESTIGACIÓN",
+        "MODELOS Y SIMULACIÓN DE SISTEMAS II",
+        "FUNDAMENTOS DE SISTEMAS DE INFORMACIÓN"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E22",
+      "descripcion": "Estudiante irregular: niveles 1-3 más Bases de Datos adelantada",
+      "aprobadas": 21,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 3,
+      "cumplen": 3,
+      "creditos": [
+        21,
+        24,
+        23
+      ],
+      "ejemplo": [
+        "ANÁLISIS Y DISEÑO DE SISTEMAS I",
+        "ECUACIONES DIFERENCIALES Y MÉTODOS NUMÉRICOS",
+        "ARQUITECTURA DE COMPUTADORES Y LABORATORIO",
+        "MÉTODOS ESTADISTICOS",
+        "COMUNICACIONES Y LABORATORIO",
+        "ENGLISH 3",
+        "CÁTEDRA DE FORMACIÓN CIUDADANA Y CONSTITUCIONAL"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E23",
+      "descripcion": "Niveles 1-2 sin Lógica I (correquisitos en juego)",
+      "aprobadas": 12,
+      "tope": 24,
+      "franja": "cualquiera",
+      "propuestas": 1,
+      "cumplen": 1,
+      "creditos": [
+        13
+      ],
+      "ejemplo": [
+        "TEORÍA DE LA PROBABILIDAD Y COLAS",
+        "LÓGICA Y REPRESENTACIÓN I",
+        "FÍSICA MECÁNICA",
+        "ENGLISH 3",
+        "CÁTEDRA DE FORMACIÓN CIUDADANA Y CONSTITUCIONAL"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E24",
+      "descripcion": "Niveles 1-6 solo en la mañana con electivas",
+      "aprobadas": 34,
+      "tope": 24,
+      "franja": "manana",
+      "propuestas": 3,
+      "cumplen": 3,
+      "creditos": [
+        23,
+        23,
+        23
+      ],
+      "ejemplo": [
+        "ARQUITECTURA DE COMPUTADORES Y LABORATORIO",
+        "MODELOS Y SIMULACIÓN DE SISTEMAS II",
+        "FUNDAMENTOS DE SISTEMAS DE INFORMACIÓN",
+        "CALIDAD DE SOFTWARE",
+        "LEGISLACIÓN",
+        "ELECTIVA INGENIERÍA DE SOFTWARE Y SISTEMAS D INFORMACIÓN III",
+        "DESARROLLO DE APLICACIONES EMPRESARIALES"
+      ],
+      "violaciones": []
+    },
+    {
+      "id": "E25",
+      "descripcion": "Niveles 1-7 con tope de 10 créditos",
+      "aprobadas": 38,
+      "tope": 10,
+      "franja": "cualquiera",
+      "propuestas": 1,
+      "cumplen": 1,
+      "creditos": [
+        10
+      ],
+      "ejemplo": [
+        "FUNDAMENTOS DE INVESTIGACIÓN",
+        "GESTIÓN DE PROYECTOS DE SISTEMAS DE INFORMACIÓN",
+        "SISTEMAS OPERATIVOS Y LABORATORIO"
+      ],
+      "violaciones": []
+    }
+  ],
+  "propuestas_totales": 51,
+  "propuestas_validas": 51,
+  "porcentaje": 100.0,
+  "cumple_indicador": true,
+  "fecha": "2026-11-15",
+  "origen": "plan real v5 (snapshot) + oferta simulada con semilla 2026"
+}

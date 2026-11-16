@@ -33,3 +33,7 @@ Thumbs.db
 # ----- Logs y temporales -----
 *.log
 logs/
+
+# Cobertura de pruebas
+.coverage
+htmlcov/

@@ -129,8 +129,8 @@ export default function Proyecto() {
             <dt>Interfaz</dt><dd>React y Vite, desplegada en Vercel</dd>
             <dt>Servicio</dt><dd>Python con FastAPI, desplegado en Render</dd>
             <dt>Motor</dt><dd>Grafo dirigido acíclico, algoritmo de Kahn, búsqueda con poda priorizada por criticidad</dd>
-            <dt>Asistente</dt><dd>Modelo de lenguaje con llamadas a herramientas sobre las fuentes oficiales</dd>
-            <dt>Fuentes</dt><dd>Pensum oficial (Cursum) y oferta de cupos (MARES), consultados en vivo</dd>
+            <dt>Asistente</dt><dd>Modelo de lenguaje con llamadas a herramientas y recuperación (RAG, BM25) sobre el Reglamento Estudiantil y la malla; cada respuesta cita sus fuentes</dd>
+            <dt>Fuentes</dt><dd>Pensum oficial (Cursum) y oferta de cupos (MARES) en vivo, con copia local del pensum si el portal no responde; Reglamento Estudiantil (Acuerdo Superior 1 de 1981)</dd>
             <dt>Privacidad</dt><dd>Tu historia académica se guarda solo en tu navegador</dd>
           </dl>
         </div>

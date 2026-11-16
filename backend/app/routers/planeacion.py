@@ -5,6 +5,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
 from app.services import grafo_service as grafo
+from app.services import reglas_service as reglas
 from app.services import udea_horarios_service as udea
 from app.services import validador_service as motor
 
@@ -64,6 +65,12 @@ def pensum_malla():
         return grafo.malla_en_vivo()
     except Exception as exc:  # noqa: BLE001
         raise _fallo_portal(exc) from exc
+
+
+@router.get("/reglas", summary="Catálogo de reglas académicas que aplica el motor (OE1)")
+def catalogo_reglas():
+    """Reglas duras y advertencias, con su fuente en el Reglamento Estudiantil o el plan."""
+    return reglas.catalogo()
 
 
 @router.post("/planeacion/validar", summary="Validar una carga académica (OE2)")

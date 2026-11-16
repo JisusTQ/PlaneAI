@@ -1,0 +1,549 @@
+{
+ "version": 2,
+ "descripcion": "Banco de 40 preguntas sobre la malla (20) y el Reglamento Estudiantil (20) para medir el OE3. Respuestas esperadas tomadas del plan v5 (Cursum) y del Reglamento (Acuerdo Superior 1 de 1981).",
+ "preguntas": [
+  {
+   "id": 1,
+   "categoria": "malla",
+   "pregunta": "¿Qué materias tiene el primer semestre de Ingeniería de Sistemas?",
+   "respuesta_esperada": "Introducción a la Ingeniería de Sistemas, Descubriendo la Física, Vivamos la Universidad, Álgebra y Trigonometría, Geometría Vectorial y Analítica, Cálculo Diferencial y English 1 (7 materias, 16 créditos).",
+   "claves": [
+    "introduccion a la ingenieria",
+    "descubriendo la fisica",
+    "vivamos la universidad",
+    "algebra y trigonometria",
+    "geometria vectorial",
+    "calculo diferencial",
+    "english 1|ingles 1"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "nivel 1"
+   }
+  },
+  {
+   "id": 2,
+   "categoria": "malla",
+   "pregunta": "¿Cuántos créditos suman las materias obligatorias del plan de estudios?",
+   "respuesta_esperada": "128 créditos obligatorios en la versión 5 del plan (sin contar electivas ni modalidad de grado).",
+   "claves": [
+    "128"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": ""
+   }
+  },
+  {
+   "id": 3,
+   "categoria": "malla",
+   "pregunta": "¿Cuántos niveles o semestres tiene el pensum?",
+   "respuesta_esperada": "Las obligatorias se distribuyen en 9 niveles; las electivas y la modalidad de grado van en un banco aparte.",
+   "claves": [
+    "9|nueve"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": ""
+   }
+  },
+  {
+   "id": 4,
+   "categoria": "malla",
+   "pregunta": "¿Cuáles son los prerrequisitos de Cálculo Integral?",
+   "respuesta_esperada": "Álgebra y Trigonometría y Cálculo Diferencial.",
+   "claves": [
+    "algebra y trigonometria",
+    "calculo diferencial"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "Cálculo Integral"
+   }
+  },
+  {
+   "id": 5,
+   "categoria": "malla",
+   "pregunta": "¿Qué materias se desbloquean al aprobar Cálculo Diferencial?",
+   "respuesta_esperada": "Directamente: Cálculo Integral y Física Mecánica.",
+   "claves": [
+    "calculo integral",
+    "fisica mecanica"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "Cálculo Diferencial"
+   }
+  },
+  {
+   "id": 6,
+   "categoria": "malla",
+   "pregunta": "¿Cálculo Diferencial tiene algún correquisito?",
+   "respuesta_esperada": "Sí: Álgebra y Trigonometría (se ve a la vez o ya aprobada).",
+   "claves": [
+    "algebra y trigonometria"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "Cálculo Diferencial"
+   }
+  },
+  {
+   "id": 7,
+   "categoria": "malla",
+   "pregunta": "¿En qué semestre se ve Bases de Datos y Laboratorio?",
+   "respuesta_esperada": "En el nivel 6 (sexto semestre); tiene 4 créditos y exige Estructura de Datos y Laboratorio.",
+   "claves": [
+    "6|sexto"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "Bases De Datos Y Laboratorio"
+   }
+  },
+  {
+   "id": 8,
+   "categoria": "malla",
+   "pregunta": "¿Cuántos créditos tiene Estructura de Datos y Laboratorio?",
+   "respuesta_esperada": "4 créditos.",
+   "claves": [
+    "4|cuatro"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "Estructura De Datos Y Laboratorio"
+   }
+  },
+  {
+   "id": 9,
+   "categoria": "malla",
+   "pregunta": "¿Qué necesito para ver Arquitectura de Software?",
+   "respuesta_esperada": "Haber aprobado Análisis y Diseño de Sistemas II y cursar a la vez (o tener aprobada) Bases de Datos y Laboratorio.",
+   "claves": [
+    "analisis y diseno de sistemas ii",
+    "bases de datos"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "Arquitectura De Software"
+   }
+  },
+  {
+   "id": 10,
+   "categoria": "malla",
+   "pregunta": "¿Cuál es la materia de la que más materias dependen en el pensum?",
+   "respuesta_esperada": "Álgebra y Trigonometría y Cálculo Diferencial (30 materias dependientes cada una).",
+   "claves": [
+    "algebra y trigonometria|calculo diferencial"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": ""
+   }
+  },
+  {
+   "id": 11,
+   "categoria": "malla",
+   "pregunta": "¿Qué requisitos tiene el Trabajo de Grado?",
+   "respuesta_esperada": "132 créditos aprobados y Fundamentos de Investigación; vale 12 créditos.",
+   "claves": [
+    "132",
+    "fundamentos de investigacion"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "Trabajo De Grado"
+   }
+  },
+  {
+   "id": 12,
+   "categoria": "malla",
+   "pregunta": "¿Qué electivas exigen haber aprobado Bases de Datos y Laboratorio?",
+   "respuesta_esperada": "Ingeniería Web, Big Data y Desarrollo de Aplicaciones Empresariales.",
+   "claves": [
+    "ingenieria web",
+    "big data",
+    "aplicaciones empresariales"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "Bases De Datos Y Laboratorio"
+   }
+  },
+  {
+   "id": 13,
+   "categoria": "malla",
+   "pregunta": "¿Puedo ver Lógica y Representación III sin haber aprobado Teoría de la Probabilidad y Colas?",
+   "respuesta_esperada": "No: Teoría de la Probabilidad y Colas es prerrequisito, junto con Lógica y Representación II.",
+   "claves": [
+    "no",
+    "probabilidad"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "Lógica Y Representación Iii"
+   }
+  },
+  {
+   "id": 14,
+   "categoria": "malla",
+   "pregunta": "¿En qué semestre está Proyecto Integrador I y cuántos créditos tiene?",
+   "respuesta_esperada": "Nivel 6, 2 créditos, sin prerrequisitos.",
+   "claves": [
+    "6|sexto",
+    "2|dos"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "Proyecto Integrador I"
+   }
+  },
+  {
+   "id": 15,
+   "categoria": "malla",
+   "pregunta": "¿Qué requisito tiene Proyecto Integrador II?",
+   "respuesta_esperada": "Haber aprobado Proyecto Integrador I.",
+   "claves": [
+    "proyecto integrador i"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "Proyecto Integrador Ii - Área Electiva"
+   }
+  },
+  {
+   "id": 16,
+   "categoria": "malla",
+   "pregunta": "¿Cuántos cursos de inglés tiene el plan de estudios?",
+   "respuesta_esperada": "Cinco: English 1 a English 5, de 2 créditos cada uno.",
+   "claves": [
+    "5|cinco"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": ""
+   }
+  },
+  {
+   "id": 17,
+   "categoria": "malla",
+   "pregunta": "¿Qué materias tiene el nivel 8?",
+   "respuesta_esperada": "Fundamentos de Investigación, Comunicaciones II, Gestión de Proyectos de Sistemas de Información, Sistemas Operativos y Laboratorio y Proyecto Integrador II.",
+   "claves": [
+    "fundamentos de investigacion",
+    "comunicaciones ii",
+    "gestion de proyectos",
+    "sistemas operativos",
+    "proyecto integrador ii"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "nivel 8"
+   }
+  },
+  {
+   "id": 18,
+   "categoria": "malla",
+   "pregunta": "¿Qué necesito para ver Sistemas Operativos y Laboratorio?",
+   "respuesta_esperada": "Estructura de Datos y Laboratorio y Arquitectura de Computadores y Laboratorio.",
+   "claves": [
+    "estructura de datos",
+    "arquitectura de computadores"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "Sistemas Operativos Y Laboratorio"
+   }
+  },
+  {
+   "id": 19,
+   "categoria": "malla",
+   "pregunta": "¿Cuántos créditos aprobados exige la electiva Introducción a la Inteligencia Artificial para las ciencias e ingenierías?",
+   "respuesta_esperada": "65 créditos aprobados.",
+   "claves": [
+    "65"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": ""
+   }
+  },
+  {
+   "id": 20,
+   "categoria": "malla",
+   "pregunta": "¿Técnicas de Programación y Laboratorio tiene correquisito?",
+   "respuesta_esperada": "Sí: Lógica y Representación II.",
+   "claves": [
+    "logica y representacion ii"
+   ],
+   "fuente_esperada": {
+    "tipo": "pensum",
+    "detalle": "Técnicas De Programación Y Laboratorio"
+   }
+  },
+  {
+   "id": 21,
+   "categoria": "reglamento",
+   "pregunta": "¿Cuál es el máximo de créditos que puedo matricular en un semestre?",
+   "respuesta_esperada": "24 créditos; tiempo completo es de 14 a 24 (art. 66). Con matrícula sobresaliente también hasta 24 (art. 130) y en último semestre se pueden autorizar hasta 27 (AA 0066/1996).",
+   "claves": [
+    "24"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 66"
+   }
+  },
+  {
+   "id": 22,
+   "categoria": "reglamento",
+   "pregunta": "¿Cuál es el mínimo de créditos que debo matricular?",
+   "respuesta_esperada": "8 créditos, salvo fuerza mayor aprobada por el Consejo de Facultad o si faltan menos para terminar (art. 67).",
+   "claves": [
+    "8|ocho"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 67"
+   }
+  },
+  {
+   "id": 23,
+   "categoria": "reglamento",
+   "pregunta": "¿Desde cuántos créditos soy estudiante de tiempo completo?",
+   "respuesta_esperada": "Desde 14 créditos (hasta 24); con 13 o menos es tiempo parcial (art. 66).",
+   "claves": [
+    "14"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 66"
+   }
+  },
+  {
+   "id": 24,
+   "categoria": "reglamento",
+   "pregunta": "¿Qué es un correquisito según el reglamento?",
+   "respuesta_esperada": "Una asignatura que se cursa al menos al mismo tiempo que la que lo exige; no hace falta si ya se aprobó antes (art. 43).",
+   "claves": [
+    "mismo tiempo|simultane|a la vez"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 43"
+   }
+  },
+  {
+   "id": 25,
+   "categoria": "reglamento",
+   "pregunta": "¿Qué es un prerrequisito?",
+   "respuesta_esperada": "Una asignatura que debe estar aprobada antes de matricular la que lo exige (art. 42).",
+   "claves": [
+    "aprobad"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 42"
+   }
+  },
+  {
+   "id": 26,
+   "categoria": "reglamento",
+   "pregunta": "¿Hasta cuándo puedo cancelar una materia?",
+   "respuesta_esperada": "Si la nota acumulada es aprobatoria o se ha evaluado menos del 40 %; por fuerza mayor, enfermedad o calamidad, en cualquier momento (art. 74).",
+   "claves": [
+    "40"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 74"
+   }
+  },
+  {
+   "id": 27,
+   "categoria": "reglamento",
+   "pregunta": "¿Cuántas veces puedo cancelar la misma materia?",
+   "respuesta_esperada": "Máximo dos veces, salvo aprobación del Consejo Académico por fuerza mayor (art. 75).",
+   "claves": [
+    "dos|2"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 75"
+   }
+  },
+  {
+   "id": 28,
+   "categoria": "reglamento",
+   "pregunta": "Si cancelo una materia que tiene correquisito, ¿qué pasa con el correquisito?",
+   "respuesta_esperada": "Debe cancelarse también (art. 74, parágrafo 1).",
+   "claves": [
+    "cancelar|cancela"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 74"
+   }
+  },
+  {
+   "id": 29,
+   "categoria": "reglamento",
+   "pregunta": "¿Qué pasa si falto a más del 20 % de las clases?",
+   "respuesta_esperada": "Se cancela por faltas: queda con 0.0 y no se puede habilitar (art. 78).",
+   "claves": [
+    "0.0|cero",
+    "habilit"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 78"
+   }
+  },
+  {
+   "id": 30,
+   "categoria": "reglamento",
+   "pregunta": "¿Cuál es la nota mínima para aprobar una materia?",
+   "respuesta_esperada": "3.0 (arts. 110 y 113).",
+   "claves": [
+    "3.0|3,0|tres"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 113"
+   }
+  },
+  {
+   "id": 31,
+   "categoria": "reglamento",
+   "pregunta": "¿Puedo habilitar una materia si saqué 1.8?",
+   "respuesta_esperada": "No: para habilitar la nota final debe ser igual o superior a 2.0 (art. 103).",
+   "claves": [
+    "no",
+    "2.0|2,0|dos"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 103"
+   }
+  },
+  {
+   "id": 32,
+   "categoria": "reglamento",
+   "pregunta": "¿Cuántas veces por período puedo habilitar una materia?",
+   "respuesta_esperada": "Una vez por período, y solo si la materia es habilitable (art. 100).",
+   "claves": [
+    "una vez|1 vez|una sola"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 100"
+   }
+  },
+  {
+   "id": 33,
+   "categoria": "reglamento",
+   "pregunta": "¿Puedo validar una materia que perdí este mismo semestre?",
+   "respuesta_esperada": "No, salvo que no exista una nueva cohorte (art. 86).",
+   "claves": [
+    "no"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 86"
+   }
+  },
+  {
+   "id": 34,
+   "categoria": "reglamento",
+   "pregunta": "¿Qué pasa si pierdo la misma materia tres veces?",
+   "respuesta_esperada": "Quedo por fuera de la Universidad; se puede volver por admisión como nuevo o por transferencia (arts. 136 y 134).",
+   "claves": [
+    "fuera|pierde|perder"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 136"
+   }
+  },
+  {
+   "id": 35,
+   "categoria": "reglamento",
+   "pregunta": "¿Con qué promedio quedo en período de prueba al terminar el primer semestre?",
+   "respuesta_esperada": "Con promedio igual o superior a 2.50 e inferior a 2.80 (art. 133).",
+   "claves": [
+    "2.5|2,5",
+    "2.8|2,8"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 133"
+   }
+  },
+  {
+   "id": 36,
+   "categoria": "reglamento",
+   "pregunta": "¿Qué promedio en el primer semestre causa insuficiencia académica?",
+   "respuesta_esperada": "Un promedio inferior a 2.50 (art. 135).",
+   "claves": [
+    "2.5|2,5"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 135"
+   }
+  },
+  {
+   "id": 37,
+   "categoria": "reglamento",
+   "pregunta": "¿Qué necesito para obtener matrícula de honor?",
+   "respuesta_esperada": "Al menos 12 créditos en el semestre anterior y promedio crédito superior a 4.0 (arts. 214-216).",
+   "claves": [
+    "12",
+    "4.0|4,0|cuatro"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 214-216"
+   }
+  },
+  {
+   "id": 38,
+   "categoria": "reglamento",
+   "pregunta": "¿Cuándo son los ajustes de matrícula?",
+   "respuesta_esperada": "En la primera semana del período (art. 73).",
+   "claves": [
+    "primera semana"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 73"
+   }
+  },
+  {
+   "id": 39,
+   "categoria": "reglamento",
+   "pregunta": "¿Puedo matricular dos materias que se cruzan de horario?",
+   "respuesta_esperada": "No, el reglamento no permite inscribir asignaturas con cruce de horario (art. 68).",
+   "claves": [
+    "no"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 68"
+   }
+  },
+  {
+   "id": 40,
+   "categoria": "reglamento",
+   "pregunta": "¿Puedo estar matriculado en dos programas de pregrado al mismo tiempo?",
+   "respuesta_esperada": "No, salvo rutas curriculares especiales de doble titulación aprobadas por el Consejo Académico (art. 63).",
+   "claves": [
+    "no"
+   ],
+   "fuente_esperada": {
+    "tipo": "reglamento",
+    "detalle": "art. 63"
+   }
+  }
+ ]
+}

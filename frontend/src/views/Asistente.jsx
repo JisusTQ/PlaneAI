@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import {
-  ArrowUp, Plus, History, Trash2, Copy, Check, BookMarked, Ticket, ShieldCheck, RotateCcw, X, GraduationCap,
+  ArrowUp, Plus, History, Trash2, Copy, Check, BookMarked, Ticket, ShieldCheck, RotateCcw, X, GraduationCap, Scale,
 } from "lucide-react";
 
 import { useApp } from "../lib/AppContext.jsx";
@@ -15,18 +15,24 @@ const INICIALES = [
   { t: "Voy para tercer semestre, recomiéndame una carga sin choques.", g: "Planear" },
   { t: "¿Qué grupos de Cálculo Integral tienen cupo?", g: "Cupos" },
   { t: "¿Qué materias me desbloquea Matemáticas Discretas?", g: "Malla" },
-  { t: "Solo puedo estudiar en la mañana, ¿qué me sirve?", g: "Planear" },
+  { t: "¿Cuántas veces puedo cancelar una materia?", g: "Reglamento" },
 ];
 
 // Trazabilidad (OE3): cada herramienta que usa el agente se muestra como la fuente que consultó.
 const FUENTES = {
+  consultar_reglamento: { t: "Reglamento Estudiantil (Acuerdo Superior 1 de 1981)", Icon: Scale },
+  buscar_en_malla: { t: "Pensum oficial (Cursum, Facultad de Ingeniería)", Icon: BookMarked },
   consultar_pensum: { t: "Pensum oficial (Cursum, Facultad de Ingeniería)", Icon: BookMarked },
   consultar_horarios_udea: { t: "Oferta de cupos y horarios (portal MARES)", Icon: Ticket },
   proponer_cargas: { t: "Motor determinista: generó cargas", Icon: ShieldCheck },
   validar_carga: { t: "Motor determinista: validó la carga", Icon: ShieldCheck },
 };
+const ICONO_TIPO = { reglamento: Scale, pensum: BookMarked, oferta: Ticket, motor: ShieldCheck };
 
-function fuentesDe(pasos = []) {
+/** Fuentes que devuelve el backend (con artículos citados); si no vienen, se deducen de las herramientas. */
+function fuentesDe(pasos = [], fuentes = null) {
+  if (fuentes?.length)
+    return fuentes.map((f) => ({ t: f.titulo, Icon: ICONO_TIPO[f.tipo] || BookMarked, detalles: f.detalle ? [f.detalle] : [], url: f.url }));
   const vistos = new Map();
   for (const p of pasos) {
     const f = FUENTES[p.herramienta] || { t: p.herramienta, Icon: BookMarked };
@@ -39,7 +45,7 @@ function fuentesDe(pasos = []) {
 
 function Respuesta({ m }) {
   const [copiado, setCopiado] = useState(false);
-  const fuentes = fuentesDe(m.pasos);
+  const fuentes = fuentesDe(m.pasos, m.fuentes);
   return (
     <div className="msg bot">
       <LogoMarca size={28} className="msg-avatar" />
@@ -50,11 +56,19 @@ function Respuesta({ m }) {
         {m.pasos && (
           <div className="fuentes">
             {fuentes.length ? (
-              fuentes.map((f) => (
-                <span key={f.t} className="fuente" title={f.detalles.join(", ")}>
-                  <f.Icon size={13} /> {f.t}
-                </span>
-              ))
+              fuentes.map((f) => {
+                const contenido = (
+                  <>
+                    <f.Icon size={13} /> {f.t}
+                    {f.detalles.length > 0 && f.detalles[0].length < 60 && <small> · {f.detalles.join(", ")}</small>}
+                  </>
+                );
+                return f.url ? (
+                  <a key={f.t} className="fuente" href={f.url} target="_blank" rel="noreferrer" title={f.detalles.join(", ")}>{contenido}</a>
+                ) : (
+                  <span key={f.t} className="fuente" title={f.detalles.join(", ")}>{contenido}</span>
+                );
+              })
             ) : (
               <span className="fuente sin">Respuesta sin consulta a fuentes oficiales</span>
             )}
@@ -112,7 +126,7 @@ export default function Asistente() {
     const ultimo = conversacion[conversacion.length - 1];
     try {
       const d = await enviarMensaje(ultimo.envio || ultimo.texto, previos);
-      const nueva = [...conversacion, { rol: "bot", texto: d.respuesta, pasos: d.pasos || [] }];
+      const nueva = [...conversacion, { rol: "bot", texto: d.respuesta, pasos: d.pasos || [], fuentes: d.fuentes || [] }];
       setMensajes(nueva);
       obtenerSugerencias(nueva).then((s) => s.sugerencias?.length && setSugerencias(s.sugerencias)).catch(() => {});
     } catch (e) {

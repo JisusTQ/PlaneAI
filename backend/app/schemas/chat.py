@@ -23,9 +23,18 @@ class PasoAgente(BaseModel):
     args: dict[str, str] = {}
 
 
+class Fuente(BaseModel):
+    """Fuente oficial consultada para construir la respuesta (trazabilidad, OE3)."""
+    tipo: str  # reglamento | pensum | oferta | motor
+    titulo: str
+    detalle: str = ""
+    url: str = ""
+
+
 class ChatResponse(BaseModel):
     respuesta: str
     pasos: list[PasoAgente] = []
+    fuentes: list[Fuente] = []
 
 
 class SugerenciasRequest(BaseModel):

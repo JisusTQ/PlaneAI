@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Download, Trash2, CheckCircle2, XCircle, Play, Loader2, Plus, RotateCcw, ClipboardList, BarChart3, MessagesSquare } from "lucide-react";
+import { Download, Trash2, CheckCircle2, XCircle, Play, Loader2, RotateCcw, ClipboardList, BarChart3, MessagesSquare, Upload } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import { enviarMensaje } from "../lib/api.js";
-import { BANCO_INICIAL, ESCALA, ITEMS_SUS, lecturaSus, META_PARTICIPANTES, META_SUS, puntajeSus } from "../lib/evaluacion.js";
+import { evaluarPregunta, obtenerBanco } from "../lib/api.js";
+import { ESCALA, ITEMS_SUS, lecturaSus, META_PARTICIPANTES, META_SUS, puntajeSus, leerCsvSus } from "../lib/evaluacion.js";
 import { descargarCsv, escribir, leer } from "../lib/storage.js";
 import Segmentado from "../components/Segmentado.jsx";
 
@@ -91,13 +91,42 @@ function Cuestionario({ onGuardar }) {
   );
 }
 
-function Resultados({ lista, onBorrar }) {
+function Importar({ onImportar }) {
+  const ref = useRef(null);
+  const [msg, setMsg] = useState(null);
+  return (
+    <>
+      <input
+        ref={ref}
+        type="file"
+        accept=".csv,text/csv"
+        hidden
+        onChange={async (e) => {
+          const archivo = e.target.files?.[0];
+          e.target.value = "";
+          if (!archivo) return;
+          try {
+            const nuevas = leerCsvSus(await archivo.text());
+            setMsg(`${onImportar(nuevas)} respuestas nuevas importadas.`);
+          } catch (err) {
+            setMsg(err.message);
+          }
+        }}
+      />
+      <button className="btn secundario" onClick={() => ref.current?.click()}><Upload size={16} /> Importar CSV</button>
+      {msg && <span className="ayuda">{msg}</span>}
+    </>
+  );
+}
+
+function Resultados({ lista, onBorrar, onImportar }) {
   if (!lista.length)
     return (
       <div className="vacio">
         <BarChart3 size={24} />
         <p className="subtitulo">Aún no hay respuestas en este equipo</p>
-        <p>Las sesiones guiadas de prueba se registran aquí. Al final puedes exportar todo a CSV para el informe.</p>
+        <p>Las sesiones guiadas de prueba se registran aquí. Si las sesiones se hicieron en varios computadores, importa aquí el CSV exportado en cada uno.</p>
+        <div className="res-acciones"><Importar onImportar={onImportar} /></div>
       </div>
     );
   const prom = lista.reduce((a, x) => a + x.puntaje, 0) / lista.length;
@@ -144,96 +173,122 @@ function Resultados({ lista, onBorrar }) {
         >
           <Download size={16} /> Exportar CSV
         </button>
-        <span className="ayuda">Las respuestas se guardan en este navegador; expórtalas al terminar las sesiones.</span>
+        <Importar onImportar={onImportar} />
+        <span className="ayuda">Las respuestas se guardan en este navegador; expórtalas al terminar las sesiones y únelas importando los CSV de los demás equipos.</span>
       </div>
     </div>
   );
 }
 
 function Banco() {
-  const [preguntas, setPreguntasState] = useState(() => leer("banco", BANCO_INICIAL.map((t, i) => ({ id: i + 1, texto: t, respuesta: null, pasos: null, correcta: null }))));
-  const setPreguntas = (fn) => setPreguntasState((p) => { const n = fn(p); escribir("banco", n); return n; });
+  // Estado por pregunta: respuesta del asistente, fuentes, precalificación y veredicto del equipo.
+  const [banco, setBanco] = useState(null);
+  const [errorBanco, setErrorBanco] = useState(null);
+  const [estado, setEstadoState] = useState(() => leer("banco-v2", {}));
+  const setEstado = (fn) => setEstadoState((p) => { const n = fn(p); escribir("banco-v2", n); return n; });
   const [corriendo, setCorriendo] = useState(null);
+  const [todas, setTodas] = useState(false);
   const [abierta, setAbierta] = useState(null);
-  const [nueva, setNueva] = useState("");
+  const [filtro, setFiltro] = useState("todas");
+
+  useEffect(() => {
+    obtenerBanco().then((d) => setBanco(d.preguntas)).catch((e) => setErrorBanco(e.message));
+  }, []);
 
   async function correr(p) {
     setCorriendo(p.id);
-    setAbierta(p.id);
     try {
-      const d = await enviarMensaje(p.texto, []);
-      setPreguntas((l) => l.map((x) => (x.id === p.id ? { ...x, respuesta: d.respuesta, pasos: d.pasos || [], correcta: null } : x)));
+      const d = await evaluarPregunta(p.id);
+      setEstado((s) => ({ ...s, [p.id]: { respuesta: d.respuesta, fuentes: d.fuentes || [], trazable: d.trazable, auto: d.auto_correcta, faltan: d.claves_faltantes, correcta: d.auto_correcta } }));
     } catch (e) {
-      setPreguntas((l) => l.map((x) => (x.id === p.id ? { ...x, respuesta: `Error: ${e.message}`, pasos: [], correcta: null } : x)));
+      setEstado((s) => ({ ...s, [p.id]: { respuesta: `Error: ${e.message}`, fuentes: [], trazable: false, auto: false, faltan: [], correcta: null } }));
     } finally {
       setCorriendo(null);
     }
   }
 
-  const evaluadas = preguntas.filter((p) => p.correcta != null);
+  async function correrTodas() {
+    setTodas(true);
+    for (const p of banco) {
+      if (estado[p.id]?.respuesta && !estado[p.id].respuesta.startsWith("Error")) continue;
+      await correr(p);
+      await new Promise((r) => setTimeout(r, 6000)); // respeta la cuota gratuita de la API
+    }
+    setTodas(false);
+  }
+
+  if (errorBanco) return <div className="vacio"><p className="subtitulo">No se pudo cargar el banco</p><p>{errorBanco}</p></div>;
+  if (!banco) return <div className="vacio"><Loader2 size={22} className="gira" /><p>Cargando banco de preguntas…</p></div>;
+
+  const filas = banco.map((p) => ({ ...p, ...(estado[p.id] || {}) }));
+  const respondidas = filas.filter((p) => p.respuesta);
+  const evaluadas = filas.filter((p) => p.correcta != null);
   const correctas = evaluadas.filter((p) => p.correcta).length;
-  const conFuente = preguntas.filter((p) => p.pasos?.length).length;
-  const respondidas = preguntas.filter((p) => p.respuesta).length;
-  const pct = evaluadas.length ? Math.round((correctas / evaluadas.length) * 100) : null;
+  const trazables = respondidas.filter((p) => p.trazable).length;
+  const pct = evaluadas.length ? Math.round((correctas / evaluadas.length) * 1000) / 10 : null;
+  const visibles = filas.filter((p) => filtro === "todas" || p.categoria === filtro);
+  const marcar = (id, v) => setEstado((s) => ({ ...s, [id]: { ...s[id], correcta: v } }));
 
   return (
     <div className="banco">
       <p className="bajada">
-        Banco de preguntas para medir el OE3: el equipo lanza cada pregunta al asistente, revisa la respuesta contra la fuente oficial y la marca como correcta o incorrecta. La trazabilidad se registra sola según las fuentes consultadas.
+        Banco de 40 preguntas sobre la malla y el Reglamento Estudiantil (OE3). Cada pregunta se lanza al asistente; el sistema precalifica si la respuesta trae los datos esperados y la fuente correcta, y el equipo confirma el veredicto comparando con la respuesta esperada.
       </p>
       <div className="banco-resumen">
-        <div><b className="num">{evaluadas.length}/{preguntas.length}</b><span>evaluadas</span></div>
-        <div><b className="num">{pct == null ? "—" : `${pct}%`}</b><span>correctas (meta 85%)</span></div>
-        <div><b className="num">{respondidas ? `${Math.round((conFuente / respondidas) * 100)}%` : "—"}</b><span>con fuente citada</span></div>
+        <div><b className="num">{evaluadas.length}/{banco.length}</b><span>evaluadas</span></div>
+        <div><b className="num">{pct == null ? "—" : `${String(pct).replace(".", ",")}%`}</b><span>correctas (meta 85%)</span></div>
+        <div><b className="num">{respondidas.length ? `${Math.round((trazables / respondidas.length) * 100)}%` : "—"}</b><span>con la fuente esperada (meta 100%)</span></div>
+        <button className="btn primario chico" onClick={correrTodas} disabled={todas || corriendo != null}>
+          {todas ? <Loader2 size={15} className="gira" /> : <Play size={15} />} {todas ? "Corriendo…" : "Correr pendientes"}
+        </button>
         <button
           className="btn secundario chico"
           onClick={() =>
             descargarCsv("planeai-banco-preguntas.csv", [
-              ["id", "pregunta", "correcta", "fuentes", "respuesta"],
-              ...preguntas.map((p) => [p.id, p.texto, p.correcta == null ? "" : p.correcta ? "sí" : "no", (p.pasos || []).map((x) => x.herramienta).join(" | "), p.respuesta || ""]),
+              ["id", "categoria", "pregunta", "respuesta_esperada", "respuesta", "fuentes", "trazable", "claves_faltantes", "correcta"],
+              ...filas.map((p) => [p.id, p.categoria, p.pregunta, p.respuesta_esperada, p.respuesta || "", (p.fuentes || []).map((f) => `${f.titulo}${f.detalle ? ` (${f.detalle})` : ""}`).join(" | "), p.respuesta ? (p.trazable ? "sí" : "no") : "", (p.faltan || []).join("; "), p.correcta == null ? "" : p.correcta ? "sí" : "no"]),
             ])
           }
         >
           <Download size={15} /> Exportar CSV
         </button>
       </div>
+      <Segmentado etiqueta="Categoría" valor={filtro} onChange={setFiltro} opciones={[{ v: "todas", t: "Todas" }, { v: "malla", t: "Malla" }, { v: "reglamento", t: "Reglamento" }]} />
       <ol className="banco-lista">
-        {preguntas.map((p) => (
+        {visibles.map((p) => (
           <li key={p.id} className={p.correcta === true ? "ok" : p.correcta === false ? "mal" : ""}>
             <div className="bq-fila">
-              <button className="bq-texto" onClick={() => setAbierta(abierta === p.id ? null : p.id)} aria-expanded={abierta === p.id}>{p.texto}</button>
+              <button className="bq-texto" onClick={() => setAbierta(abierta === p.id ? null : p.id)} aria-expanded={abierta === p.id}>
+                <small className="num">P{p.id} · {p.categoria}</small> {p.pregunta}
+              </button>
               <div className="bq-acciones">
-                {p.pasos && <span className={`etiqueta ${p.pasos.length ? "ok" : "aviso"}`}>{p.pasos.length ? "Con fuente" : "Sin fuente"}</span>}
-                <button className="icono mini" onClick={() => correr(p)} disabled={corriendo != null} aria-label="Preguntar al asistente">
+                {p.respuesta && <span className={`etiqueta ${p.trazable ? "ok" : "aviso"}`}>{p.trazable ? "Fuente correcta" : "Sin la fuente esperada"}</span>}
+                <button className="icono mini" onClick={() => { setAbierta(p.id); correr(p); }} disabled={corriendo != null || todas} aria-label="Preguntar al asistente">
                   {corriendo === p.id ? <Loader2 size={15} className="gira" /> : <Play size={15} />}
                 </button>
-                <button className={`icono mini ${p.correcta === true ? "activo-ok" : ""}`} disabled={!p.respuesta} onClick={() => setPreguntas((l) => l.map((x) => (x.id === p.id ? { ...x, correcta: true } : x)))} aria-label="Marcar correcta"><CheckCircle2 size={16} /></button>
-                <button className={`icono mini ${p.correcta === false ? "activo-mal" : ""}`} disabled={!p.respuesta} onClick={() => setPreguntas((l) => l.map((x) => (x.id === p.id ? { ...x, correcta: false } : x)))} aria-label="Marcar incorrecta"><XCircle size={16} /></button>
-                <button className="icono mini" onClick={() => setPreguntas((l) => l.filter((x) => x.id !== p.id))} aria-label="Eliminar pregunta"><Trash2 size={14} /></button>
+                <button className={`icono mini ${p.correcta === true ? "activo-ok" : ""}`} disabled={!p.respuesta} onClick={() => marcar(p.id, true)} aria-label="Marcar correcta"><CheckCircle2 size={16} /></button>
+                <button className={`icono mini ${p.correcta === false ? "activo-mal" : ""}`} disabled={!p.respuesta} onClick={() => marcar(p.id, false)} aria-label="Marcar incorrecta"><XCircle size={16} /></button>
               </div>
             </div>
             <AnimatePresence initial={false}>
-              {abierta === p.id && p.respuesta && (
-                <motion.div className="bq-respuesta md" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}>
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{p.respuesta}</ReactMarkdown>
+              {abierta === p.id && (
+                <motion.div className="bq-respuesta" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}>
+                  <p className="ayuda"><b>Respuesta esperada:</b> {p.respuesta_esperada} <i>(fuente: {p.fuente_esperada.tipo}{p.fuente_esperada.detalle ? `, ${p.fuente_esperada.detalle}` : ""})</i></p>
+                  {p.respuesta ? (
+                    <>
+                      {p.faltan?.length > 0 && <p className="etiqueta aviso">Revisar: no menciona {p.faltan.join(", ")}</p>}
+                      <div className="md"><ReactMarkdown remarkPlugins={[remarkGfm]}>{p.respuesta}</ReactMarkdown></div>
+                      {p.fuentes?.length > 0 && <p className="ayuda">Fuentes consultadas: {p.fuentes.map((f) => `${f.titulo}${f.detalle ? ` (${f.detalle})` : ""}`).join(" · ")}</p>}
+                    </>
+                  ) : (
+                    <p className="ayuda">Aún no se ha lanzado al asistente.</p>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
           </li>
         ))}
       </ol>
-      <form
-        className="banco-nueva"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!nueva.trim()) return;
-          setPreguntas((l) => [...l, { id: Date.now(), texto: nueva.trim(), respuesta: null, pasos: null, correcta: null }]);
-          setNueva("");
-        }}
-      >
-        <label className="campo"><input value={nueva} onChange={(e) => setNueva(e.target.value)} placeholder="Agregar una pregunta al banco" aria-label="Nueva pregunta" /></label>
-        <button className="btn secundario" type="submit" disabled={!nueva.trim()}><Plus size={16} /> Agregar</button>
-      </form>
     </div>
   );
 }
@@ -262,7 +317,19 @@ export default function Evaluacion() {
         />
       </div>
       {tab === "sus" && <Cuestionario onGuardar={(r) => setLista((l) => [r, ...l])} />}
-      {tab === "resultados" && <Resultados lista={lista} onBorrar={(id) => setLista((l) => l.filter((x) => x.id !== id))} />}
+      {tab === "resultados" && (
+        <Resultados
+          lista={lista}
+          onBorrar={(id) => setLista((l) => l.filter((x) => x.id !== id))}
+          onImportar={(nuevas) => {
+            const clave = (x) => `${x.participante}|${x.fecha}|${x.respuestas.join("")}`;
+            const existentes = new Set(lista.map(clave));
+            const agregar = nuevas.filter((x) => !existentes.has(clave(x)));
+            setLista((l) => [...agregar, ...l]);
+            return agregar.length;
+          }}
+        />
+      )}
       {tab === "banco" && <Banco />}
     </div>
   );

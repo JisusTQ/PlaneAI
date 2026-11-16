@@ -1,14 +1,20 @@
 """
 Agente Gemini con tool-calling sobre datos en vivo de la UdeA.
 
-Herramientas: `consultar_pensum`, `consultar_horarios_udea`, `proponer_cargas`
-y `validar_carga`. Las dos últimas delegan en el motor DETERMINISTA
-(validador_service): la IA no decide si una carga es válida, solo la explica.
+Herramientas:
+  - RAG (rag_service): `consultar_reglamento` (Reglamento Estudiantil) y
+    `buscar_en_malla` (materias del plan por nombre/tema).
+  - Datos en vivo: `consultar_pensum` (materias por nivel) y
+    `consultar_horarios_udea` (grupos, cupos y horarios).
+  - Motor DETERMINISTA (validador_service): `proponer_cargas` y `validar_carga`;
+    la IA no decide si una carga es válida, solo la explica.
+Cada herramienta registra la fuente que consultó; /chat devuelve esa traza.
 El SDK ejecuta el bucle agéntico (enable_automatic_function_calling).
 """
 import google.generativeai as genai
 
 from app.config import get_settings
+from app.services import rag_service as rag
 from app.services import udea_horarios_service as udea
 from app.services import udea_pensum_service as pensum
 from app.services import validador_service as motor
@@ -19,23 +25,34 @@ settings = get_settings()
 SYSTEM_PROMPT = """Eres "PlaneAI", un asistente de planeación académica para estudiantes \
 del programa de Ingeniería de Sistemas de la Universidad de Antioquia (UdeA).
 
-Tu objetivo es ayudar a armar horarios y recomendar materias. Reglas estrictas:
-1. Para RECOMENDAR una carga usa SIEMPRE `proponer_cargas`. Necesitas saber qué
+Tu objetivo es ayudar a armar horarios, recomendar materias y resolver dudas sobre
+el plan de estudios y el Reglamento Estudiantil. Reglas estrictas:
+1. NUNCA respondas de memoria sobre la malla, la oferta o el reglamento: consulta
+   siempre una herramienta y basa la respuesta solo en lo que devuelva.
+   - Normas (créditos mínimos/máximos, cancelaciones, notas, habilitación,
+     validación, período de prueba, faltas, ajustes...): `consultar_reglamento`.
+   - Una materia concreta (nivel, créditos, requisitos, qué desbloquea):
+     `buscar_en_malla`. Todas las materias de un semestre: `consultar_pensum`.
+   - Grupos, cupos, horarios, profesores o aulas: `consultar_horarios_udea`
+     (varias materias en UNA llamada, separadas por ";").
+2. Para RECOMENDAR una carga usa SIEMPRE `proponer_cargas`. Necesitas saber qué
    materias tiene aprobadas el estudiante: pregúntalo si no lo dijo. Si solo dice
    su semestre (p. ej. "voy para cuarto"), asume aprobados los niveles anteriores
    ("nivel:1-3") y dile explícitamente que hiciste esa suposición.
-2. Si el estudiante trae su PROPIA propuesta de materias/grupos, verifícala con
+3. Si el estudiante trae su PROPIA propuesta de materias/grupos, verifícala con
    `validar_carga`. Nunca afirmes que una carga es válida si el validador no lo
    confirma; si hay errores, explícalos y sugiere cómo corregirlos.
-3. Las cargas que devuelven las herramientas YA cumplen prerrequisitos,
-   correquisitos, cupos, choques de horario y límite de créditos: tu trabajo es
-   EXPLICARLAS de forma clara (por qué esas materias, en qué horario), no cambiarlas.
-4. Usa `consultar_pensum` para preguntas sobre materias, niveles y requisitos, y
-   `consultar_horarios_udea` para grupos, cupos, horarios o profesores (varias
-   materias en UNA llamada, separadas por ";"). NUNCA inventes datos.
+4. Las cargas que devuelven las herramientas YA cumplen prerrequisitos,
+   correquisitos, créditos, cupos, choques de horario y tope de créditos: tu
+   trabajo es EXPLICARLAS (por qué esas materias, en qué horario), no cambiarlas.
 5. Franjas: "mañana" = antes de las 12:00, "tarde" = 12:00-18:00, "noche" = 18:00+.
-6. Responde en español, claro, breve y organizado (usa listas o tablas cuando ayude).
-7. Si una herramienta devuelve un error o no encuentra datos, dilo con honestidad."""
+6. TRAZABILIDAD: termina toda respuesta con una línea "**Fuentes:**" que liste lo
+   consultado, citando los artículos exactos del reglamento (p. ej. "Reglamento
+   Estudiantil, art. 66") y el plan o la oferta cuando los uses. No cites nada que
+   las herramientas no hayan devuelto.
+7. Si las herramientas no traen la respuesta, dilo con honestidad y sugiere
+   consultar al asesor académico o a Admisiones y Registro; no inventes.
+8. Responde en español, claro, breve y organizado (listas o tablas cuando ayude)."""
 
 
 def _formatear_materia(m) -> list[str]:
@@ -77,6 +94,7 @@ def consultar_horarios_udea(materia: str = "") -> str:
             return f"Materias disponibles en la oferta vigente:\n{nombres}"
 
         terminos = [t.strip() for t in materia.split(";") if t.strip()]
+        rag.registrar_fuente("oferta", "Oferta de cupos y horarios del semestre (MARES)", ", ".join(terminos), rag.URL_OFERTA)
         bloques: list[str] = []
         for termino in terminos:
             materias = udea.buscar_materias(termino)
@@ -91,6 +109,14 @@ def consultar_horarios_udea(materia: str = "") -> str:
         return "\n\n".join(bloques)
     except Exception as exc:  # noqa: BLE001 — degradar con elegancia para el modelo
         return f"Error al consultar el portal de la UdeA: {exc}"
+
+
+def _describir_requisito(r) -> str:
+    if pensum.es_req_creditos(r):
+        return f"{r.codigo} créditos aprobados"
+    if pensum.es_externo(r):
+        return f"materia {r.codigo} (de otra versión del plan)"
+    return f"{pensum.nombre_de(r.codigo)} ({'correquisito' if pensum.es_correquisito(r) else 'prerrequisito'})"
 
 
 def consultar_pensum(nivel: int = 0) -> str:
@@ -110,6 +136,9 @@ def consultar_pensum(nivel: int = 0) -> str:
         tipo y prerrequisitos) o un resumen de los niveles disponibles.
     """
     try:
+        rag.registrar_fuente(
+            "pensum", f"Plan de estudios v{pensum.version_actual() or ''} (Cursum)", f"nivel {nivel}" if nivel else "resumen", rag.URL_CURSUM
+        )
         if not nivel:
             niveles = pensum.niveles_disponibles()
             partes = []
@@ -127,9 +156,7 @@ def consultar_pensum(nivel: int = 0) -> str:
         for m in materias:
             req = ""
             if m.requisitos:
-                detalle = ", ".join(
-                    f"{pensum.nombre_de(r.codigo)} ({r.tipo.lower()})" for r in m.requisitos
-                )
+                detalle = ", ".join(_describir_requisito(r) for r in m.requisitos)
                 req = f" Requisitos: {detalle}."
             lineas.append(
                 f"  - {m.nombre} (código {m.codigo}, {m.creditos} créditos, {m.tipo}).{req}"
@@ -137,6 +164,67 @@ def consultar_pensum(nivel: int = 0) -> str:
         return "\n".join(lineas)
     except Exception as exc:  # noqa: BLE001 — degradar con elegancia para el modelo
         return f"Error al consultar el pensum de la UdeA: {exc}"
+
+
+def consultar_reglamento(pregunta: str) -> str:
+    """Busca en el REGLAMENTO ESTUDIANTIL de pregrado de la UdeA (Acuerdo
+    Superior 1 de 1981) los artículos pertinentes a una pregunta.
+
+    Úsala para cualquier duda normativa: créditos mínimos y máximos por semestre,
+    tiempo completo o parcial, prerrequisitos y correquisitos, ajustes,
+    cancelación de materias, faltas de asistencia, notas, habilitación,
+    validación, período de prueba, insuficiencia académica, perder una materia
+    varias veces, reingreso, cambio de programa o matrícula de honor.
+
+    Args:
+        pregunta: la duda del estudiante en lenguaje natural.
+
+    Returns:
+        Los artículos más pertinentes, cada uno con su cita exacta para usar en
+        la línea de Fuentes.
+    """
+    try:
+        hallados = rag.buscar_reglamento(pregunta, k=4)
+        if not hallados:
+            return "No se encontraron artículos del Reglamento Estudiantil relacionados con la pregunta."
+        bloques = []
+        for doc, _ in hallados:
+            rag.registrar_fuente("reglamento", "Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981)", f"art. {doc.extra['articulo']}", doc.url)
+            bloques.append(f"[{doc.fuente}] {doc.titulo}: {doc.texto}")
+        return "Artículos recuperados (cita cada uno por su número):\n\n" + "\n\n".join(bloques)
+    except Exception as exc:  # noqa: BLE001
+        return f"Error al consultar el reglamento: {exc}"
+
+
+def buscar_en_malla(consulta: str) -> str:
+    """Busca materias del PLAN DE ESTUDIOS por nombre o tema y devuelve su
+    nivel (semestre), créditos, prerrequisitos, correquisitos, requisitos de
+    créditos aprobados y las materias que desbloquea.
+
+    Úsala para preguntas sobre una materia concreta: "¿en qué semestre se ve
+    Bases de Datos?", "¿qué necesito para ver Ingeniería Web?", "¿qué me
+    desbloquea Cálculo Diferencial?", "¿qué es el trabajo de grado?".
+
+    Args:
+        consulta: nombre (o parte) de la materia o el tema buscado.
+
+    Returns:
+        Las materias más pertinentes con su información curricular.
+    """
+    try:
+        hallados = rag.buscar_malla(consulta, k=3)
+        if not hallados:
+            return f"No se encontró ninguna materia del plan relacionada con '{consulta}'."
+        mejor = hallados[0][1]
+        bloques = []
+        for doc, puntaje in hallados:
+            if puntaje < mejor * 0.6:  # descarta coincidencias débiles
+                continue
+            rag.registrar_fuente("pensum", f"Plan de estudios v{pensum.version_actual() or ''} (Cursum)", doc.titulo.title(), rag.URL_CURSUM)
+            bloques.append(doc.texto)
+        return "\n".join(bloques)
+    except Exception as exc:  # noqa: BLE001
+        return f"Error al consultar la malla: {exc}"
 
 
 def _formatear_resultado(r) -> str:
@@ -163,6 +251,8 @@ def proponer_cargas(aprobadas: str = "", max_creditos: int = 0, franja: str = ""
         Texto con cada alternativa: materias, grupos, horario y créditos.
     """
     try:
+        rag.registrar_fuente("motor", "Motor de validación PlaneAI (reglas R01-R11)", "generó cargas factibles")
+        rag.registrar_fuente("oferta", "Oferta de cupos y horarios del semestre (MARES)", "grupos de las cargas", rag.URL_OFERTA)
         p_idx = pensum.catalogo_por_codigo()
         codigos, no_rec = motor.resolver_aprobadas(aprobadas, p_idx)
         cargas = motor.proponer_en_vivo(codigos, max_creditos or None, franja or None)
@@ -198,6 +288,7 @@ def validar_carga(aprobadas: str = "", propuesta: str = "") -> str:
         Veredicto (VÁLIDA / NO VÁLIDA), créditos y la lista de errores o avisos.
     """
     try:
+        rag.registrar_fuente("motor", "Motor de validación PlaneAI (reglas R01-R11)", "validó una carga")
         p_idx = pensum.catalogo_por_codigo()
         codigos, no_rec = motor.resolver_aprobadas(aprobadas, p_idx)
         elecciones = motor.resolver_propuesta(propuesta)
@@ -248,13 +339,16 @@ def _extraer_pasos(chat) -> list[dict]:
     return pasos
 
 
-def responder(mensaje: str, historial: list[dict] | None = None) -> tuple[str, list[dict]]:
+HERRAMIENTAS = [consultar_reglamento, buscar_en_malla, consultar_pensum, consultar_horarios_udea, proponer_cargas, validar_carga]
+
+
+def responder(mensaje: str, historial: list[dict] | None = None) -> tuple[str, list[dict], list[dict]]:
     """
     Responde al estudiante con el agente Gemini sobre datos en vivo de la UdeA.
 
     Recibe el historial previo (memoria multi-turno) y devuelve la respuesta y
-    la traza de herramientas que el agente invocó. Lanza ValueError si la API
-    key no está configurada.
+    la traza de herramientas que el agente invocó y las fuentes consultadas.
+    Lanza ValueError si la API key no está configurada.
     """
     if not _api_key_valida():
         raise ValueError(
@@ -266,14 +360,15 @@ def responder(mensaje: str, historial: list[dict] | None = None) -> tuple[str, l
     model = genai.GenerativeModel(
         model_name=settings.GEMINI_MODEL,
         system_instruction=SYSTEM_PROMPT,
-        tools=[consultar_pensum, consultar_horarios_udea, proponer_cargas, validar_carga],
+        tools=HERRAMIENTAS,
     )
     chat = model.start_chat(
         history=_a_history_gemini(historial or []),
         enable_automatic_function_calling=True,
     )
+    rag.iniciar_traza()
     respuesta = chat.send_message(mensaje)
-    return respuesta.text, _extraer_pasos(chat)
+    return respuesta.text, _extraer_pasos(chat), rag.fuentes_traza()
 
 
 _PROMPT_SUGERENCIAS = (

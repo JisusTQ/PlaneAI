@@ -1,7 +1,7 @@
 import { X, Check, Lock, Unlock, MessageSquareText } from "lucide-react";
 
 import { useApp } from "../lib/AppContext.jsx";
-import { esCo, esPre, etiquetaNivel } from "../lib/malla.js";
+import { esCo, esCreditos, esExterno, esPre, etiquetaNivel } from "../lib/malla.js";
 import { ListaGrupos } from "./Grupos.jsx";
 
 export function itemDeGrupo(m, g) {
@@ -20,17 +20,19 @@ export function itemDeGrupo(m, g) {
 const ESTADO_TXT = {
   aprobada: { t: "Aprobada", c: "ok", Icon: Check },
   habilitada: { t: "Puedes matricularla", c: "oro", Icon: Unlock },
-  bloqueada: { t: "Te faltan prerrequisitos", c: "", Icon: Lock },
+  bloqueada: { t: "Te faltan requisitos", c: "", Icon: Lock },
 };
 
 export default function PanelMateria({ codigo, onCerrar, onIr }) {
-  const { porCodigo, sucesores, estados, aprobadas, alternarAprobada, carga, setCarga, preguntarAlAsistente } = useApp();
+  const { porCodigo, sucesores, estados, aprobadas, alternarAprobada, carga, setCarga, preguntarAlAsistente, creditosAcumulados } = useApp();
   const m = porCodigo.get(codigo);
   if (!m) return null;
   const est = estados.get(codigo);
   const E = ESTADO_TXT[est];
   const pre = m.requisitos.filter(esPre);
   const co = m.requisitos.filter(esCo);
+  const cred = m.requisitos.filter(esCreditos);
+  const ext = m.requisitos.filter(esExterno);
   const desbloquea = sucesores.get(codigo) || [];
   const enCarga = carga.find((x) => x.codigo === codigo);
 
@@ -67,6 +69,14 @@ export default function PanelMateria({ codigo, onCerrar, onIr }) {
       <section className="pm-seccion">
         <h3>Prerrequisitos</h3>
         {pre.length ? <div className="chips-materia">{pre.map((r) => <Chip key={r.codigo} c={r.codigo} />)}</div> : <p className="ayuda">No tiene; puedes verla desde el inicio.</p>}
+        {cred.map((r) => (
+          <p key={`c${r.codigo}`} className={`etiqueta ${creditosAcumulados >= r.codigo ? "ok" : "aviso"}`}>
+            Exige {r.codigo} créditos aprobados (llevas {creditosAcumulados})
+          </p>
+        ))}
+        {ext.map((r) => (
+          <p key={`e${r.codigo}`} className="ayuda">Pide la materia {r.codigo}, que no está en la versión vigente del plan: confirma la equivalencia con tu asesor.</p>
+        ))}
       </section>
       {co.length > 0 && (
         <section className="pm-seccion">

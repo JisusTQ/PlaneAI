@@ -21,3 +21,4 @@ requests==2.32.3                 # Peticiones HTTP a los portales oficiales
 # ----- Testing / verificación -----
 httpx==0.28.1                    # Cliente HTTP para TestClient (smoke tests)
 pytest==8.3.4                    # Pruebas del motor (backend/tests)
+pytest-cov==6.0.0                # Reporte de cobertura (docs/resultados/cobertura.md)
