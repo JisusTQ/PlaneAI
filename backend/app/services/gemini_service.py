@@ -403,17 +403,21 @@ def responder(mensaje: str, historial: list[dict] | None = None) -> tuple[str, l
     if settings.GEMINI_MODEL_RESPALDO and settings.GEMINI_MODEL_RESPALDO != settings.GEMINI_MODEL:
         modelos.append(settings.GEMINI_MODEL_RESPALDO)
 
-    for i, modelo in enumerate(modelos):
+    error_principal: Exception | None = None
+    for modelo in modelos:
         try:
             return _conversar(modelo, mensaje, historial or [])
-        except gexc.ResourceExhausted as exc:
-            if i + 1 < len(modelos):
-                continue
-            raise CuotaAgotada("Se agotó por ahora la cuota gratuita de la API de Gemini. Intenta de nuevo en unos minutos.") from exc
-        except (gexc.ServiceUnavailable, gexc.DeadlineExceeded, gexc.RetryError, TimeoutError) as exc:
-            if i + 1 < len(modelos):
-                continue
-            raise IASaturada("El modelo de IA está saturado o no respondió a tiempo. Intenta de nuevo en un momento.") from exc
+        except (gexc.ResourceExhausted, gexc.ServiceUnavailable, gexc.DeadlineExceeded, gexc.RetryError, TimeoutError) as exc:
+            error_principal = error_principal or exc
+        except gexc.GoogleAPICallError:
+            # Un respaldo mal configurado (p. ej. modelo retirado, 404) no debe
+            # ocultar el error del modelo principal; si es el principal, se propaga.
+            if error_principal is None:
+                raise
+    if isinstance(error_principal, gexc.ResourceExhausted):
+        raise CuotaAgotada("Se agotó por ahora la cuota gratuita de la API de Gemini. Intenta de nuevo en unos minutos.") from error_principal
+    if error_principal is not None:
+        raise IASaturada("El modelo de IA está saturado o no respondió a tiempo. Intenta de nuevo en un momento.") from error_principal
     raise IASaturada("No hay modelo de IA disponible.")  # pragma: no cover
 
 

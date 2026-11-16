@@ -68,3 +68,17 @@ def test_error_no_expone_clave_ni_urls(monkeypatch):
     monkeypatch.setattr(g, "responder", falla)
     detalle = TestClient(app).post("/chat", json={"mensaje": "hola"}).json()["detail"]
     assert "AIza" not in detalle and "key=" not in detalle and "https://" not in detalle
+
+
+def test_respaldo_invalido_no_oculta_el_error_principal(monkeypatch, con_clave):
+    monkeypatch.setattr(g.settings, "GEMINI_MODEL", "principal")
+    monkeypatch.setattr(g.settings, "GEMINI_MODEL_RESPALDO", "modelo-retirado")
+
+    def conversar(modelo, mensaje, historial):
+        if modelo == "principal":
+            raise gexc.DeadlineExceeded("timeout")
+        raise gexc.NotFound("model is no longer available")
+
+    monkeypatch.setattr(g, "_conversar", conversar)
+    with pytest.raises(g.IASaturada):
+        g.responder("hola")
