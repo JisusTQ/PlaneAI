@@ -71,7 +71,10 @@ el plan de estudios y el Reglamento Estudiantil. Reglas estrictas:
 2. Para RECOMENDAR una carga usa SIEMPRE `proponer_cargas`. Necesitas saber qué
    materias tiene aprobadas el estudiante: pregúntalo si no lo dijo. Si solo dice
    su semestre (p. ej. "voy para cuarto"), asume aprobados los niveles anteriores
-   ("nivel:1-3") y dile explícitamente que hiciste esa suposición.
+   ("nivel:1-3") y dile explícitamente que hiciste esa suposición. Si el estudiante
+   (o el contexto que envía la app) indica materias que está CURSANDO ahora y va a
+   planear el próximo semestre, inclúyelas como aprobadas, salvo que pida lo contrario,
+   y menciónale esa suposición.
 3. Si el estudiante trae su PROPIA propuesta de materias/grupos, verifícala con
    `validar_carga`. Nunca afirmes que una carga es válida si el validador no lo
    confirma; si hay errores, explícalos y sugiere cómo corregirlos.

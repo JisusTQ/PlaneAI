@@ -13,7 +13,7 @@ const PASOS = [
 ];
 
 export default function Inicio() {
-  const { ir, malla, aprobadas, habilitadas, servidor } = useApp();
+  const { ir, malla, aprobadas, habilitadas, servidor, cursando, creditosCursando } = useApp();
   const [resumen, setResumen] = useState(null);
 
   useEffect(() => {
@@ -40,7 +40,9 @@ export default function Inicio() {
           </div>
           {tieneHistoria && malla.estado === "ok" && (
             <p className="hero-estado">
-              Tienes <b className="num">{aprobadas.size}</b> materias aprobadas y <b className="num">{habilitadas.length}</b> disponibles para matricular.
+              Tienes <b className="num">{aprobadas.size}</b> materias aprobadas
+              {cursando.size > 0 && <>, estás cursando <b className="num">{cursando.size}</b> ({creditosCursando} créditos)</>} y{" "}
+              <b className="num">{habilitadas.length}</b> disponibles para matricular.
             </p>
           )}
         </div>

@@ -245,11 +245,15 @@ def proponer_cargas(
     k: int = 3,
     franja: str | None = None,
     incluir_electivas: bool = False,
+    excluir: frozenset[int] | set[int] = frozenset(),
 ) -> list[dict]:
     """Genera hasta k cargas distintas que cumplen TODAS las restricciones duras,
-    priorizando materias críticas y de niveles bajos."""
+    priorizando materias críticas y de niveles bajos. `excluir`: materias que no
+    deben proponerse (p. ej. las que el estudiante está cursando ahora)."""
     candidatas = []
     for m in materias_habilitadas(pensum_idx, aprobadas, incluir_electivas):
+        if m.codigo in excluir:
+            continue
         ofertada = oferta_idx.get(str(m.codigo))
         if not ofertada:
             continue
@@ -368,10 +372,18 @@ def _limites(creditos_max: int | None) -> tuple[int, int]:
     return s.CREDITOS_MIN, creditos_max or s.CREDITOS_MAX
 
 
-def validar_en_vivo(aprobadas: set[int], propuesta: list[Eleccion], creditos_max: int | None = None) -> Resultado:
+def validar_en_vivo(
+    aprobadas: set[int], propuesta: list[Eleccion], creditos_max: int | None = None, cursando: set[int] | None = None
+) -> Resultado:
     p_idx, o_idx = _indices()
     cmin, cmax = _limites(creditos_max)
-    return validar_carga(p_idx, o_idx, aprobadas, propuesta, cmin, cmax)
+    r = validar_carga(p_idx, o_idx, aprobadas, propuesta, cmin, cmax)
+    for e in propuesta:
+        if cursando and e.codigo in cursando and e.codigo not in aprobadas and e.codigo in p_idx:
+            r.advertencias.append(
+                {"tipo": "cursando", "codigo": e.codigo, "mensaje": f"{p_idx[e.codigo].nombre} la estás cursando este semestre; inclúyela solo si crees que no la aprobarás."}
+            )
+    return r
 
 
 def proponer_en_vivo(
@@ -380,9 +392,11 @@ def proponer_en_vivo(
     franja: str | None = None,
     k: int = 3,
     incluir_electivas: bool = False,
+    excluir: set[int] | None = None,
 ) -> list[dict]:
     p_idx, o_idx = _indices()
     cmin, cmax = _limites(creditos_max)
     return proponer_cargas(
-        p_idx, o_idx, grafo.criticidad_en_vivo(), aprobadas, cmin, cmax, k=k, franja=franja, incluir_electivas=incluir_electivas
+        p_idx, o_idx, grafo.criticidad_en_vivo(), aprobadas, cmin, cmax, k=k, franja=franja,
+        incluir_electivas=incluir_electivas, excluir=frozenset(excluir or ()),
     )

@@ -87,7 +87,7 @@ function Respuesta({ m }) {
 }
 
 export default function Asistente() {
-  const { aprobadas, preguntaPendiente, setPreguntaPendiente, malla } = useApp();
+  const { aprobadas, cursando, proyectar, preguntaPendiente, setPreguntaPendiente, malla } = useApp();
   const [mensajes, setMensajes] = useState(() => leer("chat-actual", []));
   const [historial, setHistorial] = useState(() => leer("chat-historial", []));
   const [verHistorial, setVerHistorial] = useState(false);
@@ -113,10 +113,17 @@ export default function Asistente() {
     }
   }, [preguntaPendiente]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const contexto = () =>
-    usarHistoria && aprobadas.size
-      ? `[Contexto del estudiante, enviado por la app: materias aprobadas (códigos): ${[...aprobadas].join(", ")}]\n\n`
-      : "";
+  const contexto = () => {
+    if (!usarHistoria || (!aprobadas.size && !cursando.size)) return "";
+    const partes = [];
+    if (aprobadas.size) partes.push(`materias aprobadas (códigos): ${[...aprobadas].join(", ")}`);
+    if (cursando.size)
+      partes.push(
+        `materias que está cursando este semestre (códigos): ${[...cursando].join(", ")}` +
+          (proyectar ? "; para planear el próximo semestre supón que las aprueba" : "; NO supongas que las aprueba y no se las propongas de nuevo")
+      );
+    return `[Contexto del estudiante, enviado por la app: ${partes.join(". ")}]\n\n`;
+  };
 
   async function pedir(conversacion) {
     setCargando(true);

@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Sparkles, Hand, ShieldCheck, Wand2, MessageSquareText, PencilLine, Trash2, ChevronDown, Search,
-  CheckCircle2, XCircle, AlertTriangle, Network, Loader2, User, MapPin,
+  CheckCircle2, XCircle, AlertTriangle, Network, Loader2, User, MapPin, BookOpenCheck, Save,
 } from "lucide-react";
 
 import { useApp } from "../lib/AppContext.jsx";
@@ -17,13 +17,19 @@ import { itemDeGrupo } from "../components/PanelMateria.jsx";
 const VERIFICACIONES = ["Prerrequisitos", "Correquisitos", "Oferta y cupos", "Sin choques de horario", "Tope de créditos"];
 
 function PuntoDePartida() {
-  const { aprobadas, habilitadas, creditosAprobados, ir } = useApp();
+  const { aprobadas, habilitadas, creditosAprobados, ir, cursando, creditosCursando, proyectar, setProyectar } = useApp();
   return (
     <div className="partida">
       <div>
         <b className="num">{aprobadas.size}</b>
         <span>materias aprobadas</span>
       </div>
+      {cursando.size > 0 && (
+        <div>
+          <b className="num">{cursando.size}</b>
+          <span>cursando ({creditosCursando} cr)</span>
+        </div>
+      )}
       <div>
         <b className="num">{habilitadas.length}</b>
         <span>disponibles para ti</span>
@@ -35,7 +41,73 @@ function PuntoDePartida() {
       <button className="btn fantasma chico" onClick={() => ir("malla")}>
         <Network size={15} /> Editar en la malla
       </button>
+      {cursando.size > 0 && (
+        <label className="interruptor">
+          <input type="checkbox" checked={proyectar} onChange={(e) => setProyectar(e.target.checked)} />
+          Suponer que apruebo lo que estoy cursando
+        </label>
+      )}
     </div>
+  );
+}
+
+/** Guarda una carga (con grupos y horario) como la matrícula del semestre actual. */
+function BotonGuardarMatricula({ items }) {
+  const { guardarMatricula, matricula } = useApp();
+  const [hecho, setHecho] = useState(false);
+  if (!items.length) return null;
+  return (
+    <button
+      className="btn secundario"
+      onClick={() => {
+        if (matricula.length && !window.confirm?.("Ya tienes una matrícula guardada. ¿Reemplazarla por esta carga?")) return;
+        guardarMatricula(items.map(({ color, choque, fantasma, ...resto }) => resto)); // eslint-disable-line no-unused-vars
+        setHecho(true);
+        setTimeout(() => setHecho(false), 2200);
+      }}
+    >
+      {hecho ? <CheckCircle2 size={16} /> : <Save size={16} />} {hecho ? "Guardada como tu matrícula" : "Guardar como mi matrícula actual"}
+    </button>
+  );
+}
+
+function SemestreActual({ onPlanear }) {
+  const { matricula, guardarMatricula, creditosCursando, ir } = useApp();
+  const items = matricula.map((c, i) => ({ ...c, color: colorDe(i) }));
+  const conHorario = items.filter((x) => x.horario?.length);
+  const choques = useMemo(() => codigosEnChoque(conHorario), [conHorario]);
+  if (!matricula.length)
+    return (
+      <div className="vacio semestre-actual">
+        <BookOpenCheck size={26} />
+        <p className="subtitulo">Aún no has registrado lo que estás cursando</p>
+        <p>
+          Hay tres formas: guarda una carga del planificador con «Guardar como mi matrícula actual», marca las materias en la malla con «Marcar → Cursando ahora», o pega tu matrícula de MARES en «Cargar mi historia».
+        </p>
+        <div className="alt-acciones">
+          <button className="btn primario" onClick={onPlanear}><Sparkles size={16} /> Ir a armar la carga</button>
+          <button className="btn secundario" onClick={() => ir("malla")}><Network size={16} /> Marcar en la malla</button>
+        </div>
+      </div>
+    );
+  return (
+    <section className="plan-resultado semestre-actual">
+      <div className="semestre-cab">
+        <div className="medidor">
+          <span><b className="num">{matricula.length}</b> materias · <b className="num">{creditosCursando}</b> créditos</span>
+          {choques.size > 0 && <span className="con-choque"><XCircle size={15} /> {choques.size} materias se cruzan</span>}
+        </div>
+        <button className="btn fantasma chico" onClick={() => window.confirm?.("¿Borrar tu matrícula actual?") && guardarMatricula([])}>
+          <Trash2 size={15} /> Borrar matrícula
+        </button>
+      </div>
+      {conHorario.length > 0 ? (
+        <Horario items={conHorario} />
+      ) : (
+        <p className="ayuda">Estas materias se marcaron sin grupo, así que no hay horario que mostrar. Si guardas la carga desde el planificador, queda también el horario.</p>
+      )}
+      <ListaCarga items={items} choques={choques} onQuitar={(c) => guardarMatricula(matricula.filter((x) => x.codigo !== c))} />
+    </section>
   );
 }
 
@@ -78,7 +150,7 @@ function ListaCarga({ items, choques, onQuitar }) {
 }
 
 function ModoMotor({ onEditar }) {
-  const { aprobadas, preguntarAlAsistente } = useApp();
+  const { aprobadasPlan, cursando, proyectar, preguntarAlAsistente } = useApp();
   const [creditos, setCreditos] = useState(20);
   const [franja, setFranja] = useState("");
   const [electivas, setElectivas] = useState(false);
@@ -88,7 +160,13 @@ function ModoMotor({ onEditar }) {
   async function generar() {
     setEstado({ cargando: true, cargas: estado.cargas, error: null });
     try {
-      const cargas = await proponerCargas({ aprobadas: [...aprobadas], creditosMax: creditos, franja, incluirElectivas: electivas });
+      const cargas = await proponerCargas({
+        aprobadas: [...aprobadasPlan],
+        creditosMax: creditos,
+        franja,
+        incluirElectivas: electivas,
+        excluir: proyectar ? [] : [...cursando],
+      });
       setEstado({ cargando: false, cargas, error: null });
       setIdx(0);
     } catch (e) {
@@ -186,6 +264,7 @@ function ModoMotor({ onEditar }) {
             <ListaCarga items={items} />
             <div className="alt-acciones">
               <button className="btn secundario" onClick={() => onEditar(items)}><PencilLine size={16} /> Ajustar a mano</button>
+              <BotonGuardarMatricula items={items} />
               <button className="btn fantasma" onClick={explicar}><MessageSquareText size={16} /> Pedir explicación al asistente</button>
             </div>
           </motion.div>
@@ -196,7 +275,7 @@ function ModoMotor({ onEditar }) {
 }
 
 function ModoManual() {
-  const { aprobadas, habilitadas, carga, setCarga, preguntarAlAsistente } = useApp();
+  const { aprobadasPlan, cursando, habilitadas, carga, setCarga, preguntarAlAsistente } = useApp();
   const [abierta, setAbierta] = useState(null);
   const [fantasma, setFantasma] = useState(null);
   const [q, setQ] = useState("");
@@ -215,7 +294,7 @@ function ModoManual() {
   async function validar() {
     setValidacion({ cargando: true, r: null, error: null, firma });
     try {
-      const r = await validarCarga({ aprobadas: [...aprobadas], propuesta: carga.map((c) => ({ codigo: c.codigo, grupo: c.grupo })) });
+      const r = await validarCarga({ aprobadas: [...aprobadasPlan], propuesta: carga.map((c) => ({ codigo: c.codigo, grupo: c.grupo })), cursando: [...cursando] });
       setValidacion({ cargando: false, r, error: null, firma });
     } catch (e) {
       setValidacion({ cargando: false, r: null, error: e.message, firma });
@@ -282,6 +361,7 @@ function ModoManual() {
           </div>
           <div className="manual-acciones">
             {carga.length > 0 && <button className="btn fantasma chico" onClick={() => setCarga([])}><Trash2 size={15} /> Vaciar</button>}
+            <BotonGuardarMatricula items={carga} />
             <button className="btn primario" onClick={validar} disabled={!carga.length || validacion.cargando}>
               {validacion.cargando ? <Loader2 size={16} className="gira" /> : <ShieldCheck size={16} />} Validar con el motor
             </button>
@@ -322,7 +402,7 @@ function ModoManual() {
 }
 
 export default function Planificador() {
-  const { malla, setCarga } = useApp();
+  const { malla, setCarga, matricula } = useApp();
   const [modo, setModo] = useState("motor");
 
   return (
@@ -339,6 +419,7 @@ export default function Planificador() {
           opciones={[
             { v: "motor", t: "Que el motor proponga", Icon: Sparkles },
             { v: "manual", t: "Armar a mano", Icon: Hand },
+            { v: "actual", t: `Mi semestre actual${matricula.length ? ` (${matricula.length})` : ""}`, Icon: BookOpenCheck },
           ]}
         />
       </div>
@@ -346,7 +427,9 @@ export default function Planificador() {
       {malla.estado === "cargando" && <div className="esqueleto" style={{ height: 360 }} />}
       {malla.estado === "error" && <div className="aviso-caja error">No se pudo cargar el pensum: {malla.error}</div>}
       {malla.estado === "ok" &&
-        (modo === "motor" ? (
+        (modo === "actual" ? (
+          <SemestreActual onPlanear={() => setModo("motor")} />
+        ) : modo === "motor" ? (
           <ModoMotor
             onEditar={(items) => {
               setCarga(items.map(({ color, ...resto }) => resto)); // eslint-disable-line no-unused-vars

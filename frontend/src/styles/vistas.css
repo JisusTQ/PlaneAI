@@ -567,3 +567,15 @@ a.fuente:hover { text-decoration: underline; }
 .ml-item.espacio { border: 0; outline: 1px dashed var(--tinta-3); outline-offset: -4px; border-radius: 10px; color: var(--tinta-2); cursor: default; }
 .ml-item.espacio .ml-marca { visibility: hidden; }
 .ml-item.espacio small { font-weight: 500; }
+
+/* Estado "cursando" (matrícula actual) */
+.ley.cursando { background: var(--azul-suave); border: 2px solid var(--azul); }
+.nodo.cursando .nodo-caja { fill: var(--azul-suave); stroke: var(--azul); stroke-width: 2; }
+.nodo.cursando .nodo-texto { fill: var(--tinta); }
+.nodo.cursando .nodo-cred-bg { fill: var(--azul); stroke: none; }
+.nodo.cursando .nodo-cred { fill: var(--superficie); }
+.ml-item.cursando .ml-marca { background: var(--azul-suave); border-color: var(--azul); border-width: 2px; }
+.etiqueta.azul { background: var(--azul-suave); color: var(--azul); }
+.proyeccion { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.semestre-actual .vacio { margin-top: 8px; }
+.semestre-cab { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }

@@ -7,8 +7,9 @@ import { detectarCodigos, NIVEL_ELECTIVAS } from "../lib/malla.js";
 
 /** Carga de datos: el estudiante elige su semestre o pega su historia académica (se procesa solo en el navegador). */
 export default function ImportarHistoria({ onCerrar }) {
-  const { malla, porCodigo, guardarAprobadas, marcarHastaNivel, aprobadas } = useApp();
+  const { malla, porCodigo, guardarAprobadas, marcarHastaNivel, aprobadas, matricula, guardarMatricula } = useApp();
   const [texto, setTexto] = useState("");
+  const [destino, setDestino] = useState("aprobadas");
   const niveles = useMemo(() => [...new Set(malla.materias.map((m) => m.nivel))].filter((n) => n !== NIVEL_ELECTIVAS).sort((a, b) => a - b), [malla.materias]);
   const detectados = useMemo(() => detectarCodigos(texto, porCodigo), [texto, porCodigo]);
 
@@ -43,19 +44,29 @@ export default function ImportarHistoria({ onCerrar }) {
         </section>
 
         <section className="modal-seccion">
-          <h3>La forma exacta: pega tu historia de MARES</h3>
+          <h3>La forma exacta: pega tu historia o tu matrícula de MARES</h3>
           <p className="ayuda">
-            Copia la tabla de materias aprobadas desde el portal y pégala aquí. PlaneAI reconoce los códigos de 7 dígitos del pensum.
+            Copia la tabla desde el portal y pégala aquí. PlaneAI reconoce los códigos de 7 dígitos del pensum.
           </p>
+          <div className="niveles-rapidos" role="radiogroup" aria-label="Qué estás pegando">
+            <button role="radio" aria-checked={destino === "aprobadas"} className={`btn chico ${destino === "aprobadas" ? "primario" : "secundario"}`} onClick={() => setDestino("aprobadas")}>Materias aprobadas</button>
+            <button role="radio" aria-checked={destino === "cursando"} className={`btn chico ${destino === "cursando" ? "primario" : "secundario"}`} onClick={() => setDestino("cursando")}>Mi matrícula actual (cursando)</button>
+          </div>
           <textarea className="area" value={texto} onChange={(e) => setTexto(e.target.value)} placeholder="Pega aquí el texto de tu historia académica…" />
           <div className="importar-pie">
             <span className="ayuda"><ShieldCheck size={14} /> El texto no sale de tu navegador.</span>
             <button
               className="btn primario chico"
               disabled={!detectados.size}
-              onClick={() => { guardarAprobadas(new Set([...aprobadas, ...detectados])); onCerrar(); }}
+              onClick={() => {
+                if (destino === "cursando") {
+                  const nuevos = [...detectados].filter((c) => !aprobadas.has(c) && !matricula.some((x) => x.codigo === c));
+                  guardarMatricula([...matricula, ...nuevos.map((c) => ({ codigo: c, nombre: porCodigo.get(c).nombre, creditos: porCodigo.get(c).creditos }))]);
+                } else guardarAprobadas(new Set([...aprobadas, ...detectados]));
+                onCerrar();
+              }}
             >
-              <ClipboardPaste size={15} /> {detectados.size ? `Agregar ${detectados.size} materias` : "Sin códigos reconocidos"}
+              <ClipboardPaste size={15} /> {detectados.size ? `Agregar ${detectados.size} materias ${destino === "cursando" ? "como cursando" : "como aprobadas"}` : "Sin códigos reconocidos"}
             </button>
           </div>
         </section>

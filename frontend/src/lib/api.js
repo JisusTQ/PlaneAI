@@ -39,7 +39,7 @@ export const listarCursos = (nivel) => pedir(`/cursos${nivel ? `?nivel=${nivel}`
 export const obtenerGrupos = (codigo) => pedir(`/cursos/${codigo}/grupos`);
 
 // OE2 — motor determinista
-export const proponerCargas = ({ aprobadas, creditosMax, franja, incluirElectivas }) =>
+export const proponerCargas = ({ aprobadas, creditosMax, franja, incluirElectivas, excluir = [] }) =>
   pedir(
     "/planeacion/proponer",
     post({
@@ -48,11 +48,12 @@ export const proponerCargas = ({ aprobadas, creditosMax, franja, incluirElectiva
       franja: franja || null,
       k: 3,
       incluir_electivas: !!incluirElectivas,
+      excluir,
     })
   );
 
-export const validarCarga = ({ aprobadas, propuesta, creditosMax }) =>
-  pedir("/planeacion/validar", post({ aprobadas, propuesta, creditos_max: creditosMax || null }));
+export const validarCarga = ({ aprobadas, propuesta, creditosMax, cursando = [] }) =>
+  pedir("/planeacion/validar", post({ aprobadas, propuesta, creditos_max: creditosMax || null, cursando }));
 
 // OE3 — asistente conversacional
 export const enviarMensaje = (mensaje, historial = []) =>

@@ -92,11 +92,42 @@ export function AppProvider({ children }) {
     setAprobadasArr(arr);
     escribir("aprobadas", arr);
   };
+  // --- Matrícula actual: lo que el estudiante está cursando este semestre ---
+  // Ítems {codigo, nombre, creditos, grupo?, horario?, profesor?, aula?}; se guardan en el navegador.
+  const [matricula, setMatriculaState] = useState(() => leer("matricula", []));
+  const guardarMatricula = (items) => {
+    setMatriculaState(items);
+    escribir("matricula", items);
+  };
+  const cursando = useMemo(() => new Set(matricula.map((x) => x.codigo)), [matricula]);
+  // Al planear el próximo semestre, por defecto se supone que lo que se cursa se aprueba.
+  const [proyectar, setProyectarState] = useState(() => leer("proyectar", true));
+  const setProyectar = (v) => {
+    setProyectarState(v);
+    escribir("proyectar", v);
+  };
+  const aprobadasPlan = useMemo(() => (proyectar ? new Set([...aprobadas, ...cursando]) : aprobadas), [proyectar, aprobadas, cursando]);
+
+  const alternarCursando = (codigo) => {
+    if (cursando.has(codigo)) return guardarMatricula(matricula.filter((x) => x.codigo !== codigo));
+    const m = malla.materias.find((x) => x.codigo === codigo);
+    if (!m) return;
+    if (aprobadas.has(codigo)) {
+      const s = new Set(aprobadas);
+      s.delete(codigo);
+      guardarAprobadas(s);
+    }
+    guardarMatricula([...matricula, { codigo, nombre: m.nombre, creditos: m.creditos }]);
+  };
   const alternarAprobada = (codigo) => {
     const s = new Set(aprobadas);
     s.has(codigo) ? s.delete(codigo) : s.add(codigo);
     guardarAprobadas(s);
+    if (s.has(codigo) && cursando.has(codigo)) guardarMatricula(matricula.filter((x) => x.codigo !== codigo)); // ya la aprobó
   };
+  // En el modo "Marcar" de la malla se elige qué se marca: aprobadas o cursando.
+  const [marcarComo, setMarcarComo] = useState("aprobada");
+  const marcar = (codigo) => (marcarComo === "cursando" ? alternarCursando(codigo) : alternarAprobada(codigo));
   const marcarHastaNivel = (nivel) => {
     guardarAprobadas(new Set(malla.materias.filter((m) => m.nivel !== NIVEL_ELECTIVAS && m.nivel < nivel).map((m) => m.codigo)));
   };
@@ -105,7 +136,15 @@ export function AppProvider({ children }) {
     const { porCodigo, sucesores } = indices(malla.materias);
     // Créditos de todo lo aprobado (obligatorias y electivas): base de los requisitos por créditos.
     const creditosAcumulados = malla.materias.filter((m) => aprobadas.has(m.codigo)).reduce((a, m) => a + m.creditos, 0);
-    const estados = new Map(malla.materias.map((m) => [m.codigo, estadoMateria(m, aprobadas, creditosAcumulados)]));
+    // Para habilitar materias se usa la historia proyectada (aprobadas + cursando, si se proyecta).
+    const creditosPlan = malla.materias.filter((m) => aprobadasPlan.has(m.codigo)).reduce((a, m) => a + m.creditos, 0);
+    const estados = new Map(
+      malla.materias.map((m) => [
+        m.codigo,
+        aprobadas.has(m.codigo) ? "aprobada" : cursando.has(m.codigo) ? "cursando" : estadoMateria(m, aprobadasPlan, creditosPlan),
+      ])
+    );
+    const creditosCursando = matricula.reduce((a, x) => a + (x.creditos || 0), 0);
     const obligatorias = malla.materias.filter((m) => m.nivel !== NIVEL_ELECTIVAS);
     // Créditos para grado (168 en el plan V.5): obligatorias + espacios electivos.
     const creditosObligatorios = obligatorias.reduce((a, m) => a + m.creditos, 0);
@@ -115,8 +154,8 @@ export function AppProvider({ children }) {
     const creditosAprobados =
       obligatorias.filter((m) => aprobadas.has(m.codigo)).reduce((a, m) => a + m.creditos, 0) + Math.min(electivasAprobadas, creditosElectivos || electivasAprobadas);
     const habilitadas = malla.materias.filter((m) => estados.get(m.codigo) === "habilitada");
-    return { porCodigo, sucesores, estados, obligatorias, creditosTotales, creditosAprobados, creditosAcumulados, habilitadas };
-  }, [malla.materias, malla.espacios, malla.creditosGrado, aprobadas]);
+    return { porCodigo, sucesores, estados, obligatorias, creditosTotales, creditosAprobados, creditosAcumulados, creditosCursando, habilitadas };
+  }, [malla.materias, malla.espacios, malla.creditosGrado, aprobadas, aprobadasPlan, cursando, matricula]);
 
   // --- Carga armada a mano en el planificador (persistida) ---
   const [carga, setCargaState] = useState(() => leer("carga", []));
@@ -137,6 +176,8 @@ export function AppProvider({ children }) {
   const valor = {
     vista, ir, tema, setTema, servidor,
     malla, cargarMalla, aprobadas, alternarAprobada, guardarAprobadas, marcarHastaNivel,
+    matricula, guardarMatricula, cursando, alternarCursando, proyectar, setProyectar, aprobadasPlan,
+    marcarComo, setMarcarComo, marcar,
     ...derivados,
     carga, setCarga,
     preguntaPendiente, setPreguntaPendiente, preguntarAlAsistente,

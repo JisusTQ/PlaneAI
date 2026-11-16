@@ -13,7 +13,7 @@ const sinTilde = (t) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLow
  * - En modo "marcar" un clic alterna la materia como aprobada.
  */
 export default function MallaGrafo({ modo, color, seleccion, onSeleccion, busqueda, incluirElectivas }) {
-  const { malla, estados, porCodigo, sucesores, aprobadas, alternarAprobada } = useApp();
+  const { malla, estados, porCodigo, sucesores, aprobadas, cursando, marcar, marcarComo } = useApp();
   const espacios = useMemo(() => (incluirElectivas ? [] : malla.espacios || []), [malla.espacios, incluirElectivas]);
   const layout = useMemo(() => disponer(malla.materias, { incluirElectivas, espacios }), [malla.materias, incluirElectivas, espacios]);
   const [hover, setHover] = useState(null);
@@ -82,7 +82,7 @@ export default function MallaGrafo({ modo, color, seleccion, onSeleccion, busque
 
   const activar = (codigo) => {
     if (arrastre.current?.movio) return;
-    if (modo === "marcar") alternarAprobada(codigo);
+    if (modo === "marcar") marcar(codigo);
     onSeleccion(codigo === seleccion && modo !== "marcar" ? null : codigo);
   };
 
@@ -148,7 +148,7 @@ export default function MallaGrafo({ modo, color, seleccion, onSeleccion, busque
                 style={color === "criticidad" ? { "--calor": `${Math.round(8 + calor * 82)}%` } : undefined}
                 tabIndex={0}
                 role="button"
-                aria-pressed={modo === "marcar" ? aprobadas.has(codigo) : seleccion === codigo}
+                aria-pressed={modo === "marcar" ? (marcarComo === "cursando" ? cursando : aprobadas).has(codigo) : seleccion === codigo}
                 aria-label={`${m.nombre}, ${etiquetaNivel(m.nivel)}, ${m.creditos} créditos, ${est}`}
                 onMouseEnter={() => setHover(codigo)}
                 onMouseLeave={() => setHover(null)}

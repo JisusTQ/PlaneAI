@@ -1,4 +1,4 @@
-import { X, Check, Lock, Unlock, MessageSquareText } from "lucide-react";
+import { X, Check, Lock, Unlock, MessageSquareText, BookOpenCheck } from "lucide-react";
 
 import { useApp } from "../lib/AppContext.jsx";
 import { esCo, esCreditos, esExterno, esPre, etiquetaNivel } from "../lib/malla.js";
@@ -21,10 +21,11 @@ const ESTADO_TXT = {
   aprobada: { t: "Aprobada", c: "ok", Icon: Check },
   habilitada: { t: "Puedes matricularla", c: "oro", Icon: Unlock },
   bloqueada: { t: "Te faltan requisitos", c: "", Icon: Lock },
+  cursando: { t: "La estás cursando", c: "azul", Icon: BookOpenCheck },
 };
 
 export default function PanelMateria({ codigo, onCerrar, onIr }) {
-  const { porCodigo, sucesores, estados, aprobadas, alternarAprobada, carga, setCarga, preguntarAlAsistente, creditosAcumulados } = useApp();
+  const { porCodigo, sucesores, estados, aprobadas, alternarAprobada, cursando, alternarCursando, carga, setCarga, preguntarAlAsistente, creditosAcumulados } = useApp();
   const m = porCodigo.get(codigo);
   if (!m) return null;
   const est = estados.get(codigo);
@@ -61,6 +62,11 @@ export default function PanelMateria({ codigo, onCerrar, onIr }) {
         <button className={`btn ${aprobadas.has(codigo) ? "secundario" : "primario"} chico`} onClick={() => alternarAprobada(codigo)}>
           <Check size={15} /> {aprobadas.has(codigo) ? "Quitar de aprobadas" : "Marcar como aprobada"}
         </button>
+        {!aprobadas.has(codigo) && (
+          <button className="btn secundario chico" onClick={() => alternarCursando(codigo)}>
+            <BookOpenCheck size={15} /> {cursando.has(codigo) ? "Ya no la curso" : "La estoy cursando"}
+          </button>
+        )}
         <button className="btn fantasma chico" onClick={() => preguntarAlAsistente(`¿Qué necesito para ver ${m.nombre} y qué me desbloquea?`)}>
           <MessageSquareText size={15} /> Preguntar
         </button>

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, MousePointerClick, Eye, Flame, CircleDot, Upload, List, Network, Check, RefreshCw } from "lucide-react";
+import { Search, MousePointerClick, Eye, Flame, CircleDot, Upload, List, Network, Check, RefreshCw, BookOpenCheck } from "lucide-react";
 
 import { useApp } from "../lib/AppContext.jsx";
 import { etiquetaNivel, NIVEL_ELECTIVAS } from "../lib/malla.js";
@@ -20,7 +20,7 @@ function useAncho() {
 }
 
 function MallaLista({ incluirElectivas, busqueda, onSeleccion, modo }) {
-  const { malla, estados, aprobadas, alternarAprobada } = useApp();
+  const { malla, estados, aprobadas, cursando, marcar, marcarComo } = useApp();
   const t = busqueda.trim().toLowerCase();
   const espacios = incluirElectivas ? [] : malla.espacios || [];
   const niveles = [...new Set([...malla.materias.map((m) => m.nivel), ...espacios.map((e) => e.nivel)])].filter((n) => incluirElectivas || n !== NIVEL_ELECTIVAS).sort((a, b) => a - b);
@@ -44,8 +44,8 @@ function MallaLista({ incluirElectivas, busqueda, onSeleccion, modo }) {
                   <button
                     key={m.codigo}
                     className={`ml-item ${est}`}
-                    onClick={() => (modo === "marcar" ? alternarAprobada(m.codigo) : onSeleccion(m.codigo))}
-                    aria-pressed={modo === "marcar" ? aprobadas.has(m.codigo) : undefined}
+                    onClick={() => (modo === "marcar" ? marcar(m.codigo) : onSeleccion(m.codigo))}
+                    aria-pressed={modo === "marcar" ? (marcarComo === "cursando" ? cursando : aprobadas).has(m.codigo) : undefined}
                   >
                     <i className="ml-marca">{est === "aprobada" && <Check size={13} strokeWidth={3} />}</i>
                     <span>{m.nombre}</span>
@@ -69,7 +69,7 @@ function MallaLista({ incluirElectivas, busqueda, onSeleccion, modo }) {
 }
 
 export default function Malla() {
-  const { malla, cargarMalla, aprobadas, creditosAprobados, creditosTotales, habilitadas, servidor } = useApp();
+  const { malla, cargarMalla, aprobadas, creditosAprobados, creditosTotales, habilitadas, servidor, cursando, creditosCursando, proyectar, setProyectar, marcarComo, setMarcarComo } = useApp();
   const ancho = useAncho();
   const [modo, setModo] = useState("explorar");
   const [color, setColor] = useState("estado");
@@ -109,12 +109,14 @@ export default function Malla() {
       {malla.estado === "ok" && (
         <div className="malla-resumen">
           <div><b className="num">{aprobadas.size}</b> aprobadas</div>
+          {cursando.size > 0 && <div><b className="num">{cursando.size}</b> cursando ({creditosCursando} cr)</div>}
           <div><b className="num">{habilitadas.length}</b> disponibles para matricular</div>
           <div><b className="num">{creditosAprobados}/{creditosTotales}</b> créditos</div>
           <div className="malla-leyenda" aria-label="Leyenda">
             {color === "estado" ? (
               <>
                 <span><i className="ley aprobada" /> Aprobada</span>
+                <span><i className="ley cursando" /> Cursando</span>
                 <span><i className="ley habilitada" /> Disponible</span>
                 <span><i className="ley bloqueada" /> Bloqueada</span>
                 <span><i className="ley linea co" /> Correquisito</span>
@@ -133,7 +135,7 @@ export default function Malla() {
           onChange={setModo}
           opciones={[
             { v: "explorar", t: "Explorar", Icon: Eye },
-            { v: "marcar", t: "Marcar aprobadas", Icon: MousePointerClick },
+            { v: "marcar", t: "Marcar", Icon: MousePointerClick },
           ]}
         />
         <Segmentado
@@ -168,11 +170,26 @@ export default function Malla() {
 
       <AnimatePresence>
         {modo === "marcar" && (
-          <motion.p className="aviso-caja ok malla-tip" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
-            <MousePointerClick size={16} /> Toca cada materia que ya aprobaste. Se guarda automáticamente en este navegador.
-          </motion.p>
+          <motion.div className="aviso-caja ok malla-tip proyeccion" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
+            <Segmentado
+              etiqueta="Qué marcar"
+              valor={marcarComo}
+              onChange={setMarcarComo}
+              opciones={[
+                { v: "aprobada", t: "Aprobadas", Icon: Check },
+                { v: "cursando", t: "Cursando ahora", Icon: BookOpenCheck },
+              ]}
+            />
+            <span><MousePointerClick size={16} /> {marcarComo === "cursando" ? "Toca las materias que estás viendo este semestre." : "Toca cada materia que ya aprobaste."} Se guarda en este navegador.</span>
+          </motion.div>
         )}
       </AnimatePresence>
+      {malla.estado === "ok" && cursando.size > 0 && (
+        <label className="interruptor malla-proyectar">
+          <input type="checkbox" checked={proyectar} onChange={(e) => setProyectar(e.target.checked)} />
+          Planear el próximo semestre suponiendo que apruebo lo que estoy cursando
+        </label>
+      )}
 
       {malla.estado === "cargando" && (
         <div className="malla-cargando">

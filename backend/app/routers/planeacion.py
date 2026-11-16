@@ -23,6 +23,7 @@ class ValidarIn(BaseModel):
     aprobadas: list[int] = Field(default_factory=list, description="Códigos de materias aprobadas")
     propuesta: list[EleccionIn]
     creditos_max: int | None = None
+    cursando: list[int] = Field(default_factory=list, description="Materias que el estudiante cursa ahora (solo para avisos)")
 
 
 class ProponerIn(BaseModel):
@@ -31,6 +32,7 @@ class ProponerIn(BaseModel):
     franja: str | None = Field(None, description="manana | tarde | noche")
     k: int = Field(3, ge=1, le=5)
     incluir_electivas: bool = False
+    excluir: list[int] = Field(default_factory=list, description="Materias que no deben proponerse (p. ej. las que cursa ahora)")
 
 
 def _fallo_portal(exc: Exception) -> HTTPException:
@@ -93,6 +95,7 @@ def validar(peticion: ValidarIn):
             set(peticion.aprobadas),
             [motor.Eleccion(e.codigo, e.grupo) for e in peticion.propuesta],
             peticion.creditos_max,
+            set(peticion.cursando),
         )
         datos = asdict(r)
         datos["materias"] = _con_detalle_grupo(datos["materias"])
@@ -110,6 +113,7 @@ def proponer(peticion: ProponerIn):
             peticion.franja,
             peticion.k,
             peticion.incluir_electivas,
+            set(peticion.excluir),
         )
         for c in cargas:
             c["materias"] = _con_detalle_grupo(c["materias"])

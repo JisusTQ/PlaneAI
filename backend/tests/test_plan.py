@@ -73,3 +73,26 @@ def test_api_plan(monkeypatch):
     assert d["estructura"]["total_creditos"] == 168 and d["cotejo"]["porcentaje_espacios"] >= 95
     m = TestClient(app).get("/pensum/malla").json()
     assert m["creditos_grado"] == 168 and len(m["espacios_electivos"]) == 11
+
+
+def test_proponer_excluye_lo_que_se_esta_cursando():
+    oferta = {
+        str(c): MateriaViva(str(c), str(c), [GrupoVivo("1", 30, 5, "A", "P", [Sesion(d, "08:00", "10:00")])])
+        for c, d in [(2508207, "lunes"), (2555221, "martes"), (2555231, "miércoles")]
+    }
+    nivel1 = {m.codigo for m in MATERIAS if m.nivel == 1}
+    crit = grafo.criticidad(grafo.construir_grafo(MATERIAS))
+    cargas = motor.proponer_cargas(IDX, oferta, crit, nivel1, 1, 24, excluir={2555231})
+    assert cargas and all(m["codigo"] != 2555231 for c in cargas for m in c["materias"])
+
+
+def test_api_validar_avisa_si_ya_la_cursa(monkeypatch):
+    from app.main import app
+    from app.services import udea_horarios_service as udea
+
+    monkeypatch.setattr(pensum, "obtener_pensum", lambda forzar=False: MATERIAS)
+    monkeypatch.setattr(udea, "obtener_oferta", lambda forzar=False: [MateriaViva("CI", "2555231", [GrupoVivo("1", 30, 5, "A", "P", [Sesion("lunes", "08:00", "10:00")])])])
+    d = TestClient(app).post(
+        "/planeacion/validar", json={"aprobadas": [2555101, 2555131], "propuesta": [{"codigo": 2555231, "grupo": "1"}], "cursando": [2555231]}
+    ).json()
+    assert any(a["tipo"] == "cursando" for a in d["advertencias"])
