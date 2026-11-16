@@ -17,11 +17,15 @@ def chat(peticion: ChatRequest):
     try:
         historial = [m.model_dump() for m in peticion.historial][-20:]
         respuesta, pasos, fuentes = gemini_service.responder(peticion.mensaje, historial)
+    except gemini_service.CuotaAgotada as exc:
+        raise HTTPException(status_code=429, detail=str(exc)) from exc
+    except gemini_service.IASaturada as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
     except ValueError as exc:
         # API key sin configurar: 503 (configuración pendiente, no error del servidor).
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except Exception as exc:  # noqa: BLE001
-        raise HTTPException(status_code=502, detail=f"Error al consultar la IA: {exc}") from exc
+        raise HTTPException(status_code=502, detail=f"Error al consultar la IA: {gemini_service.mensaje_seguro(exc)}") from exc
 
     return ChatResponse(respuesta=respuesta, pasos=pasos, fuentes=fuentes)
 

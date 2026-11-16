@@ -21,6 +21,8 @@ class Settings(BaseSettings):
     # --- Google Gemini ---
     GEMINI_API_KEY: str = ""
     GEMINI_MODEL: str = "gemini-2.5-flash"
+    # Modelo alterno si el principal está saturado o sin cuota (vacío = sin respaldo).
+    GEMINI_MODEL_RESPALDO: str = ""
 
     # --- Aplicación ---
     APP_NAME: str = "PlaneAI UdeA"

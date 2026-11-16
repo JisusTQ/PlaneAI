@@ -25,5 +25,7 @@ services:
         sync: false
       - key: GEMINI_MODEL          # se define en el dashboard (modelo vigente del equipo)
         sync: false
+      - key: GEMINI_MODEL_RESPALDO # opcional: modelo alterno si el principal se satura
+        sync: false
       - key: CORS_ORIGINS          # p.ej. https://planeai-udea.vercel.app
         sync: false

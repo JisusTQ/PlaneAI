@@ -56,7 +56,7 @@ export const validarCarga = ({ aprobadas, propuesta, creditosMax }) =>
 
 // OE3 — asistente conversacional
 export const enviarMensaje = (mensaje, historial = []) =>
-  pedir("/chat", post({ mensaje, historial: soloMensajes(historial) }), { timeout: 120000 });
+  pedir("/chat", post({ mensaje, historial: soloMensajes(historial) }), { timeout: 180000 });
 
 // OE3 — banco de preguntas (se ejecuta y precalifica en el backend)
 export const obtenerBanco = () => pedir("/evaluacion/banco");

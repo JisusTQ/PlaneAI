@@ -19,8 +19,12 @@ def evaluar_pregunta(id_: int):
         raise HTTPException(status_code=404, detail=f"No existe la pregunta {id_}.")
     try:
         respuesta, pasos, fuentes = gemini_service.responder(p["pregunta"], [])
+    except gemini_service.CuotaAgotada as exc:
+        raise HTTPException(status_code=429, detail=str(exc)) from exc
+    except gemini_service.IASaturada as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
     except ValueError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except Exception as exc:  # noqa: BLE001
-        raise HTTPException(status_code=502, detail=f"Error al consultar la IA: {exc}") from exc
+        raise HTTPException(status_code=502, detail=f"Error al consultar la IA: {gemini_service.mensaje_seguro(exc)}") from exc
     return {"id": id_, "respuesta": respuesta, "pasos": pasos, "fuentes": fuentes, **ev.calificar(p, respuesta, fuentes)}

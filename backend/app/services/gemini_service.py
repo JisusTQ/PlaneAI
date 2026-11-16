@@ -11,7 +11,11 @@ Herramientas:
 Cada herramienta registra la fuente que consultó; /chat devuelve esa traza.
 El SDK ejecuta el bucle agéntico (enable_automatic_function_calling).
 """
+import re
+
 import google.generativeai as genai
+from google.api_core import exceptions as gexc
+from google.api_core import retry as gretry
 
 from app.config import get_settings
 from app.services import rag_service as rag
@@ -20,6 +24,35 @@ from app.services import udea_pensum_service as pensum
 from app.services import validador_service as motor
 
 settings = get_settings()
+
+# Límites por llamada al modelo. Sin esto el SDK reintenta en silencio hasta
+# 600 s cuando Gemini responde 503 ("modelo saturado"), y una pregunta (2-3
+# llamadas) puede tardar varios minutos: la interfaz se rinde a los 120 s.
+TIMEOUT_LLAMADA = 45
+_REINTENTO = gretry.Retry(
+    predicate=gretry.if_exception_type(gexc.ServiceUnavailable),
+    initial=1.0,
+    maximum=4.0,
+    multiplier=2.0,
+    timeout=15.0,
+)
+OPCIONES_CHAT = {"timeout": TIMEOUT_LLAMADA, "retry": _REINTENTO}
+OPCIONES_SUGERENCIAS = {"timeout": 15, "retry": None}
+
+
+def mensaje_seguro(exc: Exception) -> str:
+    """Texto del error sin URLs ni claves (los errores de Google pueden traer ?key=...)."""
+    texto = re.sub(r"https?://\S+", "[url]", str(exc))
+    texto = re.sub(r"AIza[0-9A-Za-z_\-]{20,}", "[clave]", texto)
+    return texto[:300]
+
+
+class IASaturada(Exception):
+    """Gemini no respondió a tiempo o está saturado (503 / timeout)."""
+
+
+class CuotaAgotada(Exception):
+    """Se agotó la cuota de la API de Gemini (429)."""
 
 # Instrucción de sistema: define el rol y las reglas del asistente.
 SYSTEM_PROMPT = """Eres "PlaneAI", un asistente de planeación académica para estudiantes \
@@ -342,33 +375,46 @@ def _extraer_pasos(chat) -> list[dict]:
 HERRAMIENTAS = [consultar_reglamento, buscar_en_malla, consultar_pensum, consultar_horarios_udea, proponer_cargas, validar_carga]
 
 
+def _conversar(modelo: str, mensaje: str, historial: list[dict]):
+    model = genai.GenerativeModel(model_name=modelo, system_instruction=SYSTEM_PROMPT, tools=HERRAMIENTAS)
+    chat = model.start_chat(history=_a_history_gemini(historial), enable_automatic_function_calling=True)
+    rag.iniciar_traza()
+    respuesta = chat.send_message(mensaje, request_options=OPCIONES_CHAT)
+    return respuesta.text, _extraer_pasos(chat), rag.fuentes_traza()
+
+
 def responder(mensaje: str, historial: list[dict] | None = None) -> tuple[str, list[dict], list[dict]]:
     """
     Responde al estudiante con el agente Gemini sobre datos en vivo de la UdeA.
 
-    Recibe el historial previo (memoria multi-turno) y devuelve la respuesta y
+    Recibe el historial previo (memoria multi-turno) y devuelve la respuesta,
     la traza de herramientas que el agente invocó y las fuentes consultadas.
-    Lanza ValueError si la API key no está configurada.
+    Si el modelo principal está saturado y hay GEMINI_MODEL_RESPALDO, reintenta
+    una vez con ese modelo.
+    Lanza ValueError (sin API key), IASaturada o CuotaAgotada.
     """
     if not _api_key_valida():
         raise ValueError(
             "La GEMINI_API_KEY no está configurada en el .env. "
             "Agrega tu clave real para habilitar el chat."
         )
-
     genai.configure(api_key=settings.GEMINI_API_KEY)
-    model = genai.GenerativeModel(
-        model_name=settings.GEMINI_MODEL,
-        system_instruction=SYSTEM_PROMPT,
-        tools=HERRAMIENTAS,
-    )
-    chat = model.start_chat(
-        history=_a_history_gemini(historial or []),
-        enable_automatic_function_calling=True,
-    )
-    rag.iniciar_traza()
-    respuesta = chat.send_message(mensaje)
-    return respuesta.text, _extraer_pasos(chat), rag.fuentes_traza()
+    modelos = [settings.GEMINI_MODEL]
+    if settings.GEMINI_MODEL_RESPALDO and settings.GEMINI_MODEL_RESPALDO != settings.GEMINI_MODEL:
+        modelos.append(settings.GEMINI_MODEL_RESPALDO)
+
+    for i, modelo in enumerate(modelos):
+        try:
+            return _conversar(modelo, mensaje, historial or [])
+        except gexc.ResourceExhausted as exc:
+            if i + 1 < len(modelos):
+                continue
+            raise CuotaAgotada("Se agotó por ahora la cuota gratuita de la API de Gemini. Intenta de nuevo en unos minutos.") from exc
+        except (gexc.ServiceUnavailable, gexc.DeadlineExceeded, gexc.RetryError, TimeoutError) as exc:
+            if i + 1 < len(modelos):
+                continue
+            raise IASaturada("El modelo de IA está saturado o no respondió a tiempo. Intenta de nuevo en un momento.") from exc
+    raise IASaturada("No hay modelo de IA disponible.")  # pragma: no cover
 
 
 _PROMPT_SUGERENCIAS = (
@@ -388,7 +434,7 @@ def sugerencias(historial: list[dict]) -> list[str]:
         genai.configure(api_key=settings.GEMINI_API_KEY)
         model = genai.GenerativeModel(model_name=settings.GEMINI_MODEL)
         chat = model.start_chat(history=_a_history_gemini(historial))
-        texto = chat.send_message(_PROMPT_SUGERENCIAS).text
+        texto = chat.send_message(_PROMPT_SUGERENCIAS, request_options=OPCIONES_SUGERENCIAS).text
         opciones = [linea.strip(" -•*\t").strip() for linea in texto.splitlines()]
         return [o for o in opciones if len(o) > 4][:3]
     except Exception:  # noqa: BLE001 — las sugerencias son un extra opcional
