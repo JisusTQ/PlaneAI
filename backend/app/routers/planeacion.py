@@ -5,7 +5,9 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
 from app.services import grafo_service as grafo
+from app.services import plan_service
 from app.services import reglas_service as reglas
+from app.services import udea_pensum_service as pensum
 from app.services import udea_horarios_service as udea
 from app.services import validador_service as motor
 
@@ -63,6 +65,17 @@ def pensum_malla():
     """Vértices y aristas del DAG para dibujar la malla interactiva en el frontend."""
     try:
         return grafo.malla_en_vivo()
+    except Exception as exc:  # noqa: BLE001
+        raise _fallo_portal(exc) from exc
+
+
+@router.get("/pensum/plan", summary="Plan oficial por niveles (AF 868) y cotejo con el modelo (OE1)")
+def pensum_plan():
+    """55 espacios / 168 créditos / 10 niveles, espacios electivos con sus opciones
+    del banco de Cursum, y el cotejo espacio por espacio con el plan publicado."""
+    try:
+        materias = pensum.obtener_pensum()
+        return {"estructura": plan_service.estructura(materias), "cotejo": plan_service.cotejo(materias)}
     except Exception as exc:  # noqa: BLE001
         raise _fallo_portal(exc) from exc
 

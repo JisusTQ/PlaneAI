@@ -93,3 +93,14 @@ def test_api_chat_devuelve_fuentes(monkeypatch):
     monkeypatch.setattr(g, "responder", falso)
     d = TestClient(app).post("/chat", json={"mensaje": "¿máximo de créditos?"}).json()
     assert d["fuentes"][0]["detalle"] == "art. 66"
+
+
+def test_malla_responde_preguntas_generales_del_plan(pensum_real):
+    for q in ("¿Cuántos créditos necesito para graduarme?", "¿Cuántos semestres tiene el plan de estudios?"):
+        doc = rag.buscar_malla(q, k=1)[0][0]
+        assert doc.id == "PE-RESUMEN" and "168 créditos" in doc.texto and "10 niveles" in doc.texto
+
+
+def test_malla_explica_espacios_electivos(pensum_real):
+    doc = rag.buscar_malla("línea de énfasis principal", k=1)[0][0]
+    assert doc.id.startswith("EE-") and "INGENIERÍA WEB" in doc.texto

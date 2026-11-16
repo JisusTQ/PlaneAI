@@ -53,9 +53,25 @@ class MateriaPensum:
     creditos: int
     tipo: str
     requisitos: list[Requisito] = field(default_factory=list)
+    banco: str = ""  # banco de electivas de Cursum (vacío en las obligatorias)
 
 
-_cache: dict = {"datos": None, "ts": 0.0, "version": None, "origen": None}
+# --- Ajustes del plan oficial que Cursum no refleja ------------------------- #
+# Requisitos que exige la norma vigente y no están registrados en Cursum.
+REQUISITOS_COMPLEMENTARIOS: dict[int, list[tuple[int, str, str]]] = {
+    # Lineamientos PI 2026-2 (Comité de Carrera, acta 19 de 2026) y AF 868:
+    # para las versiones 4 y 5, Proyecto Integrador I exige 80 créditos aprobados.
+    2508700: [(80, "CREDITOS", "Lineamientos PI 2026-2 y Acuerdo de Facultad 868")],
+}
+# Materias de la versión anterior del plan que la vigente reemplazó en el mismo
+# espacio (mismo nivel, créditos y requisito). Un requisito que apunta al código
+# antiguo se cumple con el nuevo.
+EQUIVALENCIAS: dict[int, int] = {
+    2539101: 2539130,  # LECTOESCRITURA (AF 868) -> ESPAÑOL ACADÉMICO (Cursum v5)
+}
+CREDITOS_GRADO_POR_DEFECTO = 168  # Cursum: "Créditos totales para grado" (504, v5)
+
+_cache: dict = {"datos": None, "ts": 0.0, "version": None, "origen": None, "creditos_grado": None}
 
 
 def es_prerrequisito(r: Requisito) -> bool:
@@ -88,7 +104,7 @@ def _tipo_normalizado(tipo_portal: str, codigo: int, codigos_plan: set[int]) -> 
 def parsear(filas: list[dict]) -> list[MateriaPensum]:
     """Convierte la respuesta JSON de Cursum en materias con requisitos normalizados."""
     codigos = {int(x["materia"]) for x in filas}
-    return [
+    materias = [
         MateriaPensum(
             codigo=int(x["materia"]),
             nombre=(x.get("nombreMateria") or "").strip(),
@@ -97,20 +113,35 @@ def parsear(filas: list[dict]) -> list[MateriaPensum]:
             tipo=(x.get("tipoMateria") or "").strip(),
             requisitos=[
                 Requisito(
-                    codigo=int(req["materiaRequisito"]),
-                    tipo=_tipo_normalizado(req.get("tipoRequisito"), int(req["materiaRequisito"]), codigos),
+                    codigo=EQUIVALENCIAS.get(int(req["materiaRequisito"]), int(req["materiaRequisito"])),
+                    tipo=_tipo_normalizado(
+                        req.get("tipoRequisito"),
+                        EQUIVALENCIAS.get(int(req["materiaRequisito"]), int(req["materiaRequisito"])),
+                        codigos,
+                    ),
                 )
                 for req in (x.get("requisitos") or [])
                 if req.get("materiaRequisito")
             ],
+            banco=(x.get("nombreBancoElectiva") or "").strip(),
         )
         for x in filas
     ]
+    for m in materias:
+        for valor, tipo, _fuente in REQUISITOS_COMPLEMENTARIOS.get(m.codigo, []):
+            if not any(r.codigo == valor and r.tipo == tipo for r in m.requisitos):
+                m.requisitos.append(Requisito(valor, tipo))
+    return materias
 
 
 def cargar_snapshot() -> tuple[list[MateriaPensum], int]:
     datos = json.loads(SNAPSHOT.read_text(encoding="utf-8"))
     return parsear(datos["materias"]), int(datos["version"])
+
+
+def creditos_grado() -> int:
+    """Créditos totales para grado que publica Cursum (168 en la versión 5)."""
+    return _cache["creditos_grado"] or CREDITOS_GRADO_POR_DEFECTO
 
 
 def _version_actual(sesion) -> int:
@@ -119,6 +150,8 @@ def _version_actual(sesion) -> int:
     r.raise_for_status()
     for p in r.json():
         if p.get("codigo") == PROGRAMA_ID:
+            if p.get("creditosGrado"):
+                _cache["creditos_grado"] = int(p["creditosGrado"])
             return int(p["versionActual"])
     raise RuntimeError(f"No se encontró el programa {PROGRAMA_ID} en el portal Cursum.")
 

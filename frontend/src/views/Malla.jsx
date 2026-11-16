@@ -22,12 +22,14 @@ function useAncho() {
 function MallaLista({ incluirElectivas, busqueda, onSeleccion, modo }) {
   const { malla, estados, aprobadas, alternarAprobada } = useApp();
   const t = busqueda.trim().toLowerCase();
-  const niveles = [...new Set(malla.materias.map((m) => m.nivel))].filter((n) => incluirElectivas || n !== NIVEL_ELECTIVAS).sort((a, b) => a - b);
+  const espacios = incluirElectivas ? [] : malla.espacios || [];
+  const niveles = [...new Set([...malla.materias.map((m) => m.nivel), ...espacios.map((e) => e.nivel)])].filter((n) => incluirElectivas || n !== NIVEL_ELECTIVAS).sort((a, b) => a - b);
   return (
     <div className="malla-lista">
       {niveles.map((n) => {
         const mats = malla.materias.filter((m) => m.nivel === n && (!t || m.nombre.toLowerCase().includes(t) || String(m.codigo).includes(t)));
-        if (!mats.length) return null;
+        const huecos = espacios.filter((e) => e.nivel === n && (!t || e.nombre.toLowerCase().includes(t)));
+        if (!mats.length && !huecos.length) return null;
         const listas = mats.filter((m) => aprobadas.has(m.codigo)).length;
         return (
           <section key={n} className="ml-nivel">
@@ -51,6 +53,13 @@ function MallaLista({ incluirElectivas, busqueda, onSeleccion, modo }) {
                   </button>
                 );
               })}
+              {huecos.map((e) => (
+                <div key={e.id} className="ml-item espacio" title={`Se cursa con una de las ${e.opciones.length} materias del banco de electivas`}>
+                  <i className="ml-marca" aria-hidden="true" />
+                  <span>{e.nombre} <small>(espacio electivo)</small></span>
+                  <small className="num">{e.creditos} cr</small>
+                </div>
+              ))}
             </div>
           </section>
         );
@@ -72,8 +81,14 @@ export default function Malla() {
 
   const resumen = useMemo(() => {
     const ob = malla.materias.filter((m) => m.nivel !== NIVEL_ELECTIVAS);
-    return { total: ob.length, niveles: new Set(ob.map((m) => m.nivel)).size, aristas: malla.materias.reduce((a, m) => a + m.requisitos.length, 0) };
-  }, [malla.materias]);
+    const esp = malla.espacios || [];
+    return {
+      total: ob.length,
+      espacios: esp.length,
+      niveles: new Set([...ob.map((m) => m.nivel), ...esp.map((e) => e.nivel)]).size,
+      aristas: malla.materias.reduce((a, m) => a + m.requisitos.length, 0),
+    };
+  }, [malla.materias, malla.espacios]);
 
   return (
     <div className="vista vista-malla">
@@ -82,7 +97,7 @@ export default function Malla() {
           <h1 className="titulo-vista">Mi malla</h1>
           <p className="bajada">
             {malla.estado === "ok"
-              ? `${resumen.total} materias obligatorias en ${resumen.niveles} semestres${malla.version ? `, versión ${malla.version} del pensum` : ""}. Marca lo que ya aprobaste y la malla te muestra qué puedes ver ahora.`
+              ? `${resumen.total} materias obligatorias${resumen.espacios ? ` y ${resumen.espacios} espacios electivos` : ""} en ${resumen.niveles} semestres${malla.creditosGrado ? ` (${malla.creditosGrado} créditos para grado)` : ""}${malla.version ? `, versión ${malla.version} del plan` : ""}. Marca lo que ya aprobaste y la malla te muestra qué puedes ver ahora.`
               : "El plan de estudios de Ingeniería de Sistemas como red de prerrequisitos."}
           </p>
         </div>

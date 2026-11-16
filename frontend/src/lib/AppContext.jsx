@@ -64,14 +64,14 @@ export function AppProvider({ children }) {
   }, []);
 
   // --- Malla (modelo del plan de estudios) ---
-  const [malla, setMalla] = useState({ estado: "cargando", materias: [], version: null, error: null });
+  const [malla, setMalla] = useState({ estado: "cargando", materias: [], espacios: [], creditosGrado: null, version: null, error: null });
   const cargarMalla = useCallback(async () => {
     setMalla((m) => ({ ...m, estado: "cargando", error: null }));
     try {
       const d = await obtenerMalla();
-      setMalla({ estado: "ok", materias: d.materias, version: d.version_pensum, error: null });
+      setMalla({ estado: "ok", materias: d.materias, espacios: d.espacios_electivos || [], creditosGrado: d.creditos_grado || null, version: d.version_pensum, error: null });
     } catch (e) {
-      setMalla({ estado: "error", materias: [], version: null, error: e.message });
+      setMalla({ estado: "error", materias: [], espacios: [], creditosGrado: null, version: null, error: e.message });
     }
   }, []);
   const yaPidio = useRef(false);
@@ -107,11 +107,16 @@ export function AppProvider({ children }) {
     const creditosAcumulados = malla.materias.filter((m) => aprobadas.has(m.codigo)).reduce((a, m) => a + m.creditos, 0);
     const estados = new Map(malla.materias.map((m) => [m.codigo, estadoMateria(m, aprobadas, creditosAcumulados)]));
     const obligatorias = malla.materias.filter((m) => m.nivel !== NIVEL_ELECTIVAS);
-    const creditosTotales = obligatorias.reduce((a, m) => a + m.creditos, 0);
-    const creditosAprobados = obligatorias.filter((m) => aprobadas.has(m.codigo)).reduce((a, m) => a + m.creditos, 0);
+    // Créditos para grado (168 en el plan V.5): obligatorias + espacios electivos.
+    const creditosObligatorios = obligatorias.reduce((a, m) => a + m.creditos, 0);
+    const creditosElectivos = (malla.espacios || []).reduce((a, e) => a + e.creditos, 0);
+    const creditosTotales = malla.creditosGrado || creditosObligatorios + creditosElectivos;
+    const electivasAprobadas = malla.materias.filter((m) => m.nivel === NIVEL_ELECTIVAS && aprobadas.has(m.codigo)).reduce((a, m) => a + m.creditos, 0);
+    const creditosAprobados =
+      obligatorias.filter((m) => aprobadas.has(m.codigo)).reduce((a, m) => a + m.creditos, 0) + Math.min(electivasAprobadas, creditosElectivos || electivasAprobadas);
     const habilitadas = malla.materias.filter((m) => estados.get(m.codigo) === "habilitada");
     return { porCodigo, sucesores, estados, obligatorias, creditosTotales, creditosAprobados, creditosAcumulados, habilitadas };
-  }, [malla.materias, aprobadas]);
+  }, [malla.materias, malla.espacios, malla.creditosGrado, aprobadas]);
 
   // --- Carga armada a mano en el planificador (persistida) ---
   const [carga, setCargaState] = useState(() => leer("carga", []));

@@ -10,7 +10,8 @@
    "nivel": 1,
    "creditos": 1,
    "tipoMateria": "OBLIGATORIA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2536101,
@@ -18,7 +19,8 @@
    "nivel": 1,
    "creditos": 3,
    "tipoMateria": "OBLIGATORIA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2537101,
@@ -26,7 +28,8 @@
    "nivel": 1,
    "creditos": 1,
    "tipoMateria": "OBLIGATORIA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2555101,
@@ -34,7 +37,8 @@
    "nivel": 1,
    "creditos": 3,
    "tipoMateria": "OBLIGATORIA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2555121,
@@ -42,7 +46,8 @@
    "nivel": 1,
    "creditos": 3,
    "tipoMateria": "OBLIGATORIA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2555131,
@@ -55,7 +60,8 @@
      "materiaRequisito": 2555101,
      "tipoRequisito": "CORREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 9025101,
@@ -63,7 +69,8 @@
    "nivel": 1,
    "creditos": 2,
    "tipoMateria": "OBLIGATORIA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508207,
@@ -76,7 +83,8 @@
      "materiaRequisito": 2508120,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508208,
@@ -89,7 +97,8 @@
      "materiaRequisito": 2508207,
      "tipoRequisito": "CORREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2539130,
@@ -102,7 +111,8 @@
      "materiaRequisito": 2537101,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2555221,
@@ -119,7 +129,8 @@
      "materiaRequisito": 2555121,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2555231,
@@ -136,7 +147,8 @@
      "materiaRequisito": 2555131,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 9025102,
@@ -149,7 +161,8 @@
      "materiaRequisito": 9025101,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508303,
@@ -162,7 +175,8 @@
      "materiaRequisito": 2508207,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508306,
@@ -179,7 +193,8 @@
      "materiaRequisito": 2508303,
      "tipoRequisito": "CORREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508307,
@@ -192,7 +207,8 @@
      "materiaRequisito": 2508306,
      "tipoRequisito": "CORREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508308,
@@ -205,7 +221,8 @@
      "materiaRequisito": 2555231,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2536201,
@@ -226,7 +243,8 @@
      "materiaRequisito": 2555131,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508402,
@@ -243,7 +261,8 @@
      "materiaRequisito": 2508308,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508403,
@@ -256,7 +275,8 @@
      "materiaRequisito": 2508307,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508407,
@@ -277,7 +297,8 @@
      "materiaRequisito": 2555231,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508408,
@@ -290,7 +311,8 @@
      "materiaRequisito": 2508308,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2517450,
@@ -298,7 +320,8 @@
    "nivel": 4,
    "creditos": 1,
    "tipoMateria": "OBLIGATORIA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 9025103,
@@ -311,7 +334,8 @@
      "materiaRequisito": 9025102,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508506,
@@ -324,7 +348,8 @@
      "materiaRequisito": 2508403,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508507,
@@ -337,7 +362,8 @@
      "materiaRequisito": 2508402,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508508,
@@ -350,7 +376,8 @@
      "materiaRequisito": 2508402,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 9025104,
@@ -363,7 +390,8 @@
      "materiaRequisito": 9025103,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508509,
@@ -380,7 +408,8 @@
      "materiaRequisito": 2508408,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508608,
@@ -397,7 +426,8 @@
      "materiaRequisito": 2508609,
      "tipoRequisito": "CORREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508609,
@@ -410,7 +440,8 @@
      "materiaRequisito": 2508507,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508610,
@@ -423,7 +454,8 @@
      "materiaRequisito": 2508402,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508700,
@@ -431,7 +463,8 @@
    "nivel": 6,
    "creditos": 2,
    "tipoMateria": "OBLIGATORIA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 9025105,
@@ -444,7 +477,8 @@
      "materiaRequisito": 9025104,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508611,
@@ -457,7 +491,8 @@
      "materiaRequisito": 2508509,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508702,
@@ -470,7 +505,8 @@
      "materiaRequisito": 2508403,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508703,
@@ -483,7 +519,8 @@
      "materiaRequisito": 2508608,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508716,
@@ -496,7 +533,8 @@
      "materiaRequisito": 2508303,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508701,
@@ -509,7 +547,8 @@
      "materiaRequisito": 2508506,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508840,
@@ -522,7 +561,8 @@
      "materiaRequisito": 2508610,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508841,
@@ -535,7 +575,8 @@
      "materiaRequisito": 2508702,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508842,
@@ -552,7 +593,8 @@
      "materiaRequisito": 2508716,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508902,
@@ -565,7 +607,8 @@
      "materiaRequisito": 2508700,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508836,
@@ -578,7 +621,8 @@
      "materiaRequisito": 2508701,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": " "
   },
   {
    "materia": 2508001,
@@ -595,7 +639,8 @@
      "materiaRequisito": 2508701,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "PRÁCTICA ACADÉMICA"
   },
   {
    "materia": 2508002,
@@ -612,7 +657,8 @@
      "materiaRequisito": 2508701,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "PRÁCTICA ACADÉMICA"
   },
   {
    "materia": 2508003,
@@ -629,7 +675,8 @@
      "materiaRequisito": 2508701,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "PRÁCTICA ACADÉMICA"
   },
   {
    "materia": 2508004,
@@ -646,7 +693,8 @@
      "materiaRequisito": 2508701,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "PRÁCTICA ACADÉMICA"
   },
   {
    "materia": 2508005,
@@ -663,7 +711,8 @@
      "materiaRequisito": 2508701,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "PRÁCTICA ACADÉMICA"
   },
   {
    "materia": 2508020,
@@ -671,7 +720,8 @@
    "nivel": 99,
    "creditos": 3,
    "tipoMateria": "ELECTIVA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508021,
@@ -679,7 +729,8 @@
    "nivel": 99,
    "creditos": 3,
    "tipoMateria": "ELECTIVA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508022,
@@ -687,7 +738,8 @@
    "nivel": 99,
    "creditos": 3,
    "tipoMateria": "ELECTIVA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508023,
@@ -695,7 +747,8 @@
    "nivel": 99,
    "creditos": 3,
    "tipoMateria": "ELECTIVA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508024,
@@ -708,7 +761,8 @@
      "materiaRequisito": 48,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508025,
@@ -721,7 +775,8 @@
      "materiaRequisito": 48,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508026,
@@ -734,7 +789,8 @@
      "materiaRequisito": 16,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508027,
@@ -747,7 +803,8 @@
      "materiaRequisito": 48,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508028,
@@ -760,7 +817,8 @@
      "materiaRequisito": 48,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508029,
@@ -773,7 +831,8 @@
      "materiaRequisito": 48,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508030,
@@ -786,7 +845,8 @@
      "materiaRequisito": 16,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508031,
@@ -799,7 +859,8 @@
      "materiaRequisito": 16,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508032,
@@ -812,7 +873,8 @@
      "materiaRequisito": 16,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508033,
@@ -825,7 +887,8 @@
      "materiaRequisito": 16,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508034,
@@ -838,7 +901,8 @@
      "materiaRequisito": 48,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508035,
@@ -851,7 +915,8 @@
      "materiaRequisito": 2539130,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508036,
@@ -864,7 +929,8 @@
      "materiaRequisito": 2539130,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508037,
@@ -877,7 +943,8 @@
      "materiaRequisito": 2539101,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508038,
@@ -890,7 +957,8 @@
      "materiaRequisito": 2539101,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2508401,
@@ -903,7 +971,8 @@
      "materiaRequisito": 65,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "ENFÁSIS CIENCIA DE LA COMPUTACIÓN"
   },
   {
    "materia": 2508910,
@@ -911,7 +980,8 @@
    "nivel": 99,
    "creditos": 3,
    "tipoMateria": "ELECTIVA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": "LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN"
   },
   {
    "materia": 2508911,
@@ -919,7 +989,8 @@
    "nivel": 99,
    "creditos": 3,
    "tipoMateria": "ELECTIVA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": "LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN"
   },
   {
    "materia": 2508912,
@@ -927,7 +998,8 @@
    "nivel": 99,
    "creditos": 3,
    "tipoMateria": "ELECTIVA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": "LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN"
   },
   {
    "materia": 2508913,
@@ -940,7 +1012,8 @@
      "materiaRequisito": 2508609,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN"
   },
   {
    "materia": 2508914,
@@ -953,7 +1026,8 @@
      "materiaRequisito": 2508609,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN"
   },
   {
    "materia": 2508915,
@@ -966,7 +1040,8 @@
      "materiaRequisito": 2508703,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN"
   },
   {
    "materia": 2508916,
@@ -983,7 +1058,8 @@
      "materiaRequisito": 2508609,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN"
   },
   {
    "materia": 2508917,
@@ -996,7 +1072,8 @@
      "materiaRequisito": 2508702,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN"
   },
   {
    "materia": 2508918,
@@ -1009,7 +1086,8 @@
      "materiaRequisito": 2508610,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN"
   },
   {
    "materia": 2508921,
@@ -1026,7 +1104,8 @@
      "materiaRequisito": 2555231,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "ENFÁSIS CIENCIA DE LA COMPUTACIÓN"
   },
   {
    "materia": 2508940,
@@ -1034,7 +1113,8 @@
    "nivel": 99,
    "creditos": 3,
    "tipoMateria": "ELECTIVA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": "ENFÁSIS CIENCIA DE LA COMPUTACIÓN"
   },
   {
    "materia": 2508941,
@@ -1042,7 +1122,8 @@
    "nivel": 99,
    "creditos": 3,
    "tipoMateria": "ELECTIVA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": "ENFÁSIS CIENCIA DE LA COMPUTACIÓN"
   },
   {
    "materia": 2508942,
@@ -1050,7 +1131,8 @@
    "nivel": 99,
    "creditos": 3,
    "tipoMateria": "ELECTIVA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": "ENFÁSIS CIENCIA DE LA COMPUTACIÓN"
   },
   {
    "materia": 2508943,
@@ -1063,7 +1145,8 @@
      "materiaRequisito": 2508308,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "ENFÁSIS CIENCIA DE LA COMPUTACIÓN"
   },
   {
    "materia": 2508944,
@@ -1076,7 +1159,8 @@
      "materiaRequisito": 2508303,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "ENFÁSIS CIENCIA DE LA COMPUTACIÓN"
   },
   {
    "materia": 2508945,
@@ -1089,7 +1173,8 @@
      "materiaRequisito": 2508303,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "ENFÁSIS CIENCIA DE LA COMPUTACIÓN"
   },
   {
    "materia": 2508946,
@@ -1102,7 +1187,8 @@
      "materiaRequisito": 2508611,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "ENFÁSIS CIENCIA DE LA COMPUTACIÓN"
   },
   {
    "materia": 2508947,
@@ -1115,7 +1201,8 @@
      "materiaRequisito": 2508611,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "ENFÁSIS CIENCIA DE LA COMPUTACIÓN"
   },
   {
    "materia": 2508970,
@@ -1123,7 +1210,8 @@
    "nivel": 99,
    "creditos": 3,
    "tipoMateria": "ELECTIVA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
   },
   {
    "materia": 2508971,
@@ -1131,7 +1219,8 @@
    "nivel": 99,
    "creditos": 3,
    "tipoMateria": "ELECTIVA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
   },
   {
    "materia": 2508972,
@@ -1139,7 +1228,8 @@
    "nivel": 99,
    "creditos": 3,
    "tipoMateria": "ELECTIVA",
-   "requisitos": []
+   "requisitos": [],
+   "nombreBancoElectiva": "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
   },
   {
    "materia": 2508973,
@@ -1152,7 +1242,8 @@
      "materiaRequisito": 2508303,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
   },
   {
    "materia": 2508974,
@@ -1165,7 +1256,8 @@
      "materiaRequisito": 2508716,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
   },
   {
    "materia": 2508975,
@@ -1178,7 +1270,8 @@
      "materiaRequisito": 2508716,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
   },
   {
    "materia": 2508976,
@@ -1191,7 +1284,8 @@
      "materiaRequisito": 2508610,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
   },
   {
    "materia": 2508977,
@@ -1204,7 +1298,8 @@
      "materiaRequisito": 2508716,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
   },
   {
    "materia": 2508978,
@@ -1217,7 +1312,8 @@
      "materiaRequisito": 2508716,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
   },
   {
    "materia": 2508979,
@@ -1234,7 +1330,8 @@
      "materiaRequisito": 2508716,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
   },
   {
    "materia": 2517204,
@@ -1247,7 +1344,8 @@
      "materiaRequisito": 60,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2517206,
@@ -1264,7 +1362,8 @@
      "materiaRequisito": 2539130,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2517208,
@@ -1277,7 +1376,8 @@
      "materiaRequisito": 60,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2536302,
@@ -1298,7 +1398,8 @@
      "materiaRequisito": 2555231,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSO ALTERNATIVO DE FÍSICA"
   },
   {
    "materia": 2536311,
@@ -1319,7 +1420,8 @@
      "materiaRequisito": 2555231,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSO ALTERNATIVO DE FÍSICA"
   },
   {
    "materia": 2536321,
@@ -1340,7 +1442,8 @@
      "materiaRequisito": 2555231,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSO ALTERNATIVO DE FÍSICA"
   },
   {
    "materia": 2536500,
@@ -1353,7 +1456,8 @@
      "materiaRequisito": 2536321,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSO ALTERNATIVO DE LABORATORIO INTEGRADO FÍSICA"
   },
   {
    "materia": 2536501,
@@ -1366,7 +1470,8 @@
      "materiaRequisito": 2536302,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSO ALTERNATIVO DE LABORATORIO INTEGRADO FÍSICA"
   },
   {
    "materia": 2536503,
@@ -1379,7 +1484,8 @@
      "materiaRequisito": 2536311,
      "tipoRequisito": "PRERREQ"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSO ALTERNATIVO DE LABORATORIO INTEGRADO FÍSICA"
   },
   {
    "materia": 2566122,
@@ -1392,7 +1498,8 @@
      "materiaRequisito": 60,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   },
   {
    "materia": 2566604,
@@ -1405,7 +1512,9 @@
      "materiaRequisito": 60,
      "tipoRequisito": "PRERREQCRED"
     }
-   ]
+   ],
+   "nombreBancoElectiva": "CURSOS SOCIO-HUMANÍSTICAS"
   }
- ]
+ ],
+ "creditosGrado": 168
 }

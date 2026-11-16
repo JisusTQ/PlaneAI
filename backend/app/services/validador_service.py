@@ -34,6 +34,13 @@ from app.services.udea_pensum_service import MateriaPensum
 NIVEL_ELECTIVAS = pensum.NIVEL_ELECTIVAS
 MAX_NODOS_BUSQUEDA = 20_000  # tope de exploración del generador (poda dura)
 TIEMPO_COMPLETO_MIN = 14  # Reglamento Estudiantil, art. 66
+# Bancos cuyo espacio en el plan se llena con UNA sola materia (no tiene sentido
+# proponer dos modalidades de práctica o dos cursos alternativos de física).
+BANCOS_EXCLUSIVOS = {
+    "PRÁCTICA ACADÉMICA",
+    "CURSO ALTERNATIVO DE FÍSICA",
+    "CURSO ALTERNATIVO DE LABORATORIO INTEGRADO FÍSICA",
+}
 
 
 @dataclass
@@ -274,7 +281,8 @@ def proponer_cargas(
             registrar(sel)
             return
         m, grupos = candidatas[i]
-        if creditos + m.creditos <= creditos_max:
+        banco_ocupado = m.banco in BANCOS_EXCLUSIVOS and any(x.banco == m.banco for x, _ in sel)
+        if creditos + m.creditos <= creditos_max and not banco_ocupado:
             for g in grupos:
                 if all(not _se_cruzan(g, g2) for _, g2 in sel):
                     dfs(i + 1, sel + [(m, g)], creditos + m.creditos)

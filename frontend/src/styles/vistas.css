@@ -559,3 +559,11 @@ a.fuente:hover { text-decoration: underline; }
   .bq-fila { flex-wrap: wrap; }
   .bq-acciones { margin-left: auto; }
 }
+
+/* Espacios electivos del plan (línea de énfasis, socio-humanísticas, práctica académica) */
+.nodo.espacio .nodo-caja { fill: var(--superficie); stroke: var(--tinta-3); stroke-width: 1.4; stroke-dasharray: 5 4; }
+.nodo.espacio .nodo-texto { fill: var(--tinta-2); font-style: italic; }
+.nodo.espacio { cursor: help; }
+.ml-item.espacio { border: 0; outline: 1px dashed var(--tinta-3); outline-offset: -4px; border-radius: 10px; color: var(--tinta-2); cursor: default; }
+.ml-item.espacio .ml-marca { visibility: hidden; }
+.ml-item.espacio small { font-weight: 500; }

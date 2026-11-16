@@ -129,6 +129,16 @@ _malla: dict = {"clave": None, "indice": None}
 
 
 def documentos_malla(materias: list[pensum.MateriaPensum]) -> list[Documento]:
+    from app.services import plan_service
+
+    est = plan_service.estructura(materias)
+    espacios_por_banco: dict[str, list[str]] = {}
+    for e in est["espacios_electivos"]:
+        grupo = re.sub(r"\s+(I{1,3})$", "", e["nombre"]).lower()  # "línea de énfasis principal I" -> "... principal"
+        grupo = "línea de énfasis" if "énfasis" in grupo else grupo
+        for b in e["bancos"]:
+            if grupo not in espacios_por_banco.setdefault(b, []):
+                espacios_por_banco[b].append(grupo)
     idx = {m.codigo: m for m in materias}
     desbloquea: dict[int, list[str]] = {m.codigo: [] for m in materias}
     for m in materias:
@@ -141,7 +151,11 @@ def documentos_malla(materias: list[pensum.MateriaPensum]) -> list[Documento]:
 
     docs = []
     for m in materias:
-        nivel = "electiva (banco de electivas)" if m.nivel == pensum.NIVEL_ELECTIVAS else f"nivel {m.nivel} (semestre {m.nivel})"
+        if m.nivel == pensum.NIVEL_ELECTIVAS:
+            usos = ", ".join(espacios_por_banco.get(m.banco, [])) or "electiva"
+            nivel = f"electiva del banco {m.banco.lower()}; se cursa en: {usos}"
+        else:
+            nivel = f"nivel {m.nivel} (semestre {m.nivel})"
         creditos_req = [f"{r.codigo} créditos aprobados" for r in m.requisitos if pensum.es_req_creditos(r)]
         texto = (
             f"{m.nombre} (código {m.codigo}): {nivel}, {m.creditos} créditos, {m.tipo.lower()}. "
@@ -150,6 +164,31 @@ def documentos_malla(materias: list[pensum.MateriaPensum]) -> list[Documento]:
             + f" Desbloquea directamente: {', '.join(desbloquea[m.codigo]) or 'ninguna'}."
         )
         docs.append(Documento(id=f"PE-{m.codigo}", titulo=m.nombre, texto=texto, fuente=f"Plan de estudios v{pensum.version_actual() or 5} (Cursum), {m.nombre}", extra={"codigo": m.codigo}))
+
+    # Espacios electivos del plan oficial y resumen general del plan.
+    for e in est["espacios_electivos"]:
+        opciones = [idx[c].nombre for c in e["opciones"] if c in idx]
+        texto = (
+            f"{e['nombre']}: espacio electivo del nivel {e['nivel']} (semestre {e['nivel']}) de {e['creditos']} créditos en el plan V.5 "
+            f"(Acuerdo de Facultad 868). Se cursa con una materia de: {', '.join(b.lower() for b in e['bancos'])}. "
+            f"Opciones en Cursum: {', '.join(opciones)}."
+        )
+        docs.append(Documento(id=f"EE-{e['id']}", titulo=e["nombre"], texto=texto, fuente=f"Plan de estudios V.5 (AF 868), {e['nombre'].title()}"))
+    por_nivel = "; ".join(f"nivel {k}: {v['creditos']} créditos" for k, v in est["niveles"].items())
+    docs.append(
+        Documento(
+            id="PE-RESUMEN",
+            titulo="RESUMEN DEL PLAN DE ESTUDIOS niveles semestres créditos totales grado duración",
+            texto=(
+                f"El plan de estudios V.5 de Ingeniería de Sistemas tiene {est['total_creditos']} créditos para grado, "
+                f"{est['total_niveles']} niveles (semestres) y {est['total_espacios']} espacios: "
+                f"{est['total_espacios'] - len(est['espacios_electivos'])} asignaturas obligatorias y {len(est['espacios_electivos'])} espacios electivos "
+                f"(curso alternativo de física y su laboratorio, línea de énfasis principal I-III, línea de énfasis complementaria I-II, "
+                f"electivas socio-humanísticas I-III y práctica académica de 12 créditos). Créditos por nivel: {por_nivel}."
+            ),
+            fuente="Plan de estudios V.5 (Acuerdo de Facultad 868) y Cursum",
+        )
+    )
     return docs
 
 

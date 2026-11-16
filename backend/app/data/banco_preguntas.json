@@ -1,5 +1,5 @@
 {
- "version": 2,
+ "version": 3,
  "descripcion": "Banco de 40 preguntas sobre la malla (20) y el Reglamento Estudiantil (20) para medir el OE3. Respuestas esperadas tomadas del plan v5 (Cursum) y del Reglamento (Acuerdo Superior 1 de 1981).",
  "preguntas": [
   {
@@ -24,10 +24,10 @@
   {
    "id": 2,
    "categoria": "malla",
-   "pregunta": "¿Cuántos créditos suman las materias obligatorias del plan de estudios?",
-   "respuesta_esperada": "128 créditos obligatorios en la versión 5 del plan (sin contar electivas ni modalidad de grado).",
+   "pregunta": "¿Cuántos créditos necesito para graduarme de Ingeniería de Sistemas?",
+   "respuesta_esperada": "168 créditos (plan V.5): 128 de asignaturas obligatorias y 40 de espacios electivos, incluida la práctica académica de 12.",
    "claves": [
-    "128"
+    "168"
    ],
    "fuente_esperada": {
     "tipo": "pensum",
@@ -37,10 +37,10 @@
   {
    "id": 3,
    "categoria": "malla",
-   "pregunta": "¿Cuántos niveles o semestres tiene el pensum?",
-   "respuesta_esperada": "Las obligatorias se distribuyen en 9 niveles; las electivas y la modalidad de grado van en un banco aparte.",
+   "pregunta": "¿Cuántos niveles o semestres tiene el plan de estudios?",
+   "respuesta_esperada": "10 niveles; las obligatorias van hasta el nivel 9 y en los niveles 9 y 10 están las electivas socio-humanísticas, la línea de énfasis y la práctica académica.",
    "claves": [
-    "9|nueve"
+    "10|diez"
    ],
    "fuente_esperada": {
     "tipo": "pensum",
@@ -188,10 +188,10 @@
    "id": 14,
    "categoria": "malla",
    "pregunta": "¿En qué semestre está Proyecto Integrador I y cuántos créditos tiene?",
-   "respuesta_esperada": "Nivel 6, 2 créditos, sin prerrequisitos.",
+   "respuesta_esperada": "Nivel 6, 2 créditos; exige 80 créditos aprobados (lineamientos PI 2026-2).",
    "claves": [
     "6|sexto",
-    "2|dos"
+    "80"
    ],
    "fuente_esperada": {
     "tipo": "pensum",

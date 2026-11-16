@@ -151,6 +151,7 @@ def malla(materias: list[MateriaPensum]) -> list[dict]:
             "tipo": m.tipo,
             "requisitos": [{"codigo": r.codigo, "tipo": r.tipo} for r in m.requisitos],
             "dependientes": crit.get(m.codigo, 0),
+            "banco": m.banco,
         }
         for m in sorted(materias, key=lambda x: (x.nivel, x.codigo))
     ]
@@ -160,12 +161,34 @@ def malla(materias: list[MateriaPensum]) -> list[dict]:
 #  Acceso sobre el pensum en vivo (con la caché del servicio de pensum)
 # --------------------------------------------------------------------------- #
 def malla_en_vivo() -> dict:
+    from app.services import plan_service
+
     materias = pensum.obtener_pensum()
-    return {"version_pensum": pensum.version_actual(), "origen_datos": pensum.origen_actual(), "materias": malla(materias)}
+    est = plan_service.estructura(materias)
+    return {
+        "version_pensum": pensum.version_actual(),
+        "origen_datos": pensum.origen_actual(),
+        "creditos_grado": est["total_creditos"],
+        "niveles_plan": est["total_niveles"],
+        "espacios_electivos": est["espacios_electivos"],
+        "materias": malla(materias),
+    }
 
 
 def resumen_en_vivo(top: int = 10) -> dict:
-    datos = resumen_grafo(pensum.obtener_pensum(), top=top)
+    from app.services import plan_service
+
+    materias = pensum.obtener_pensum()
+    datos = resumen_grafo(materias, top=top)
+    est = plan_service.estructura(materias)
+    datos["plan_estudios"] = {
+        "espacios": est["total_espacios"],
+        "creditos": est["total_creditos"],
+        "niveles": est["total_niveles"],
+        "espacios_electivos": len(est["espacios_electivos"]),
+        "creditos_por_nivel": {k: v["creditos"] for k, v in est["niveles"].items()},
+        "creditos_grado_cursum": est["creditos_grado_cursum"],
+    }
     datos["version_pensum"] = pensum.version_actual()
     datos["origen_datos"] = pensum.origen_actual()
     return datos

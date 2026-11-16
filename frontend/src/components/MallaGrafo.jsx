@@ -14,7 +14,8 @@ const sinTilde = (t) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLow
  */
 export default function MallaGrafo({ modo, color, seleccion, onSeleccion, busqueda, incluirElectivas }) {
   const { malla, estados, porCodigo, sucesores, aprobadas, alternarAprobada } = useApp();
-  const layout = useMemo(() => disponer(malla.materias, { incluirElectivas }), [malla.materias, incluirElectivas]);
+  const espacios = useMemo(() => (incluirElectivas ? [] : malla.espacios || []), [malla.espacios, incluirElectivas]);
+  const layout = useMemo(() => disponer(malla.materias, { incluirElectivas, espacios }), [malla.materias, incluirElectivas, espacios]);
   const [hover, setHover] = useState(null);
   const [zoom, setZoom] = useState(1);
   const caja = useRef(null);
@@ -120,7 +121,7 @@ export default function MallaGrafo({ modo, color, seleccion, onSeleccion, busque
         <svg width={layout.ancho * S} height={layout.alto * S} viewBox={`0 0 ${layout.ancho} ${layout.alto}`} role="group" aria-label="Malla curricular">
           {layout.niveles.map((n, i) => {
             const mats = malla.materias.filter((m) => m.nivel === n);
-            const cred = mats.reduce((a, m) => a + m.creditos, 0);
+            const cred = mats.reduce((a, m) => a + m.creditos, 0) + espacios.filter((e) => e.nivel === n).reduce((a, e) => a + e.creditos, 0);
             const listas = mats.filter((m) => aprobadas.has(m.codigo)).length;
             return (
               <g key={n} className="col-cab" transform={`translate(${layout.xColumna(i)}, 0)`}>
@@ -187,6 +188,26 @@ export default function MallaGrafo({ modo, color, seleccion, onSeleccion, busque
                       </text>
                     </>
                   )}
+                </g>
+              </g>
+            );
+          })}
+          {espacios.map((e) => {
+            const p = layout.posEspacios.get(e.id);
+            if (!p) return null;
+            const lineas = partirNombre(e.nombre, 22);
+            return (
+              <g key={e.id} transform={`translate(${p.x}, ${p.y})`} className={`nodo espacio ${foco != null || coincide ? "tenue" : ""}`}>
+                <title>{`${e.nombre}: espacio electivo de ${e.creditos} créditos. Se cursa con una de las ${e.opciones.length} materias del banco (activa "Electivas" para verlas).`}</title>
+                <rect width={NODO.w} height={NODO.h} rx={11} className="nodo-caja" />
+                <text x={12} y={lineas.length > 1 ? 22 : 30} className="nodo-texto">
+                  {lineas.map((l, i) => (
+                    <tspan key={i} x={12} dy={i ? 15 : 0}>{l}</tspan>
+                  ))}
+                </text>
+                <g transform={`translate(${NODO.w - 20}, ${NODO.h / 2})`}>
+                  <circle r={10} className="nodo-cred-bg" />
+                  <text className="nodo-cred" textAnchor="middle" dy={4}>{e.creditos}</text>
                 </g>
               </g>
             );

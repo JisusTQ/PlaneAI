@@ -1,0 +1,789 @@
+{
+ "documento": "Plan de estudios V.5 — Ingeniería de Sistemas (presencial), Universidad de Antioquia",
+ "acto": "Acuerdo de Facultad 868 del 6 de febrero de 2019",
+ "total_creditos": 168,
+ "niveles": 10,
+ "nota": "Transcripción del gráfico oficial del plan (AF 868) hecha por el equipo para el cotejo del OE1. Los espacios electivos se cursan con materias de los bancos de electivas de Cursum.",
+ "espacios": [
+  {
+   "id": "2508120",
+   "codigo": 2508120,
+   "nombre": "INTRODUCCIÓN A LA INGENIERÍA DE SISTEMAS",
+   "nivel": 1,
+   "creditos": 1,
+   "tipo": "obligatoria",
+   "requisitos": []
+  },
+  {
+   "id": "2536101",
+   "codigo": 2536101,
+   "nombre": "DESCUBRIENDO LA FÍSICA",
+   "nivel": 1,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": []
+  },
+  {
+   "id": "2555121",
+   "codigo": 2555121,
+   "nombre": "GEOMETRÍA VECTORIAL Y ANALÍTICA",
+   "nivel": 1,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": []
+  },
+  {
+   "id": "2555131",
+   "codigo": 2555131,
+   "nombre": "CÁLCULO DIFERENCIAL",
+   "nivel": 1,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "co",
+     "valor": 2555101
+    }
+   ]
+  },
+  {
+   "id": "2555101",
+   "codigo": 2555101,
+   "nombre": "ÁLGEBRA Y TRIGONOMETRÍA",
+   "nivel": 1,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": []
+  },
+  {
+   "id": "2537101",
+   "codigo": 2537101,
+   "nombre": "VIVAMOS LA UNIVERSIDAD",
+   "nivel": 1,
+   "creditos": 1,
+   "tipo": "obligatoria",
+   "requisitos": []
+  },
+  {
+   "id": "9025101",
+   "codigo": 9025101,
+   "nombre": "ENGLISH I",
+   "nivel": 1,
+   "creditos": 2,
+   "tipo": "obligatoria",
+   "requisitos": []
+  },
+  {
+   "id": "2508207",
+   "codigo": 2508207,
+   "nombre": "MATEMÁTICAS DISCRETAS I",
+   "nivel": 2,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508120
+    }
+   ]
+  },
+  {
+   "id": "2508208",
+   "codigo": 2508208,
+   "nombre": "LÓGICA Y REPRESENTACIÓN I",
+   "nivel": 2,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "co",
+     "valor": 2508207
+    }
+   ]
+  },
+  {
+   "id": "2555221",
+   "codigo": 2555221,
+   "nombre": "ÁLGEBRA LINEAL",
+   "nivel": 2,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2555121
+    },
+    {
+     "tipo": "pre",
+     "valor": 2555101
+    }
+   ]
+  },
+  {
+   "id": "2555231",
+   "codigo": 2555231,
+   "nombre": "CÁLCULO INTEGRAL",
+   "nivel": 2,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2555131
+    },
+    {
+     "tipo": "pre",
+     "valor": 2555101
+    }
+   ]
+  },
+  {
+   "id": "2539101",
+   "codigo": 2539101,
+   "nombre": "LECTOESCRITURA",
+   "nivel": 2,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2537101
+    }
+   ]
+  },
+  {
+   "id": "9025102",
+   "codigo": 9025102,
+   "nombre": "ENGLISH II",
+   "nivel": 2,
+   "creditos": 2,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 9025101
+    }
+   ]
+  },
+  {
+   "id": "2508303",
+   "codigo": 2508303,
+   "nombre": "MATEMÁTICAS DISCRETAS II",
+   "nivel": 3,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508207
+    }
+   ]
+  },
+  {
+   "id": "2508306",
+   "codigo": 2508306,
+   "nombre": "LÓGICA Y REPRESENTACIÓN II",
+   "nivel": 3,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508208
+    },
+    {
+     "tipo": "co",
+     "valor": 2508303
+    }
+   ]
+  },
+  {
+   "id": "2508307",
+   "codigo": 2508307,
+   "nombre": "TÉCNICAS DE PROGRAMACIÓN Y LABORATORIO",
+   "nivel": 3,
+   "creditos": 4,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "co",
+     "valor": 2508306
+    }
+   ]
+  },
+  {
+   "id": "2536201",
+   "codigo": 2536201,
+   "nombre": "FÍSICA MECÁNICA",
+   "nivel": 3,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2536101
+    },
+    {
+     "tipo": "pre",
+     "valor": 2555121
+    },
+    {
+     "tipo": "pre",
+     "valor": 2555131
+    }
+   ]
+  },
+  {
+   "id": "2508308",
+   "codigo": 2508308,
+   "nombre": "TEORÍA DE LA PROBABILIDAD Y COLAS",
+   "nivel": 3,
+   "creditos": 4,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2555231
+    }
+   ]
+  },
+  {
+   "id": "2508402",
+   "codigo": 2508402,
+   "nombre": "LÓGICA Y REPRESENTACIÓN III",
+   "nivel": 4,
+   "creditos": 4,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508306
+    }
+   ]
+  },
+  {
+   "id": "2508403",
+   "codigo": 2508403,
+   "nombre": "ANÁLISIS Y DISEÑO DE SISTEMAS I",
+   "nivel": 4,
+   "creditos": 4,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508307
+    }
+   ]
+  },
+  {
+   "id": "2508407",
+   "codigo": 2508407,
+   "nombre": "ECUACIONES DIFERENCIALES Y MÉTODOS NUMÉRICOS",
+   "nivel": 4,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508307
+    },
+    {
+     "tipo": "pre",
+     "valor": 2555221
+    },
+    {
+     "tipo": "pre",
+     "valor": 2555231
+    }
+   ]
+  },
+  {
+   "id": "2508408",
+   "codigo": 2508408,
+   "nombre": "MÉTODOS ESTADÍSTICOS",
+   "nivel": 4,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508308
+    }
+   ]
+  },
+  {
+   "id": "2517362",
+   "codigo": 2517362,
+   "nombre": "FORMACIÓN CIUDADANA Y CONSTITUCIONAL",
+   "nivel": 4,
+   "creditos": 1,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "creditos",
+     "valor": 40
+    }
+   ]
+  },
+  {
+   "id": "9025103",
+   "codigo": 9025103,
+   "nombre": "ENGLISH III",
+   "nivel": 4,
+   "creditos": 2,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 9025102
+    }
+   ]
+  },
+  {
+   "id": "2508508",
+   "codigo": 2508508,
+   "nombre": "TEORÍA DE LENGUAJES Y LABORATORIO",
+   "nivel": 5,
+   "creditos": 4,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508402
+    }
+   ]
+  },
+  {
+   "id": "2508507",
+   "codigo": 2508507,
+   "nombre": "ESTRUCTURAS DE DATOS Y LABORATORIO",
+   "nivel": 5,
+   "creditos": 4,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508402
+    }
+   ]
+  },
+  {
+   "id": "2508506",
+   "codigo": 2508506,
+   "nombre": "ANÁLISIS Y DISEÑO DE SISTEMAS II",
+   "nivel": 5,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508403
+    }
+   ]
+  },
+  {
+   "id": "9025104",
+   "codigo": 9025104,
+   "nombre": "ENGLISH IV",
+   "nivel": 5,
+   "creditos": 2,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 9025103
+    }
+   ]
+  },
+  {
+   "id": "2508610",
+   "codigo": 2508610,
+   "nombre": "COMUNICACIONES Y LABORATORIO",
+   "nivel": 6,
+   "creditos": 4,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508402
+    }
+   ]
+  },
+  {
+   "id": "2508609",
+   "codigo": 2508609,
+   "nombre": "BASES DE DATOS Y LABORATORIO",
+   "nivel": 6,
+   "creditos": 4,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508507
+    }
+   ]
+  },
+  {
+   "id": "2508608",
+   "codigo": 2508608,
+   "nombre": "ARQUITECTURA DE SOFTWARE",
+   "nivel": 6,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508506
+    },
+    {
+     "tipo": "co",
+     "valor": 2508609
+    }
+   ]
+  },
+  {
+   "id": "2508509",
+   "codigo": 2508509,
+   "nombre": "MODELOS Y SIMULACIÓN DE SISTEMAS I",
+   "nivel": 6,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508407
+    },
+    {
+     "tipo": "pre",
+     "valor": 2508408
+    }
+   ]
+  },
+  {
+   "id": "2508700",
+   "codigo": 2508700,
+   "nombre": "PROYECTO INTEGRADOR I",
+   "nivel": 6,
+   "creditos": 2,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "creditos",
+     "valor": 80
+    }
+   ]
+  },
+  {
+   "id": "9025105",
+   "codigo": 9025105,
+   "nombre": "ENGLISH V",
+   "nivel": 6,
+   "creditos": 2,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 9025104
+    }
+   ]
+  },
+  {
+   "id": "2508716",
+   "codigo": 2508716,
+   "nombre": "ARQUITECTURA DE COMPUTADORES Y LABORATORIO",
+   "nivel": 7,
+   "creditos": 4,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508303
+    }
+   ]
+  },
+  {
+   "id": "2508702",
+   "codigo": 2508702,
+   "nombre": "FUNDAMENTOS DE SISTEMAS DE INFORMACIÓN",
+   "nivel": 7,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508403
+    }
+   ]
+  },
+  {
+   "id": "2508703",
+   "codigo": 2508703,
+   "nombre": "CALIDAD DE SOFTWARE",
+   "nivel": 7,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508608
+    }
+   ]
+  },
+  {
+   "id": "2508611",
+   "codigo": 2508611,
+   "nombre": "MODELOS Y SIMULACIÓN DE SISTEMAS II",
+   "nivel": 7,
+   "creditos": 4,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508509
+    }
+   ]
+  },
+  {
+   "id": "2508842",
+   "codigo": 2508842,
+   "nombre": "SISTEMAS OPERATIVOS Y LABORATORIO",
+   "nivel": 8,
+   "creditos": 4,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508716
+    },
+    {
+     "tipo": "pre",
+     "valor": 2508507
+    }
+   ]
+  },
+  {
+   "id": "2508840",
+   "codigo": 2508840,
+   "nombre": "COMUNICACIONES II",
+   "nivel": 8,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508610
+    }
+   ]
+  },
+  {
+   "id": "2508841",
+   "codigo": 2508841,
+   "nombre": "GESTIÓN DE PROYECTOS DE SISTEMAS DE INFORMACIÓN",
+   "nivel": 8,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508702
+    }
+   ]
+  },
+  {
+   "id": "2508701",
+   "codigo": 2508701,
+   "nombre": "FUNDAMENTOS DE INVESTIGACIÓN",
+   "nivel": 8,
+   "creditos": 3,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508506
+    }
+   ]
+  },
+  {
+   "id": "2508902",
+   "codigo": 2508902,
+   "nombre": "PROYECTO INTEGRADOR II - ÁREA ELECTIVA",
+   "nivel": 8,
+   "creditos": 2,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508700
+    }
+   ]
+  },
+  {
+   "id": "2508836",
+   "codigo": 2508836,
+   "nombre": "ÉTICA PROFESIONAL",
+   "nivel": 9,
+   "creditos": 1,
+   "tipo": "obligatoria",
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508701
+    }
+   ]
+  },
+  {
+   "id": "E-FIS",
+   "codigo": null,
+   "nombre": "CURSO ALTERNATIVO DE FÍSICA",
+   "nivel": 5,
+   "creditos": 3,
+   "tipo": "electiva",
+   "bancos": [
+    "CURSO ALTERNATIVO DE FÍSICA"
+   ],
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2536201
+    },
+    {
+     "tipo": "pre",
+     "valor": 2508407
+    },
+    {
+     "tipo": "pre",
+     "valor": 2555231
+    }
+   ]
+  },
+  {
+   "id": "E-LAB",
+   "codigo": null,
+   "nombre": "CURSO ALTERNATIVO DE LABORATORIO INTEGRADO DE FÍSICA",
+   "nivel": 7,
+   "creditos": 1,
+   "tipo": "electiva",
+   "bancos": [
+    "CURSO ALTERNATIVO DE LABORATORIO INTEGRADO FÍSICA"
+   ],
+   "requisitos": []
+  },
+  {
+   "id": "E-LEP1",
+   "codigo": null,
+   "nombre": "LÍNEA DE ÉNFASIS PRINCIPAL I",
+   "nivel": 7,
+   "creditos": 3,
+   "tipo": "electiva",
+   "bancos": [
+    "ENFASIS"
+   ],
+   "requisitos": []
+  },
+  {
+   "id": "E-LEP2",
+   "codigo": null,
+   "nombre": "LÍNEA DE ÉNFASIS PRINCIPAL II",
+   "nivel": 8,
+   "creditos": 3,
+   "tipo": "electiva",
+   "bancos": [
+    "ENFASIS"
+   ],
+   "requisitos": []
+  },
+  {
+   "id": "E-LEP3",
+   "codigo": null,
+   "nombre": "LÍNEA DE ÉNFASIS PRINCIPAL III",
+   "nivel": 9,
+   "creditos": 3,
+   "tipo": "electiva",
+   "bancos": [
+    "ENFASIS"
+   ],
+   "requisitos": []
+  },
+  {
+   "id": "E-LEC1",
+   "codigo": null,
+   "nombre": "LÍNEA DE ÉNFASIS COMPLEMENTARIA I",
+   "nivel": 9,
+   "creditos": 3,
+   "tipo": "electiva",
+   "bancos": [
+    "ENFASIS"
+   ],
+   "requisitos": []
+  },
+  {
+   "id": "E-LEC2",
+   "codigo": null,
+   "nombre": "LÍNEA DE ÉNFASIS COMPLEMENTARIA II",
+   "nivel": 9,
+   "creditos": 3,
+   "tipo": "electiva",
+   "bancos": [
+    "ENFASIS"
+   ],
+   "requisitos": []
+  },
+  {
+   "id": "E-SH1",
+   "codigo": null,
+   "nombre": "ELECTIVA SOCIO-HUMANÍSTICA I",
+   "nivel": 9,
+   "creditos": 3,
+   "tipo": "electiva",
+   "bancos": [
+    "CURSOS SOCIO-HUMANÍSTICAS"
+   ],
+   "requisitos": []
+  },
+  {
+   "id": "E-SH2",
+   "codigo": null,
+   "nombre": "ELECTIVA SOCIO-HUMANÍSTICA II",
+   "nivel": 9,
+   "creditos": 3,
+   "tipo": "electiva",
+   "bancos": [
+    "CURSOS SOCIO-HUMANÍSTICAS"
+   ],
+   "requisitos": []
+  },
+  {
+   "id": "E-SH3",
+   "codigo": null,
+   "nombre": "ELECTIVA SOCIO-HUMANÍSTICA III",
+   "nivel": 10,
+   "creditos": 3,
+   "tipo": "electiva",
+   "bancos": [
+    "CURSOS SOCIO-HUMANÍSTICAS"
+   ],
+   "requisitos": []
+  },
+  {
+   "id": "E-PRA",
+   "codigo": null,
+   "nombre": "PRÁCTICA ACADÉMICA",
+   "nivel": 10,
+   "creditos": 12,
+   "tipo": "electiva",
+   "bancos": [
+    "PRÁCTICA ACADÉMICA"
+   ],
+   "requisitos": [
+    {
+     "tipo": "pre",
+     "valor": 2508701
+    },
+    {
+     "tipo": "creditos",
+     "valor": 132
+    }
+   ]
+  }
+ ]
+}

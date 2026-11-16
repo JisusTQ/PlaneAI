@@ -172,16 +172,23 @@ def consultar_pensum(nivel: int = 0) -> str:
         rag.registrar_fuente(
             "pensum", f"Plan de estudios v{pensum.version_actual() or ''} (Cursum)", f"nivel {nivel}" if nivel else "resumen", rag.URL_CURSUM
         )
+        from app.services import plan_service
+
+        est = plan_service.estructura(pensum.obtener_pensum())
+        electivos = [e for e in est["espacios_electivos"] if e["nivel"] == nivel]
         if not nivel:
-            niveles = pensum.niveles_disponibles()
-            partes = []
-            for n in niveles:
-                etiqueta = "electivas" if n == pensum.NIVEL_ELECTIVAS else f"semestre {n}"
-                partes.append(f"nivel {n} ({etiqueta}): {len(pensum.materias_por_nivel(n))} materias")
-            return "Niveles disponibles en el pensum:\n" + "\n".join(partes)
+            partes = [
+                f"nivel {n}: {len(v['obligatorias'])} obligatorias y {len(v['electivos'])} espacios electivos, {v['creditos']} créditos"
+                for n, v in est["niveles"].items()
+            ]
+            return (
+                f"Plan V.5: {est['total_creditos']} créditos para grado, {est['total_niveles']} niveles y {est['total_espacios']} espacios.\n"
+                + "\n".join(partes)
+                + "\nLas electivas (nivel 99) son el banco con que se llenan los espacios electivos."
+            )
 
         materias = pensum.materias_por_nivel(nivel)
-        if not materias:
+        if not materias and not electivos:
             return f"No hay materias registradas para el nivel {nivel} en el pensum."
 
         etiqueta = "electivas" if nivel == pensum.NIVEL_ELECTIVAS else f"semestre {nivel}"
@@ -194,6 +201,8 @@ def consultar_pensum(nivel: int = 0) -> str:
             lineas.append(
                 f"  - {m.nombre} (código {m.codigo}, {m.creditos} créditos, {m.tipo}).{req}"
             )
+        for e in electivos:
+            lineas.append(f"  - {e['nombre']} (espacio electivo, {e['creditos']} créditos; se cursa con una materia de: {', '.join(e['bancos']).lower()}).")
         return "\n".join(lineas)
     except Exception as exc:  # noqa: BLE001 — degradar con elegancia para el modelo
         return f"Error al consultar el pensum de la UdeA: {exc}"

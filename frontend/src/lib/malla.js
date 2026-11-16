@@ -77,9 +77,11 @@ export const NODO = { w: 178, h: 52, gapX: 52, gapY: 12, padX: 24, padTop: 54, p
  * Disposición por columnas (una por nivel). El orden dentro de cada columna se
  * ajusta con el heurístico del baricentro para reducir cruces de aristas.
  */
-export function disponer(materias, { incluirElectivas = false } = {}) {
+export function disponer(materias, { incluirElectivas = false, espacios = [] } = {}) {
   const visibles = materias.filter((m) => incluirElectivas || m.nivel !== NIVEL_ELECTIVAS);
-  const niveles = [...new Set(visibles.map((m) => m.nivel))].sort((a, b) => a - b);
+  // Los espacios electivos del plan oficial (línea de énfasis, socio-humanísticas,
+  // práctica académica...) se dibujan al final de su columna, como en el gráfico de la Facultad.
+  const niveles = [...new Set([...visibles.map((m) => m.nivel), ...espacios.map((e) => e.nivel)])].sort((a, b) => a - b);
   const columnas = niveles.map((n) => visibles.filter((m) => m.nivel === n));
   const colDe = new Map();
   columnas.forEach((col, i) => col.forEach((m) => colDe.set(m.codigo, i)));
@@ -106,13 +108,19 @@ export function disponer(materias, { incluirElectivas = false } = {}) {
     }
   }
 
-  const maxFilas = Math.max(1, ...columnas.map((c) => c.length));
+  const espaciosDe = (n) => espacios.filter((e) => e.nivel === n);
+  const maxFilas = Math.max(1, ...columnas.map((c, i) => c.length + espaciosDe(niveles[i]).length));
   const altoUtil = maxFilas * NODO.h + (maxFilas - 1) * NODO.gapY;
   const pos = new Map();
+  const posEspacios = new Map();
   columnas.forEach((col, c) => {
-    const alto = col.length * NODO.h + (col.length - 1) * NODO.gapY;
+    const extra = espaciosDe(niveles[c]);
+    const filas = col.length + extra.length;
+    const alto = filas * NODO.h + (filas - 1) * NODO.gapY;
     const y0 = NODO.padTop + (altoUtil - alto) / 2;
-    col.forEach((m, i) => pos.set(m.codigo, { x: NODO.padX + c * (NODO.w + NODO.gapX), y: y0 + i * (NODO.h + NODO.gapY) }));
+    const x = NODO.padX + c * (NODO.w + NODO.gapX);
+    col.forEach((m, i) => pos.set(m.codigo, { x, y: y0 + i * (NODO.h + NODO.gapY) }));
+    extra.forEach((e, i) => posEspacios.set(e.id, { x, y: y0 + (col.length + i) * (NODO.h + NODO.gapY) }));
   });
 
   const aristas = [];
@@ -133,6 +141,7 @@ export function disponer(materias, { incluirElectivas = false } = {}) {
 
   return {
     pos,
+    posEspacios,
     aristas,
     niveles,
     ancho: NODO.padX * 2 + columnas.length * NODO.w + (columnas.length - 1) * NODO.gapX,

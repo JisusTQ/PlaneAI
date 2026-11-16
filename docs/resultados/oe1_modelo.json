@@ -1,5 +1,5 @@
 {
-  "fecha": "2026-11-15",
+  "fecha": "2026-11-16",
   "version_pensum": 5,
   "origen": "snapshot",
   "resumen": {
@@ -49,13 +49,11 @@
       "OBLIGATORIA": 44,
       "ELECTIVA": 64
     },
-    "aristas_prerrequisito": 84,
+    "aristas_prerrequisito": 86,
     "correquisitos": 5,
     "es_aciclico": true,
     "materias_en_ciclo": [],
-    "requisitos_fuera_del_pensum": [
-      2539101
-    ],
+    "requisitos_fuera_del_pensum": [],
     "requisitos_por_creditos": [
       {
         "creditos_minimos": 16,
@@ -92,6 +90,12 @@
         "creditos_minimos": 65,
         "materias": [
           2508401
+        ]
+      },
+      {
+        "creditos_minimos": 80,
+        "materias": [
+          2508700
         ]
       },
       {
@@ -169,9 +173,1004 @@
       }
     ]
   },
+  "estructura_plan": {
+    "niveles": {
+      "1": {
+        "obligatorias": [
+          2508120,
+          2536101,
+          2537101,
+          2555101,
+          2555121,
+          2555131,
+          9025101
+        ],
+        "electivos": [],
+        "creditos": 16
+      },
+      "2": {
+        "obligatorias": [
+          2508207,
+          2508208,
+          2539130,
+          2555221,
+          2555231,
+          9025102
+        ],
+        "electivos": [],
+        "creditos": 17
+      },
+      "3": {
+        "obligatorias": [
+          2508303,
+          2508306,
+          2508307,
+          2508308,
+          2536201
+        ],
+        "electivos": [],
+        "creditos": 17
+      },
+      "4": {
+        "obligatorias": [
+          2508402,
+          2508403,
+          2508407,
+          2508408,
+          2517450,
+          9025103
+        ],
+        "electivos": [],
+        "creditos": 17
+      },
+      "5": {
+        "obligatorias": [
+          2508506,
+          2508507,
+          2508508,
+          9025104
+        ],
+        "electivos": [
+          "E-FIS"
+        ],
+        "creditos": 16
+      },
+      "6": {
+        "obligatorias": [
+          2508509,
+          2508608,
+          2508609,
+          2508610,
+          2508700,
+          9025105
+        ],
+        "electivos": [],
+        "creditos": 18
+      },
+      "7": {
+        "obligatorias": [
+          2508611,
+          2508702,
+          2508703,
+          2508716
+        ],
+        "electivos": [
+          "E-LAB",
+          "E-LEP1"
+        ],
+        "creditos": 18
+      },
+      "8": {
+        "obligatorias": [
+          2508701,
+          2508840,
+          2508841,
+          2508842,
+          2508902
+        ],
+        "electivos": [
+          "E-LEP2"
+        ],
+        "creditos": 18
+      },
+      "9": {
+        "obligatorias": [
+          2508836
+        ],
+        "electivos": [
+          "E-LEP3",
+          "E-LEC1",
+          "E-LEC2",
+          "E-SH1",
+          "E-SH2"
+        ],
+        "creditos": 16
+      },
+      "10": {
+        "obligatorias": [],
+        "electivos": [
+          "E-SH3",
+          "E-PRA"
+        ],
+        "creditos": 15
+      }
+    },
+    "espacios_electivos": [
+      {
+        "id": "E-FIS",
+        "nombre": "CURSO ALTERNATIVO DE FÍSICA",
+        "nivel": 5,
+        "creditos": 3,
+        "bancos": [
+          "CURSO ALTERNATIVO DE FÍSICA"
+        ],
+        "opciones": [
+          2536302,
+          2536311,
+          2536321
+        ]
+      },
+      {
+        "id": "E-LAB",
+        "nombre": "CURSO ALTERNATIVO DE LABORATORIO INTEGRADO DE FÍSICA",
+        "nivel": 7,
+        "creditos": 1,
+        "bancos": [
+          "CURSO ALTERNATIVO DE LABORATORIO INTEGRADO FÍSICA"
+        ],
+        "opciones": [
+          2536500,
+          2536501,
+          2536503
+        ]
+      },
+      {
+        "id": "E-LEP1",
+        "nombre": "LÍNEA DE ÉNFASIS PRINCIPAL I",
+        "nivel": 7,
+        "creditos": 3,
+        "bancos": [
+          "LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN",
+          "ENFÁSIS CIENCIA DE LA COMPUTACIÓN",
+          "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
+        ],
+        "opciones": [
+          2508401,
+          2508910,
+          2508911,
+          2508912,
+          2508913,
+          2508914,
+          2508915,
+          2508916,
+          2508917,
+          2508918,
+          2508921,
+          2508940,
+          2508941,
+          2508942,
+          2508943,
+          2508944,
+          2508945,
+          2508946,
+          2508947,
+          2508970,
+          2508971,
+          2508972,
+          2508973,
+          2508974,
+          2508975,
+          2508976,
+          2508977,
+          2508978,
+          2508979
+        ]
+      },
+      {
+        "id": "E-LEP2",
+        "nombre": "LÍNEA DE ÉNFASIS PRINCIPAL II",
+        "nivel": 8,
+        "creditos": 3,
+        "bancos": [
+          "LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN",
+          "ENFÁSIS CIENCIA DE LA COMPUTACIÓN",
+          "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
+        ],
+        "opciones": [
+          2508401,
+          2508910,
+          2508911,
+          2508912,
+          2508913,
+          2508914,
+          2508915,
+          2508916,
+          2508917,
+          2508918,
+          2508921,
+          2508940,
+          2508941,
+          2508942,
+          2508943,
+          2508944,
+          2508945,
+          2508946,
+          2508947,
+          2508970,
+          2508971,
+          2508972,
+          2508973,
+          2508974,
+          2508975,
+          2508976,
+          2508977,
+          2508978,
+          2508979
+        ]
+      },
+      {
+        "id": "E-LEP3",
+        "nombre": "LÍNEA DE ÉNFASIS PRINCIPAL III",
+        "nivel": 9,
+        "creditos": 3,
+        "bancos": [
+          "LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN",
+          "ENFÁSIS CIENCIA DE LA COMPUTACIÓN",
+          "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
+        ],
+        "opciones": [
+          2508401,
+          2508910,
+          2508911,
+          2508912,
+          2508913,
+          2508914,
+          2508915,
+          2508916,
+          2508917,
+          2508918,
+          2508921,
+          2508940,
+          2508941,
+          2508942,
+          2508943,
+          2508944,
+          2508945,
+          2508946,
+          2508947,
+          2508970,
+          2508971,
+          2508972,
+          2508973,
+          2508974,
+          2508975,
+          2508976,
+          2508977,
+          2508978,
+          2508979
+        ]
+      },
+      {
+        "id": "E-LEC1",
+        "nombre": "LÍNEA DE ÉNFASIS COMPLEMENTARIA I",
+        "nivel": 9,
+        "creditos": 3,
+        "bancos": [
+          "LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN",
+          "ENFÁSIS CIENCIA DE LA COMPUTACIÓN",
+          "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
+        ],
+        "opciones": [
+          2508401,
+          2508910,
+          2508911,
+          2508912,
+          2508913,
+          2508914,
+          2508915,
+          2508916,
+          2508917,
+          2508918,
+          2508921,
+          2508940,
+          2508941,
+          2508942,
+          2508943,
+          2508944,
+          2508945,
+          2508946,
+          2508947,
+          2508970,
+          2508971,
+          2508972,
+          2508973,
+          2508974,
+          2508975,
+          2508976,
+          2508977,
+          2508978,
+          2508979
+        ]
+      },
+      {
+        "id": "E-LEC2",
+        "nombre": "LÍNEA DE ÉNFASIS COMPLEMENTARIA II",
+        "nivel": 9,
+        "creditos": 3,
+        "bancos": [
+          "LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN",
+          "ENFÁSIS CIENCIA DE LA COMPUTACIÓN",
+          "ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS"
+        ],
+        "opciones": [
+          2508401,
+          2508910,
+          2508911,
+          2508912,
+          2508913,
+          2508914,
+          2508915,
+          2508916,
+          2508917,
+          2508918,
+          2508921,
+          2508940,
+          2508941,
+          2508942,
+          2508943,
+          2508944,
+          2508945,
+          2508946,
+          2508947,
+          2508970,
+          2508971,
+          2508972,
+          2508973,
+          2508974,
+          2508975,
+          2508976,
+          2508977,
+          2508978,
+          2508979
+        ]
+      },
+      {
+        "id": "E-SH1",
+        "nombre": "ELECTIVA SOCIO-HUMANÍSTICA I",
+        "nivel": 9,
+        "creditos": 3,
+        "bancos": [
+          "CURSOS SOCIO-HUMANÍSTICAS"
+        ],
+        "opciones": [
+          2508020,
+          2508021,
+          2508022,
+          2508023,
+          2508024,
+          2508025,
+          2508026,
+          2508027,
+          2508028,
+          2508029,
+          2508030,
+          2508031,
+          2508032,
+          2508033,
+          2508034,
+          2508035,
+          2508036,
+          2508037,
+          2508038,
+          2517204,
+          2517206,
+          2517208,
+          2566122,
+          2566604
+        ]
+      },
+      {
+        "id": "E-SH2",
+        "nombre": "ELECTIVA SOCIO-HUMANÍSTICA II",
+        "nivel": 9,
+        "creditos": 3,
+        "bancos": [
+          "CURSOS SOCIO-HUMANÍSTICAS"
+        ],
+        "opciones": [
+          2508020,
+          2508021,
+          2508022,
+          2508023,
+          2508024,
+          2508025,
+          2508026,
+          2508027,
+          2508028,
+          2508029,
+          2508030,
+          2508031,
+          2508032,
+          2508033,
+          2508034,
+          2508035,
+          2508036,
+          2508037,
+          2508038,
+          2517204,
+          2517206,
+          2517208,
+          2566122,
+          2566604
+        ]
+      },
+      {
+        "id": "E-SH3",
+        "nombre": "ELECTIVA SOCIO-HUMANÍSTICA III",
+        "nivel": 10,
+        "creditos": 3,
+        "bancos": [
+          "CURSOS SOCIO-HUMANÍSTICAS"
+        ],
+        "opciones": [
+          2508020,
+          2508021,
+          2508022,
+          2508023,
+          2508024,
+          2508025,
+          2508026,
+          2508027,
+          2508028,
+          2508029,
+          2508030,
+          2508031,
+          2508032,
+          2508033,
+          2508034,
+          2508035,
+          2508036,
+          2508037,
+          2508038,
+          2517204,
+          2517206,
+          2517208,
+          2566122,
+          2566604
+        ]
+      },
+      {
+        "id": "E-PRA",
+        "nombre": "PRÁCTICA ACADÉMICA",
+        "nivel": 10,
+        "creditos": 12,
+        "bancos": [
+          "PRÁCTICA ACADÉMICA"
+        ],
+        "opciones": [
+          2508001,
+          2508002,
+          2508003,
+          2508004,
+          2508005
+        ]
+      }
+    ],
+    "total_espacios": 55,
+    "total_creditos": 168,
+    "total_niveles": 10,
+    "creditos_grado_cursum": 168
+  },
   "consistencia_niveles": [],
   "cotejo": {
-    "estado": "hoja creada, pendiente de cotejo",
+    "plan": "Acuerdo de Facultad 868 del 6 de febrero de 2019",
+    "espacios": 55,
+    "espacios_coinciden": 53,
+    "porcentaje_espacios": 96.4,
+    "atributos": 275,
+    "atributos_coinciden": 273,
+    "porcentaje_atributos": 99.3,
     "archivo": "docs/datos/cotejo_plan_publicado.csv"
-  }
+  },
+  "cotejo_detalle": [
+    {
+      "espacio": "INTRODUCCIÓN A LA INGENIERÍA DE SISTEMAS",
+      "codigo_plan": 2508120,
+      "codigo_modelo": 2508120,
+      "nivel": 1,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "DESCUBRIENDO LA FÍSICA",
+      "codigo_plan": 2536101,
+      "codigo_modelo": 2536101,
+      "nivel": 1,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "GEOMETRÍA VECTORIAL Y ANALÍTICA",
+      "codigo_plan": 2555121,
+      "codigo_modelo": 2555121,
+      "nivel": 1,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "CÁLCULO DIFERENCIAL",
+      "codigo_plan": 2555131,
+      "codigo_modelo": 2555131,
+      "nivel": 1,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "ÁLGEBRA Y TRIGONOMETRÍA",
+      "codigo_plan": 2555101,
+      "codigo_modelo": 2555101,
+      "nivel": 1,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "VIVAMOS LA UNIVERSIDAD",
+      "codigo_plan": 2537101,
+      "codigo_modelo": 2537101,
+      "nivel": 1,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "ENGLISH I",
+      "codigo_plan": 9025101,
+      "codigo_modelo": 9025101,
+      "nivel": 1,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "MATEMÁTICAS DISCRETAS I",
+      "codigo_plan": 2508207,
+      "codigo_modelo": 2508207,
+      "nivel": 2,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "LÓGICA Y REPRESENTACIÓN I",
+      "codigo_plan": 2508208,
+      "codigo_modelo": 2508208,
+      "nivel": 2,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "ÁLGEBRA LINEAL",
+      "codigo_plan": 2555221,
+      "codigo_modelo": 2555221,
+      "nivel": 2,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "CÁLCULO INTEGRAL",
+      "codigo_plan": 2555231,
+      "codigo_modelo": 2555231,
+      "nivel": 2,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "LECTOESCRITURA",
+      "codigo_plan": 2539101,
+      "codigo_modelo": 2539130,
+      "nivel": 2,
+      "coincide": true,
+      "diferencias": [],
+      "nota": "En el modelo es Español Académico (2539130), que reemplazó a 2539101."
+    },
+    {
+      "espacio": "ENGLISH II",
+      "codigo_plan": 9025102,
+      "codigo_modelo": 9025102,
+      "nivel": 2,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "MATEMÁTICAS DISCRETAS II",
+      "codigo_plan": 2508303,
+      "codigo_modelo": 2508303,
+      "nivel": 3,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "LÓGICA Y REPRESENTACIÓN II",
+      "codigo_plan": 2508306,
+      "codigo_modelo": 2508306,
+      "nivel": 3,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "TÉCNICAS DE PROGRAMACIÓN Y LABORATORIO",
+      "codigo_plan": 2508307,
+      "codigo_modelo": 2508307,
+      "nivel": 3,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "FÍSICA MECÁNICA",
+      "codigo_plan": 2536201,
+      "codigo_modelo": 2536201,
+      "nivel": 3,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "TEORÍA DE LA PROBABILIDAD Y COLAS",
+      "codigo_plan": 2508308,
+      "codigo_modelo": 2508308,
+      "nivel": 3,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "LÓGICA Y REPRESENTACIÓN III",
+      "codigo_plan": 2508402,
+      "codigo_modelo": 2508402,
+      "nivel": 4,
+      "coincide": false,
+      "diferencias": [
+        "prerrequisitos: plan [Lógica Y Representación Ii], modelo [Lógica Y Representación Ii, Teoría De La Probabilidad Y Colas]"
+      ],
+      "nota": ""
+    },
+    {
+      "espacio": "ANÁLISIS Y DISEÑO DE SISTEMAS I",
+      "codigo_plan": 2508403,
+      "codigo_modelo": 2508403,
+      "nivel": 4,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "ECUACIONES DIFERENCIALES Y MÉTODOS NUMÉRICOS",
+      "codigo_plan": 2508407,
+      "codigo_modelo": 2508407,
+      "nivel": 4,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "MÉTODOS ESTADÍSTICOS",
+      "codigo_plan": 2508408,
+      "codigo_modelo": 2508408,
+      "nivel": 4,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "FORMACIÓN CIUDADANA Y CONSTITUCIONAL",
+      "codigo_plan": 2517362,
+      "codigo_modelo": 2517450,
+      "nivel": 4,
+      "coincide": false,
+      "diferencias": [
+        "créditos exigidos: plan [40], modelo [ninguno]"
+      ],
+      "nota": "En el modelo es Cátedra De Formación Ciudadana Y Constitucional (2517450), que reemplazó a 2517362."
+    },
+    {
+      "espacio": "ENGLISH III",
+      "codigo_plan": 9025103,
+      "codigo_modelo": 9025103,
+      "nivel": 4,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "TEORÍA DE LENGUAJES Y LABORATORIO",
+      "codigo_plan": 2508508,
+      "codigo_modelo": 2508508,
+      "nivel": 5,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "ESTRUCTURAS DE DATOS Y LABORATORIO",
+      "codigo_plan": 2508507,
+      "codigo_modelo": 2508507,
+      "nivel": 5,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "ANÁLISIS Y DISEÑO DE SISTEMAS II",
+      "codigo_plan": 2508506,
+      "codigo_modelo": 2508506,
+      "nivel": 5,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "ENGLISH IV",
+      "codigo_plan": 9025104,
+      "codigo_modelo": 9025104,
+      "nivel": 5,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "COMUNICACIONES Y LABORATORIO",
+      "codigo_plan": 2508610,
+      "codigo_modelo": 2508610,
+      "nivel": 6,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "BASES DE DATOS Y LABORATORIO",
+      "codigo_plan": 2508609,
+      "codigo_modelo": 2508609,
+      "nivel": 6,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "ARQUITECTURA DE SOFTWARE",
+      "codigo_plan": 2508608,
+      "codigo_modelo": 2508608,
+      "nivel": 6,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "MODELOS Y SIMULACIÓN DE SISTEMAS I",
+      "codigo_plan": 2508509,
+      "codigo_modelo": 2508509,
+      "nivel": 6,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "PROYECTO INTEGRADOR I",
+      "codigo_plan": 2508700,
+      "codigo_modelo": 2508700,
+      "nivel": 6,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "ENGLISH V",
+      "codigo_plan": 9025105,
+      "codigo_modelo": 9025105,
+      "nivel": 6,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "ARQUITECTURA DE COMPUTADORES Y LABORATORIO",
+      "codigo_plan": 2508716,
+      "codigo_modelo": 2508716,
+      "nivel": 7,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "FUNDAMENTOS DE SISTEMAS DE INFORMACIÓN",
+      "codigo_plan": 2508702,
+      "codigo_modelo": 2508702,
+      "nivel": 7,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "CALIDAD DE SOFTWARE",
+      "codigo_plan": 2508703,
+      "codigo_modelo": 2508703,
+      "nivel": 7,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "MODELOS Y SIMULACIÓN DE SISTEMAS II",
+      "codigo_plan": 2508611,
+      "codigo_modelo": 2508611,
+      "nivel": 7,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "SISTEMAS OPERATIVOS Y LABORATORIO",
+      "codigo_plan": 2508842,
+      "codigo_modelo": 2508842,
+      "nivel": 8,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "COMUNICACIONES II",
+      "codigo_plan": 2508840,
+      "codigo_modelo": 2508840,
+      "nivel": 8,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "GESTIÓN DE PROYECTOS DE SISTEMAS DE INFORMACIÓN",
+      "codigo_plan": 2508841,
+      "codigo_modelo": 2508841,
+      "nivel": 8,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "FUNDAMENTOS DE INVESTIGACIÓN",
+      "codigo_plan": 2508701,
+      "codigo_modelo": 2508701,
+      "nivel": 8,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "PROYECTO INTEGRADOR II - ÁREA ELECTIVA",
+      "codigo_plan": 2508902,
+      "codigo_modelo": 2508902,
+      "nivel": 8,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "ÉTICA PROFESIONAL",
+      "codigo_plan": 2508836,
+      "codigo_modelo": 2508836,
+      "nivel": 9,
+      "coincide": true,
+      "diferencias": [],
+      "nota": ""
+    },
+    {
+      "espacio": "CURSO ALTERNATIVO DE FÍSICA",
+      "codigo_plan": null,
+      "codigo_modelo": null,
+      "nivel": 5,
+      "coincide": true,
+      "diferencias": [],
+      "nota": "3 opciones en Cursum (CURSO ALTERNATIVO DE FÍSICA)."
+    },
+    {
+      "espacio": "CURSO ALTERNATIVO DE LABORATORIO INTEGRADO DE FÍSICA",
+      "codigo_plan": null,
+      "codigo_modelo": null,
+      "nivel": 7,
+      "coincide": true,
+      "diferencias": [],
+      "nota": "3 opciones en Cursum (CURSO ALTERNATIVO DE LABORATORIO INTEGRADO FÍSICA)."
+    },
+    {
+      "espacio": "LÍNEA DE ÉNFASIS PRINCIPAL I",
+      "codigo_plan": null,
+      "codigo_modelo": null,
+      "nivel": 7,
+      "coincide": true,
+      "diferencias": [],
+      "nota": "29 opciones en Cursum (LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN, ENFÁSIS CIENCIA DE LA COMPUTACIÓN, ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS)."
+    },
+    {
+      "espacio": "LÍNEA DE ÉNFASIS PRINCIPAL II",
+      "codigo_plan": null,
+      "codigo_modelo": null,
+      "nivel": 8,
+      "coincide": true,
+      "diferencias": [],
+      "nota": "29 opciones en Cursum (LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN, ENFÁSIS CIENCIA DE LA COMPUTACIÓN, ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS)."
+    },
+    {
+      "espacio": "LÍNEA DE ÉNFASIS PRINCIPAL III",
+      "codigo_plan": null,
+      "codigo_modelo": null,
+      "nivel": 9,
+      "coincide": true,
+      "diferencias": [],
+      "nota": "29 opciones en Cursum (LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN, ENFÁSIS CIENCIA DE LA COMPUTACIÓN, ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS)."
+    },
+    {
+      "espacio": "LÍNEA DE ÉNFASIS COMPLEMENTARIA I",
+      "codigo_plan": null,
+      "codigo_modelo": null,
+      "nivel": 9,
+      "coincide": true,
+      "diferencias": [],
+      "nota": "29 opciones en Cursum (LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN, ENFÁSIS CIENCIA DE LA COMPUTACIÓN, ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS)."
+    },
+    {
+      "espacio": "LÍNEA DE ÉNFASIS COMPLEMENTARIA II",
+      "codigo_plan": null,
+      "codigo_modelo": null,
+      "nivel": 9,
+      "coincide": true,
+      "diferencias": [],
+      "nota": "29 opciones en Cursum (LÍNEA ENFÁSIS ING SOFTWARE Y SISTEMAS INFORMACIÓN, ENFÁSIS CIENCIA DE LA COMPUTACIÓN, ENFÁSIS ING DE COMPUTADORES Y COMUNICACIÓN DATOS)."
+    },
+    {
+      "espacio": "ELECTIVA SOCIO-HUMANÍSTICA I",
+      "codigo_plan": null,
+      "codigo_modelo": null,
+      "nivel": 9,
+      "coincide": true,
+      "diferencias": [],
+      "nota": "24 opciones en Cursum (CURSOS SOCIO-HUMANÍSTICAS)."
+    },
+    {
+      "espacio": "ELECTIVA SOCIO-HUMANÍSTICA II",
+      "codigo_plan": null,
+      "codigo_modelo": null,
+      "nivel": 9,
+      "coincide": true,
+      "diferencias": [],
+      "nota": "24 opciones en Cursum (CURSOS SOCIO-HUMANÍSTICAS)."
+    },
+    {
+      "espacio": "ELECTIVA SOCIO-HUMANÍSTICA III",
+      "codigo_plan": null,
+      "codigo_modelo": null,
+      "nivel": 10,
+      "coincide": true,
+      "diferencias": [],
+      "nota": "24 opciones en Cursum (CURSOS SOCIO-HUMANÍSTICAS)."
+    },
+    {
+      "espacio": "PRÁCTICA ACADÉMICA",
+      "codigo_plan": null,
+      "codigo_modelo": null,
+      "nivel": 10,
+      "coincide": true,
+      "diferencias": [],
+      "nota": "5 opciones en Cursum (PRÁCTICA ACADÉMICA)."
+    }
+  ]
 }

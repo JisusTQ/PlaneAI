@@ -40,9 +40,10 @@ def test_snapshot_es_consistente():
     assert version == 5
     assert r["materias_totales"] == 108
     assert r["es_aciclico"] and r["orden_topologico_valido"]
-    # Los requisitos numéricos ya no aparecen como "materias fuera del pensum".
-    assert r["requisitos_fuera_del_pensum"] == [2539101]
-    assert {x["creditos_minimos"] for x in r["requisitos_por_creditos"]} == {16, 48, 60, 65, 132}
+    # Los requisitos numéricos ya no son "materias fuera del pensum" y el código
+    # antiguo de Lectoescritura se resuelve con su equivalente (Español Académico).
+    assert r["requisitos_fuera_del_pensum"] == []
+    assert {x["creditos_minimos"] for x in r["requisitos_por_creditos"]} == {16, 48, 60, 65, 80, 132}  # 80: Proyecto Integrador I (lineamientos)
 
 
 def test_snapshot_trabajo_de_grado_exige_132_creditos():

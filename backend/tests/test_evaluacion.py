@@ -17,10 +17,14 @@ def test_banco_tiene_40_preguntas_de_malla_y_reglamento():
 
 def test_respuestas_esperadas_de_malla_coinciden_con_el_pensum():
     """Las claves de las preguntas de malla salen del plan real (snapshot v5)."""
+    from app.services import plan_service
+
     materias, _ = pensum.cargar_snapshot()
-    oblig = [m for m in materias if m.nivel != 99]
-    assert sum(m.creditos for m in oblig) == 128  # pregunta 2
-    assert len({m.nivel for m in oblig}) == 9  # pregunta 3
+    est = plan_service.estructura(materias)
+    assert est["total_creditos"] == 168  # pregunta 2
+    assert est["total_niveles"] == 10  # pregunta 3
+    pi = next(m for m in materias if m.codigo == 2508700)
+    assert any(r.codigo == 80 for r in pi.requisitos)  # pregunta 14
 
 
 def test_articulos_esperados_existen_en_el_corpus():

@@ -1,6 +1,6 @@
 # OE2 — Banco de casos del motor de validación y recomendación
 
-Generado el 2026-11-15 con `backend/scripts/banco_motor.py`. Datos: plan real v5 (snapshot) + oferta simulada con semilla 2026.
+Generado el 2026-11-16 con `backend/scripts/banco_motor.py`. Datos: plan real v5 (snapshot) + oferta simulada con semilla 2026.
 Cada carga propuesta por el motor se verificó con un auditor independiente
 (`backend/scripts/auditor.py`) que reimplementa las restricciones duras:
 existencia en el plan, no aprobada, prerrequisitos, correquisitos, créditos

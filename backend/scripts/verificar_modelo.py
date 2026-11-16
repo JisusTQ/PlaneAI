@@ -5,9 +5,11 @@ Genera la evidencia del indicador OE1:
   - materias y créditos modelados por nivel, aciclicidad (Kahn) y orden topológico;
   - consistencia de niveles (todo prerrequisito está en un nivel anterior);
   - requisitos por créditos y requisitos con código de otra versión del plan;
-  - % de coincidencia con el plan publicado, a partir de la hoja de cotejo
-    docs/datos/cotejo_plan_publicado.csv (el equipo marca "sí"/"no" por materia
-    comparando contra el documento oficial del plan).
+  - estructura del plan oficial (55 espacios, 168 créditos, 10 niveles);
+  - % de coincidencia con el plan publicado (Acuerdo de Facultad 868, gráfico
+    oficial V.5 transcrito en app/data/plan_publicado_af868.json), espacio por
+    espacio y atributo por atributo; el detalle queda en
+    docs/datos/cotejo_plan_publicado.csv.
 
 Uso (desde backend/):
     python scripts/verificar_modelo.py              # pensum en vivo (o snapshot si el portal no responde)
@@ -27,6 +29,7 @@ RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ / "backend"))
 
 from app.services import grafo_service as grafo  # noqa: E402
+from app.services import plan_service  # noqa: E402
 from app.services import udea_pensum_service as pensum  # noqa: E402
 
 COTEJO = RAIZ / "docs" / "datos" / "cotejo_plan_publicado.csv"
@@ -60,50 +63,17 @@ def consistencia_niveles(materias) -> list[str]:
     return hallazgos
 
 
-def _fila(m, idx) -> dict:
-    nombre = lambda c: idx[c].nombre if c in idx else str(c)  # noqa: E731
-    return {
-        "codigo": m.codigo,
-        "nombre": m.nombre,
-        "nivel": m.nivel,
-        "creditos": m.creditos,
-        "prerrequisitos": "; ".join(nombre(r.codigo) for r in m.requisitos if pensum.es_prerrequisito(r)),
-        "correquisitos": "; ".join(nombre(r.codigo) for r in m.requisitos if pensum.es_correquisito(r)),
-        "otros_requisitos": "; ".join(
-            f"{r.codigo} créditos aprobados" if pensum.es_req_creditos(r) else f"código {r.codigo} (otra versión)"
-            for r in m.requisitos
-            if pensum.es_req_creditos(r) or pensum.es_externo(r)
-        ),
-        "coincide": "",
-        "observacion": "",
-    }
-
-
 def cotejo(materias) -> dict:
-    """Crea la hoja de cotejo si no existe; si existe, calcula el % de coincidencia."""
-    idx = {m.codigo: m for m in materias}
-    obligatorias = [m for m in materias if m.nivel != pensum.NIVEL_ELECTIVAS]
-    if not COTEJO.exists():
-        COTEJO.parent.mkdir(parents=True, exist_ok=True)
-        with COTEJO.open("w", newline="", encoding="utf-8") as f:
-            w = csv.DictWriter(f, fieldnames=CAMPOS)
-            w.writeheader()
-            for m in sorted(obligatorias, key=lambda x: (x.nivel, x.codigo)):
-                w.writerow(_fila(m, idx))
-        return {"estado": "hoja creada, pendiente de cotejo", "archivo": str(COTEJO.relative_to(RAIZ))}
-
-    with COTEJO.open(encoding="utf-8") as f:
-        filas = list(csv.DictReader(f))
-    marcadas = [x for x in filas if x["coincide"].strip()]
-    si = [x for x in marcadas if x["coincide"].strip().lower() in {"si", "sí", "s", "1", "x"}]
-    return {
-        "estado": "cotejo completo" if len(marcadas) == len(filas) else f"cotejo parcial ({len(marcadas)}/{len(filas)})",
-        "archivo": str(COTEJO.relative_to(RAIZ)),
-        "materias_cotejadas": len(marcadas),
-        "coinciden": len(si),
-        "porcentaje": round(100 * len(si) / len(marcadas), 1) if marcadas else None,
-        "no_coinciden": [f"{x['nombre']}: {x['observacion']}" for x in marcadas if x not in si],
-    }
+    """Cotejo automático contra el plan publicado; escribe el detalle en CSV."""
+    c = plan_service.cotejo(materias)
+    COTEJO.parent.mkdir(parents=True, exist_ok=True)
+    with COTEJO.open("w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["nivel", "espacio_plan", "codigo_plan", "codigo_modelo", "coincide", "diferencias", "nota"])
+        for x in c["detalle"]:
+            w.writerow([x["nivel"], x["espacio"], x["codigo_plan"] or "", x["codigo_modelo"] or "", "sí" if x["coincide"] else "no", "; ".join(x["diferencias"]), x["nota"]])
+    c["archivo"] = str(COTEJO.relative_to(RAIZ))
+    return c
 
 
 def main():
@@ -115,7 +85,8 @@ def main():
     r = grafo.resumen_grafo(materias, top=10)
     niveles = consistencia_niveles(materias)
     cot = cotejo(materias)
-    datos = {"fecha": date.today().isoformat(), "version_pensum": version, "origen": origen, "resumen": r, "consistencia_niveles": niveles, "cotejo": cot}
+    est = plan_service.estructura(materias)
+    datos = {"fecha": date.today().isoformat(), "version_pensum": version, "origen": origen, "resumen": r, "estructura_plan": est, "consistencia_niveles": niveles, "cotejo": {k: v for k, v in cot.items() if k != "detalle"}, "cotejo_detalle": cot["detalle"]}
 
     SALIDA.mkdir(parents=True, exist_ok=True)
     (SALIDA / "oe1_modelo.json").write_text(json.dumps(datos, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -125,7 +96,14 @@ def main():
     creditos = "\n".join(
         f"- {x['creditos_minimos']} créditos aprobados: {len(x['materias'])} materias" for x in r["requisitos_por_creditos"]
     )
-    pct = cot.get("porcentaje")
+    plan_niveles = "\n".join(
+        f"| {n} | {len(v['obligatorias'])} | {', '.join(v['electivos']) or '—'} | {v['creditos']} |" for n, v in est["niveles"].items()
+    )
+    difs = "\n".join(
+        f"| {x['espacio'].title()} | {'; '.join(x['diferencias']) or 'Coincide'} | {x['nota']} |"
+        for x in cot["detalle"]
+        if x["diferencias"] or (x["nota"] and x["codigo_plan"])
+    )
     md = f"""# OE1 — Verificación del modelo computable del plan de estudios
 
 Generado el {datos['fecha']} con `backend/scripts/verificar_modelo.py`.
@@ -135,21 +113,23 @@ Fuente: pensum versión {version} del programa 504 (origen de los datos: **{orig
 
 | Indicador | Resultado |
 |---|---|
-| Materias del pensum modeladas | {r['materias_totales']} ({r['materias_obligatorias']} obligatorias, {r['materias_totales'] - r['materias_obligatorias']} electivas) |
-| Créditos obligatorios | {r['creditos_obligatorios']} |
-| Niveles con obligatorias | {r['niveles']} |
+| Espacios del plan modelados | {est['total_espacios']} ({r['materias_obligatorias']} obligatorias + {len(est['espacios_electivos'])} espacios electivos) |
+| Créditos para grado | {est['total_creditos']} ({r['creditos_obligatorios']} obligatorios + {est['total_creditos'] - r['creditos_obligatorios']} electivos); Cursum: {est['creditos_grado_cursum']} |
+| Niveles | {est['total_niveles']} |
+| Materias de Cursum modeladas | {r['materias_totales']} ({r['materias_obligatorias']} obligatorias y {r['materias_totales'] - r['materias_obligatorias']} del banco de electivas) |
 | Aristas de prerrequisito | {r['aristas_prerrequisito']} |
 | Correquisitos | {r['correquisitos']} |
 | Grafo acíclico (Kahn) | {'Sí' if r['es_aciclico'] else 'No: ' + str(r['materias_en_ciclo'])} |
 | Orden topológico cubre todas las materias | {'Sí' if r['orden_topologico_valido'] else 'No'} |
 | Prerrequisitos en niveles anteriores | {'Sí, sin hallazgos' if not niveles else f'{len(niveles)} hallazgos (ver abajo)'} |
-| Coincidencia con el plan publicado | {f'{pct} % ({cot["coinciden"]}/{cot["materias_cotejadas"]})' if pct is not None else cot['estado']} |
+| **Coincidencia con el plan publicado (por espacio)** | **{cot['porcentaje_espacios']} %** ({cot['espacios_coinciden']}/{cot['espacios']}) — meta ≥ 95 % |
+| Coincidencia por atributo (nivel, créditos, requisitos) | {cot['porcentaje_atributos']} % ({cot['atributos_coinciden']}/{cot['atributos']}) |
 
-## Materias y créditos obligatorios por nivel
+## Plan por niveles (AF 868)
 
-| Nivel | Materias | Créditos |
-|---|---|---|
-{filas_nivel}
+| Nivel | Obligatorias | Espacios electivos | Créditos |
+|---|---|---|---|
+{plan_niveles}
 
 ## Requisitos por créditos aprobados (tipo PRERREQCRED en Cursum)
 
@@ -167,11 +147,17 @@ Requisitos con código que no existe en la versión vigente: {', '.join(map(str,
 
 {chr(10).join('- ' + h for h in niveles) if niveles else 'Todos los prerrequisitos de las materias obligatorias están en un nivel anterior y los correquisitos en el mismo nivel o uno anterior.'}
 
-## Cotejo con el plan publicado
+## Cotejo con el plan publicado ({cot['plan']})
 
-Estado: {cot['estado']}. Hoja: `{cot['archivo']}`. Para cada materia obligatoria, comparar nombre,
-nivel, créditos y requisitos contra el documento oficial del plan y escribir `sí` o `no` en la columna
-`coincide` (con la diferencia en `observacion`); luego volver a ejecutar este script.
+Detalle completo: `{cot['archivo']}`. Espacios con diferencias o con reemplazo de código:
+
+| Espacio | Diferencia | Nota |
+|---|---|---|
+{difs}
+
+Ajustes aplicados al modelo porque Cursum no los refleja: Proyecto Integrador I exige 80 créditos aprobados
+(Lineamientos PI 2026-2 y AF 868) y el requisito antiguo 2539101 (Lectoescritura) se cumple con Español
+Académico (2539130), que la reemplazó en el mismo espacio.
 """
     (SALIDA / "oe1_modelo.md").write_text(md, encoding="utf-8")
     print(md)
