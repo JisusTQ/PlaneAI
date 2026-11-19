@@ -32,7 +32,10 @@ from app.services import evaluacion_service as ev  # noqa: E402
 
 CSV = RAIZ / "docs" / "resultados" / "oe3_banco.csv"
 MD = RAIZ / "docs" / "resultados" / "oe3_banco.md"
-CAMPOS = ["id", "categoria", "pregunta", "respuesta_esperada", "respuesta", "fuentes", "trazable", "claves_faltantes", "correcta", "observacion"]
+CAMPOS = [
+    "id", "categoria", "pregunta", "respuesta_esperada", "respuesta", "fuentes", "trazable", "claves_faltantes",
+    "precalificacion", "correcta", "observacion", "latencia_ms", "herramientas",
+]
 
 
 def correr(api: str, pausa: float, desde: int) -> None:
@@ -46,7 +49,9 @@ def correr(api: str, pausa: float, desde: int) -> None:
             continue
         for intento in range(3):
             try:
+                t0 = time.perf_counter()
                 r = requests.post(f"{api}/evaluacion/banco/{p['id']}", timeout=180)
+                latencia = round((time.perf_counter() - t0) * 1000)
                 if r.status_code == 200:
                     break
                 print(f"  {p['id']}: HTTP {r.status_code} {r.text[:120]}")
@@ -66,8 +71,11 @@ def correr(api: str, pausa: float, desde: int) -> None:
             "fuentes": " | ".join(f"{f['titulo']} ({f['detalle']})" if f.get("detalle") else f["titulo"] for f in d["fuentes"]),
             "trazable": "sí" if d["trazable"] else "no",
             "claves_faltantes": "; ".join(d["claves_faltantes"]),
+            "precalificacion": "sí" if d["auto_correcta"] else "no",
             "correcta": "sí" if d["auto_correcta"] else "no",
             "observacion": "",
+            "latencia_ms": latencia,
+            "herramientas": " > ".join(x.get("herramienta", "") for x in d.get("pasos", [])),
         }
         print(f"{p['id']:>2} {'OK ' if d['auto_correcta'] else 'REV'} {'traza' if d['trazable'] else 'SIN TRAZA'}  {p['pregunta'][:60]}")
         CSV.parent.mkdir(parents=True, exist_ok=True)
@@ -90,6 +98,16 @@ def resumir() -> None:
         ok = sum(1 for r in sub if r["correcta"].strip().lower() in {"si", "sí"})
         por_cat[cat] = f"{ok}/{len(sub)}"
     malas = [f"- P{r['id']}: {r['pregunta']} — {r['observacion'] or 'faltó: ' + r['claves_faltantes']}" for r in filas if r["correcta"].strip().lower() not in {"si", "sí"}]
+    extra = ""
+    lat = sorted(int(r["latencia_ms"]) for r in filas if (r.get("latencia_ms") or "").strip().isdigit())
+    if lat:
+        p90 = lat[min(len(lat) - 1, int(round(0.9 * len(lat))) - 1)]
+        mediana = (lat[len(lat) // 2] + lat[(len(lat) - 1) // 2]) / 2
+        extra += f"| Latencia de extremo a extremo (mediana / p90 / máx.) | {mediana / 1000:.1f} s / {p90 / 1000:.1f} s / {lat[-1] / 1000:.1f} s | |\n"
+    pre = [r for r in filas if (r.get("precalificacion") or "").strip()]
+    if pre:
+        coinciden = sum(1 for r in pre if (r["precalificacion"].strip().lower() in {"si", "sí"}) == (r["correcta"].strip().lower() in {"si", "sí"}))
+        extra += f"| Precalificación automática que coincide con la revisión humana | {coinciden}/{len(pre)} | |\n"
     sin_traza = [f"- P{r['id']}: {r['pregunta']}" for r in filas if r["trazable"] != "sí"]
     md = f"""# OE3 — Banco de 40 preguntas del asistente
 
@@ -101,7 +119,7 @@ Revisión del {date.today().isoformat()} sobre `docs/resultados/oe3_banco.csv`.
 | Respuestas correctas | **{res['porcentaje_correctas']} %** ({res['correctas']}) | ≥ 85 % |
 | Respuestas con la fuente esperada | **{res['porcentaje_trazables']} %** | 100 % |
 | Malla / Reglamento correctas | {por_cat['malla']} / {por_cat['reglamento']} | |
-| Indicador del OE3 | {'Cumplido' if res['cumple_indicador'] else 'No cumplido aún'} | |
+{extra}| Indicador del OE3 | {'Cumplido' if res['cumple_indicador'] else 'No cumplido aún'} | |
 
 ## Respuestas incorrectas
 {chr(10).join(malas) or 'Ninguna.'}

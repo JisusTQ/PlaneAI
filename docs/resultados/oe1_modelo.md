@@ -1,6 +1,6 @@
 # OE1 — Verificación del modelo computable del plan de estudios
 
-Generado el 2026-11-16 con `backend/scripts/verificar_modelo.py`.
+Generado el 2026-11-18 con `backend/scripts/verificar_modelo.py`.
 Fuente: pensum versión 5 del programa 504 (origen de los datos: **snapshot**).
 
 ## Indicadores

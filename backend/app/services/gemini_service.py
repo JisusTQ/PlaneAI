@@ -9,7 +9,9 @@ Herramientas:
   - Motor DETERMINISTA (validador_service): `proponer_cargas` y `validar_carga`;
     la IA no decide si una carga es válida, solo la explica.
 Cada herramienta registra la fuente que consultó; /chat devuelve esa traza.
-El SDK ejecuta el bucle agéntico (enable_automatic_function_calling).
+El SDK ejecuta el bucle agéntico (enable_automatic_function_calling). Un
+guardarraíl repite el turno con llamada obligatoria a herramientas si el modelo
+respondió sin consultar ninguna (salvo saludos y agradecimientos).
 """
 import re
 
@@ -387,12 +389,46 @@ def _extraer_pasos(chat) -> list[dict]:
 HERRAMIENTAS = [consultar_reglamento, buscar_en_malla, consultar_pensum, consultar_horarios_udea, proponer_cargas, validar_carga]
 
 
-def _conversar(modelo: str, mensaje: str, historial: list[dict]):
-    model = genai.GenerativeModel(model_name=modelo, system_instruction=SYSTEM_PROMPT, tools=HERRAMIENTAS)
+# Guardarraíl: si el modelo responde sin consultar ninguna herramienta (riesgo de
+# que invente materias, grupos o normas a partir del historial), el turno se repite
+# obligando a que la primera respuesta del modelo sea una llamada a herramienta
+# (modo ANY). El SDK aplica ese modo solo a la primera llamada del bucle; las
+# siguientes vuelven al modo automático, de modo que el modelo puede cerrar con texto.
+FORZAR_HERRAMIENTA = {"function_calling_config": {"mode": "ANY"}}
+_PREFIJO_CONTEXTO = re.compile(r"^\s*\[Contexto[^\]]*\]\s*", re.IGNORECASE)
+_PALABRAS_CHARLA = set(
+    "hola holi hey buen buenos buenas dia dias día días tarde tardes noche noches muchas muchisimas muchísimas "
+    "mil gracias ok okay vale listo perfecto genial excelente entendido de acuerdo chao adios adiós hasta luego "
+    "nos vemos muy amable super súper bien".split()
+)
+
+
+def _es_charla(mensaje: str) -> bool:
+    """True para saludos, agradecimientos y cierres, que no requieren herramientas."""
+    texto = _PREFIJO_CONTEXTO.sub("", mensaje or "").lower()
+    palabras = re.findall(r"[a-záéíóúñü]+", texto)
+    return 0 < len(palabras) <= 6 and all(p in _PALABRAS_CHARLA for p in palabras)
+
+
+def _turno(model, mensaje: str, historial: list[dict], tool_config: dict | None = None):
     chat = model.start_chat(history=_a_history_gemini(historial), enable_automatic_function_calling=True)
     rag.iniciar_traza()
-    respuesta = chat.send_message(mensaje, request_options=OPCIONES_CHAT)
+    opciones = {"request_options": OPCIONES_CHAT}
+    if tool_config:
+        opciones["tool_config"] = tool_config
+    respuesta = chat.send_message(mensaje, **opciones)
     return respuesta.text, _extraer_pasos(chat), rag.fuentes_traza()
+
+
+def _conversar(modelo: str, mensaje: str, historial: list[dict]):
+    model = genai.GenerativeModel(model_name=modelo, system_instruction=SYSTEM_PROMPT, tools=HERRAMIENTAS)
+    texto, pasos, fuentes = _turno(model, mensaje, historial)
+    if not pasos and not _es_charla(mensaje):
+        try:
+            texto, pasos, fuentes = _turno(model, mensaje, historial, tool_config=FORZAR_HERRAMIENTA)
+        except gexc.InvalidArgument:
+            pass  # el modelo no admite el modo forzado: se conserva la primera respuesta
+    return texto, pasos, fuentes
 
 
 def responder(mensaje: str, historial: list[dict] | None = None) -> tuple[str, list[dict], list[dict]]:

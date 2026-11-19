@@ -1,0 +1,281 @@
+id,categoria,pregunta,respuesta_esperada,respuesta,fuentes,trazable,claves_faltantes,precalificacion,correcta,observacion,latencia_ms,herramientas
+1,malla,¿Qué materias tiene el primer semestre de Ingeniería de Sistemas?,"Introducción a la Ingeniería de Sistemas, Descubriendo la Física, Vivamos la Universidad, Álgebra y Trigonometría, Geometría Vectorial y Analítica, Cálculo Diferencial y English 1 (7 materias, 16 créditos).","El primer semestre (nivel 1) del plan de estudios de Ingeniería de Sistemas consta de las siguientes materias:
+
+* **Introducción a la Ingeniería de Sistemas** (2508120) – 1 crédito (Obligatoria)
+* **Descubriendo la Física** (2536101) – 3 créditos (Obligatoria)
+* **Geometría Vectorial y Analítica** (2555121) – 3 créditos (Obligatoria)
+* **Cálculo Diferencial** (2555131) – 3 créditos (Obligatoria) *Correquisito: Álgebra y Trigonometría*
+* **Álgebra y Trigonometría** (2555101) – 3 créditos (Obligatoria)
+* **Vivamos la Universidad** (2537101) – 1 crédito (Obligatoria)
+* **English 1** (9025101) – 2 créditos (Obligatoria)
+
+**Fuentes:** Plan de estudios (Pensum) de Ingeniería de Sistemas de la UdeA, nivel 1.",Plan de estudios v5 (Cursum) | nivel 1.0,sí,,sí,sí,,4298,consultar_pensum
+2,malla,¿Cuántos créditos necesito para graduarme de Ingeniería de Sistemas?,"168 créditos (plan V.5): 128 de asignaturas obligatorias y 40 de espacios electivos, incluida la práctica académica de 12.","Para graduarte del programa de Ingeniería de Sistemas de la Universidad de Antioquia necesitas un total de **168 créditos**, distribuidos en 10 niveles (semestres) que incluyen 44 asignaturas obligatorias y 11 espacios electivos (entre ellos las líneas de énfasis, electivas socio-humanísticas y la práctica académica).
+
+**Fuentes:**
+- Plan de estudios V.5 de Ingeniería de Sistemas (consultado a través de `buscar_en_malla`).",Plan de estudios v5 (Cursum) | Resumen Del Plan De Estudios Niveles Semestres Créditos Totales Grado Duración; Empresarismo; Legislación,sí,,sí,sí,,6593,buscar_en_malla
+3,malla,¿Cuántos niveles o semestres tiene el plan de estudios?,"10 niveles; las obligatorias van hasta el nivel 9 y en los niveles 9 y 10 están las electivas socio-humanísticas, la línea de énfasis y la práctica académica.","El plan de estudios (Plan V.5) del programa de Ingeniería de Sistemas tiene un total de **10 niveles** (semestres) y requiere **168 créditos** para el grado.
+
+**Fuentes:**
+- Plan de estudios de Ingeniería de Sistemas de la Universidad de Antioquia (Plan V.5)",Plan de estudios v5 (Cursum) | resumen,sí,,sí,sí,,2215,consultar_pensum
+4,malla,¿Cuáles son los prerrequisitos de Cálculo Integral?,Álgebra y Trigonometría y Cálculo Diferencial.,"Los prerrequisitos para ver **Cálculo Integral** (código 2555231) son:
+
+* **Álgebra y Trigonometría**
+* **Cálculo Diferencial**
+
+Esta materia corresponde al nivel 2 (semestre 2) y otorga 3 créditos.
+
+**Fuentes:**
+- Plan de estudios de Ingeniería de Sistemas (malla curricular)",Plan de estudios v5 (Cursum) | Cálculo Integral; Cálculo Diferencial; Álgebra Y Trigonometría,sí,,sí,sí,,3744,buscar_en_malla
+5,malla,¿Qué materias se desbloquean al aprobar Cálculo Diferencial?,Directamente: Cálculo Integral y Física Mecánica.,"Al aprobar **Cálculo Diferencial** (código 2555131, de nivel 1), desbloqueas directamente las siguientes materias:
+
+* **Cálculo Integral** (nivel 2)
+* **Física Mecánica** (nivel 2)
+
+Ten en cuenta que *Cálculo Integral* también tiene como prerrequisito a *Álgebra y Trigonometría*.
+
+**Fuentes:**
+- Plan de estudios de Ingeniería de Sistemas (búsqueda en malla para ""Cálculo Diferencial"").",Plan de estudios v5 (Cursum) | Cálculo Diferencial; Cálculo Integral,sí,,sí,sí,,2833,buscar_en_malla
+6,malla,¿Cálculo Diferencial tiene algún correquisito?,Sí: Álgebra y Trigonometría (se ve a la vez o ya aprobada).,"Sí, **Cálculo Diferencial** tiene como correquisito la materia **Álgebra y Trigonometría**. 
+
+Esto significa que debes cursar o haber cursado previamente *Álgebra y Trigonometría* junto con *Cálculo Diferencial*.
+
+**Fuentes:**
+- Plan de estudios de Ingeniería de Sistemas (búsqueda en malla para ""Cálculo Diferencial"").",Plan de estudios v5 (Cursum) | Cálculo Diferencial; Cálculo Integral,sí,,sí,sí,,3283,buscar_en_malla
+7,malla,¿En qué semestre se ve Bases de Datos y Laboratorio?,En el nivel 6 (sexto semestre); tiene 4 créditos y exige Estructura de Datos y Laboratorio.,"La materia **Bases de Datos y Laboratorio** (código 2508609, de 4 créditos) se ve en el **nivel 6 (sexto semestre)** del plan de estudios de Ingeniería de Sistemas.
+
+Para poder matricularla, debes tener aprobada previamente la materia *Estructura de Datos y Laboratorio* (del quinto semestre).
+
+**Fuentes:**
+- Plan de estudios de Ingeniería de Sistemas (malla curricular de la UdeA)",Plan de estudios v5 (Cursum) | Bases De Datos Y Laboratorio; Estructura De Datos Y Laboratorio,sí,,sí,sí,,3511,buscar_en_malla
+8,malla,¿Cuántos créditos tiene Estructura de Datos y Laboratorio?,4 créditos.,"La materia **Estructura de Datos y Laboratorio** (código 2508507) tiene **4 créditos** y pertenece al nivel 5 (quinto semestre) del plan de estudios de Ingeniería de Sistemas.
+
+**Fuentes:**
+- Plan de estudios de Ingeniería de Sistemas (malla curricular).",Plan de estudios v5 (Cursum) | Estructura De Datos Y Laboratorio; Bases De Datos Y Laboratorio; Sistemas Operativos Y Laboratorio,sí,,sí,sí,,3611,buscar_en_malla
+9,malla,¿Qué necesito para ver Arquitectura de Software?,Haber aprobado Análisis y Diseño de Sistemas II y cursar a la vez (o tener aprobada) Bases de Datos y Laboratorio.,"Para cursar **Arquitectura de Software** (código 2508608, ubicada en el nivel/semestre 6), necesitas cumplir con los siguientes requisitos académicos:
+
+* **Prerrequisito:** Debes tener aprobado **Análisis y Diseño de Sistemas II**.
+* **Correquisito:** Debes cursar simultáneamente (o tener ya aprobadas) **Bases de Datos y Laboratorio**.
+
+Además, al verla estarás desbloqueando las siguientes materias para futuros semestres:
+* Calidad de Software
+* Desarrollo de Aplicaciones Empresariales
+* Blockchain
+
+**Fuentes:** Plan de estudios de Ingeniería de Sistemas (búsqueda de malla curricular).",Plan de estudios v5 (Cursum) | Arquitectura De Software; Calidad De Software; Desarrollo De Aplicaciones Empresariales,sí,,sí,sí,,4324,buscar_en_malla
+10,malla,¿Cuál es la materia de la que más materias dependen en el pensum?,Álgebra y Trigonometría y Cálculo Diferencial (30 materias dependientes cada una).,"Tras consultar el plan de estudios (malla curricular) y el motor de búsqueda, una de las materias de las que más materias dependen directamente (es decir, que actúa como prerrequisito para desbloquear múltiples ramas y asignaturas posteriores) es **Cálculo Integral**, la cual es necesaria como requisito previo para diversas asignaturas avanzadas como cursos alternativos de física (Física de Ondas, Física de Campos, Física Térmica), ecuaciones diferenciales y métodos numéricos, entre otras.
+
+**Fuentes:**
+- Plan de Estudios (Plan V.5, Acuerdo de Facultad 86
+8) - Malla curricular de Ingeniería de Sistemas UdeA.",Plan de estudios v5 (Cursum) | Práctica Académica; Curso Alternativo De Física; Curso Alternativo De Laboratorio Integrado De Física; resumen; nivel 1.0; Cálculo Integral; Cálculo Diferencial; Álgebra Y Trigonometría; Matemáticas Discretas Ii; Matemáticas Discretas Iv; Técnicas De Programación Y Laboratorio; Álgebra Lineal; Física Mecánica; Descubriendo La Física; Física De Ondas,sí,algebra y trigonometria|calculo diferencial,no,no,Incorrecta: responde Cálculo Integral (28 dependientes); la respuesta es Álgebra y Trigonometría y Cálculo Diferencial (30 cada una). Pregunta de agregación global: ninguna herramienta devuelve el ranking de criticidad.,13215,buscar_en_malla > consultar_pensum > consultar_pensum > buscar_en_malla > buscar_en_malla > buscar_en_malla > buscar_en_malla > buscar_en_malla
+11,malla,¿Qué requisitos tiene el Trabajo de Grado?,132 créditos aprobados y Fundamentos de Investigación; vale 12 créditos.,"Para cursar la materia **Trabajo de Grado** (código 2508002, que corresponde a la práctica académica, de 12 créditos), el plan de estudios establece los siguientes requisitos:
+
+* **Prerrequisito académico:** Haber cursado y aprobado **Fundamentos de Investigación**.
+* **Créditos aprobados:** Tener un mínimo de **132 créditos aprobados** en el programa.
+
+**Fuentes:** 
+* Plan de estudios de Ingeniería de Sistemas (búsqueda en malla curricular).",Plan de estudios v5 (Cursum) | Trabajo De Grado,sí,,sí,sí,,2148,buscar_en_malla
+12,malla,¿Qué electivas exigen haber aprobado Bases de Datos y Laboratorio?,"Ingeniería Web, Big Data y Desarrollo de Aplicaciones Empresariales.","Las electivas que exigen haber aprobado **Bases de Datos y Laboratorio** son:
+
+1. **Ingeniería Web** (Código: 2508913) - 3 créditos.
+ - **Prerrequisito:** Bases de Datos y Laboratorio.
+2. **Big Data** (Código: 2508914) - 3 créditos.
+ - **Prerrequisito:** Bases de Datos y Laboratorio.
+3. **Desarrollo de Aplicaciones Empresariales** (Código: 2508916) - 3 créditos.
+ - **Prerrequisitos:** Bases de Datos y Laboratorio, y Arquitectura de Software.
+
+**Fuentes:**
+- Plan de estudios de Ingeniería de Sistemas (Búsqueda de materias en la malla curricular).",Plan de estudios v5 (Cursum) | Bases De Datos Y Laboratorio; Estructura De Datos Y Laboratorio; Ingeniería Web; Big Data; Desarrollo De Aplicaciones Empresariales; Arquitectura De Software,sí,,sí,sí,,3811,buscar_en_malla > buscar_en_malla > buscar_en_malla > buscar_en_malla
+13,malla,¿Puedo ver Lógica y Representación III sin haber aprobado Teoría de la Probabilidad y Colas?,"No: Teoría de la Probabilidad y Colas es prerrequisito, junto con Lógica y Representación II.","No, no puedes ver **Lógica y Representación III** sin haber aprobado **Teoría de la Probabilidad y Colas**, ya que esta última es un prerrequisito obligatorio establecido en el plan de estudios.
+
+**Fuentes:**
+- Plan de estudios de Ingeniería de Sistemas (Malla curricular: Lógica y Representación III).",Plan de estudios v5 (Cursum) | Lógica Y Representación Iii,sí,,sí,sí,,2862,buscar_en_malla
+14,malla,¿En qué semestre está Proyecto Integrador I y cuántos créditos tiene?,"Nivel 6, 2 créditos; exige 80 créditos aprobados (lineamientos PI 2026-2).","La materia **Proyecto Integrador I** se encuentra en el **semestre 6** (nivel 6) del plan de estudios y tiene un valor de **2 créditos**.
+
+Como requisitos, no exige ninguna materia previa obligatoria, pero sí requiere tener al menos **80 créditos aprobados** para poder matricularse. Además, es el prerrequisito para ver *Proyecto Integrador II - Área Electiva* en el semestre 8.
+
+**Fuentes:**
+- Plan de estudios de Ingeniería de Sistemas (búsqueda de malla: Proyecto Integrador I).",Plan de estudios v5 (Cursum) | Proyecto Integrador I; Proyecto Integrador Ii - Área Electiva,sí,,sí,sí,,2406,buscar_en_malla
+15,malla,¿Qué requisito tiene Proyecto Integrador II?,Haber aprobado Proyecto Integrador I.,"Para cursar **Proyecto Integrador II** (código 2508902), que se ubica en el nivel 8, el requisito es:
+
+* **Prerrequisito:** Haber aprobado **Proyecto Integrador I**.
+
+**Fuentes:**
+* Plan de estudios de Ingeniería de Sistemas (búsqueda en malla curricular).",Plan de estudios v5 (Cursum) | Proyecto Integrador Ii - Área Electiva,sí,,sí,sí,,1932,buscar_en_malla
+16,malla,¿Cuántos cursos de inglés tiene el plan de estudios?,"Cinco: English 1 a English 5, de 2 créditos cada uno.","El plan de estudios de Ingeniería de Sistemas (V.5) **no incluye cursos de inglés** como materias obligatorias o electivas dentro de su malla curricular regular (10 niveles). 
+
+Cabe destacar que, aunque el programa de Ingeniería de Sistemas no tiene asignaturas de inglés en su pensum, el dominio de una lengua extranjera suele ser un requisito general de grado en la Universidad de Antioquia,
+ el cual se acredita habitualmente mediante los exámenes o cursos ofrecidos por la Escuela de Idiomas de la institución.
+
+**Fuentes:** 
+- Plan de estudios de Ingeniería de Sistemas (V.5), niveles 1 a 10.",Plan de estudios v5 (Cursum) | resumen,sí,5|cinco,no,no,Incorrecta: afirma que el plan no tiene cursos de inglés; tiene English 1 a 5. Pregunta de conteo transversal a varios niveles.,6127,buscar_en_malla > consultar_pensum > buscar_en_malla
+17,malla,¿Qué materias tiene el nivel 8?,"Fundamentos de Investigación, Comunicaciones II, Gestión de Proyectos de Sistemas de Información, Sistemas Operativos y Laboratorio y Proyecto Integrador II.","El nivel 8 (octavo semestre) del plan de estudios de Ingeniería de Sistemas contiene las siguientes materias:
+
+* **Fundamentos de Investigación** (Código: 2508701) – 3 créditos
+ * *Prerrequisito:* Análisis y Diseño de Sistemas II
+* **Comunicaciones II** (Código: 2508840) – 3 créditos
+ * *Prerrequisito:* Comunicaciones y Laboratorio
+* **Gestión de Proyectos de Sistemas de Información** (Código: 2508841) – 3 créditos
+ * *Prerrequisito:* Fundamentos de Sistemas de Información
+* **Sistemas Operativos y Laboratorio** (Código: 2508842) – 4 créditos
+ * *Prerrequisitos:* Estructura de Datos y Laboratorio, y Arquitectura de Computadores y Laboratorio
+* **Proyecto Integrador II - Área Electiva** (Código: 2508902) – 2 créditos
+ * *Prerrequisito:* Proyecto Integrador I
+* **Línea de Énfasis Principal II** (Espacio electivo) – 3 créditos
+ * *Corresponde a una materia de las líneas de énfasis:* Ingeniería de Software y Sistemas de Información, Ciencia de la Computación, o Ingeniería de Computadores y Comunicación de Datos.
+
+**Fuentes:** Pensum oficial de Ingeniería de Sistemas (Nivel 8).",Plan de estudios v5 (Cursum) | nivel 8.0,sí,,sí,sí,,3633,consultar_pensum
+18,malla,¿Qué necesito para ver Sistemas Operativos y Laboratorio?,Estructura de Datos y Laboratorio y Arquitectura de Computadores y Laboratorio.,"Para cursar **Sistemas Operativos y Laboratorio** (código 2508842, ubicada en el nivel 8 del plan de estudios, con 4 créditos), necesitas tener aprobadas las siguientes materias:
+
+* **Estructura de Datos y Laboratorio**
+* **Arquitectura de Computadores y Laboratorio** (código 2508716)
+
+Además, ten en cuenta que esta materia no tiene correquisitos y, según el plan de estudios, no es prerrequisito directo de otras asignaturas.
+
+**Fuentes:**
+* Plan de estudios de Ingeniería de Sistemas (búsqueda de malla para ""Sistemas Operativos"").",Plan de estudios v5 (Cursum) | Sistemas Operativos Y Laboratorio; Arquitectura De Computadores Y Laboratorio,sí,,sí,sí,,3904,buscar_en_malla
+19,malla,¿Cuántos créditos aprobados exige la electiva Introducción a la Inteligencia Artificial para las ciencias e ingenierías?,65 créditos aprobados.,"Para cursar la electiva **Introducción a la Inteligencia Artificial para las ciencias e ingenierías** (código 2508401), se requiere tener un mínimo de **65 créditos aprobados**.
+
+**Fuentes:**
+- Plan de estudios de Ingeniería de Sistemas (Malla curricular / Banco de electivas - línea de énfasis).",Plan de estudios v5 (Cursum) | Introduccion A La Intelingencia Artificial Para Las Ccias E Ingenierias; Electiva Socio-Humanística I; Electiva Socio-Humanística Ii,sí,,sí,sí,,5418,buscar_en_malla
+20,malla,¿Técnicas de Programación y Laboratorio tiene correquisito?,Sí: Lógica y Representación II.,"Sí, la materia **Técnicas de Programación y Laboratorio** tiene como correquisito:
+
+* **Lógica y Representación II**
+
+**Fuentes:**
+- Plan de estudios de Ingeniería de Sistemas (búsqueda en malla curricular de la materia Técnicas de Programación y Laboratorio).",Plan de estudios v5 (Cursum) | Técnicas De Programación Y Laboratorio,sí,,sí,sí,,2465,buscar_en_malla
+21,reglamento,¿Cuál es el máximo de créditos que puedo matricular en un semestre?,24 créditos; tiempo completo es de 14 a 24 (art. 66). Con matrícula sobresaliente también hasta 24 (art. 130) y en último semestre se pueden autorizar hasta 27 (AA 0066/1996).,"El número máximo de créditos que puedes matricular en un semestre depende de tu situación académica:
+
+* **Estudiantes en régimen normal:** El límite general para estudiantes de tiempo completo es de **24 créditos** por semestre (artículo 66 del Reglamento Estudiantil).
+* **Estudiantes de último semestre:** Se les puede autorizar hasta **27 créditos** (según la concordancia del artículo 66 modificada por el Acuerdo Académico 0066 de 1996).
+
+Asimismo, el reglamento define que un estudiante de tiempo completo matricula entre 14 y 24 créditos, y uno de tiempo parcial, hasta 13 créditos.
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 66 y su concordancia (Acuerdo Académico 0066 de 1996).",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 66-conc; art. 214-216; art. 42,sí,,sí,sí,,2170,consultar_reglamento
+22,reglamento,¿Cuál es el mínimo de créditos que debo matricular?,"8 créditos, salvo fuerza mayor aprobada por el Consejo de Facultad o si faltan menos para terminar (art. 67).","El mínimo de créditos que debes matricular por semestre es **8 créditos**, a menos que te falten menos de 8 créditos para terminar tu plan de estudios o que el Consejo de Facultad apruebe una excepción por un caso de fuerza mayor.
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 67.",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 67; art. 42; art. 197; art. 130,sí,,sí,sí,,2884,consultar_reglamento
+23,reglamento,¿Desde cuántos créditos soy estudiante de tiempo completo?,Desde 14 créditos (hasta 24); con 13 o menos es tiempo parcial (art. 66).,"Para ser considerado un estudiante de **tiempo completo** en la Universidad de Antioquia, debes matricular **entre 14 y 24 créditos** en el respectivo período académico (semestre). 
+
+Por el contrario, si matriculas hasta 13 créditos, eres considerado estudiante de tiempo parcial.
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 66",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 66; art. 227; art. 197; art. 93,sí,,sí,sí,,2982,consultar_reglamento
+24,reglamento,¿Qué es un correquisito según el reglamento?,Una asignatura que se cursa al menos al mismo tiempo que la que lo exige; no hace falta si ya se aprobó antes (art. 43).,"Según el **Reglamento Estudiantil de Pregrado**, un correquisito es una asignatura que debe cursarse **por lo menos al mismo tiempo** que la materia que lo exige. 
+
+Además, el reglamento aclara lo siguiente:
+* **Excepción de simultaneidad:** No es obligatorio cursarlo al mismo tiempo si el correquisito **ya se cursó y se aprobó con anterioridad**.
+* **Cancelación:** Si un estudiante decide cancelar una asignatura, por regla general debe cancelar también su correquisito.
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 43 y art. 74",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 43; art. 74; art. 44; art. 64,sí,,sí,sí,,3441,consultar_reglamento
+25,reglamento,¿Qué es un prerrequisito?,Una asignatura que debe estar aprobada antes de matricular la que lo exige (art. 42).,"Un **prerrequisito** es una asignatura que debe estar previamente aprobada antes de poder matricular otra materia de nivel superior que lo exija (Reglamento Estudiantil, art. 42). 
+
+Ten en cuenta que:
+* Las asignaturas inscritas que no cumplan con los prerrequisitos reglamentarios pueden ser canceladas por el Departamento de Admisiones y Registro (art. 69).
+* La inscripción de materias debe respetar siempre estos requisitos y contar con la asesoría correspondiente (art. 64).
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), arts. 42, 44, 64 y 69",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 42; art. 44; art. 69; art. 64,sí,,sí,sí,,4475,consultar_reglamento
+26,reglamento,¿Hasta cuándo puedo cancelar una materia?,"Si la nota acumulada es aprobatoria o se ha evaluado menos del 40 %; por fuerza mayor, enfermedad o calamidad, en cualquier momento (art. 74).","Según el Reglamento Estudiantil, puedes cancelar una materia en los siguientes casos y condiciones:
+
+1. **En cualquier momento del período académico**, siempre que exista una **fuerza mayor comprobada, enfermedad certificada o calamidad familiar** (Art. 74, literal a).
+2. **Durante el período académico**, cuando **la nota acumulada sea aprobatoria** o se haya **evaluado menos del 40 % del curso** (Art. 74, literal b).
+
+**Aspectos importantes a tener en cuenta:**
+* **Correquisitos:** Al cancelar una materia, debes cancelar obligatoriamente también su correquisito (Art. 74, Parágrafo 1).
+* **Límite:** Una misma materia no se puede cancelar más de dos veces, salvo que el Consejo Académico apruebe una excepción por fuerza mayor (Art. 75).
+* **Trámite:** El proceso de cancelación se realiza ante el decano de la facultad (Art. 74, Parágrafo 2). Ten presente consultar el calendario académico vigente de la Universidad para conocer las fechas límite de entrega de solicitudes de cancelación en el semestre.
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), arts. 74 y 75.",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 74; art. 75; art. 21; art. 76,sí,,sí,sí,,4054,consultar_reglamento
+27,reglamento,¿Cuántas veces puedo cancelar la misma materia?,"Máximo dos veces, salvo aprobación del Consejo Académico por fuerza mayor (art. 75).","Una misma materia **no puede cancelarse más de dos veces**, salvo que el Consejo Académico apruebe una excepción por fuerza mayor debidamente justificada. 
+
+Recuerda además que, al cancelar una materia, debes tener en cuenta las normas generales de cancelación (como cumplir con los porcentajes de evaluación o presentar justificación por fuerza mayor) y que cancelar materias de forma reiterada puede afectar tu avance en el plan de estudios.
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981), art. 75",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 75; art. 136; art. 74; art. 127,sí,,sí,sí,,3944,consultar_reglamento
+28,reglamento,"Si cancelo una materia que tiene correquisito, ¿qué pasa con el correquisito?","Debe cancelarse también (art. 74, parágrafo 1).","Si cancelas una materia que tiene un correquisito, **debes cancelar también su correquisito** (a menos que ya lo hayas cursado y aprobado en un período anterior). 
+
+Según el Reglamento Estudiantil, al cancelar una asignatura se debe cancelar simultáneamente el correquisito correspondiente (Art. 74, Parágrafo 1).
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 43 y art. 74.",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 74; art. 43; art. 44; art. 64,sí,,sí,sí,,7311,consultar_reglamento
+29,reglamento,¿Qué pasa si falto a más del 20 % de las clases?,Se cancela por faltas: queda con 0.0 y no se puede habilitar (art. 78).,"Según el Reglamento Estudiantil, si faltas a más del 20 % de las actividades académicas obligatorias de una materia, se produce la **cancelación por faltas**, la cual tiene las siguientes consecuencias:
+
+1. Se registra una nota definitiva de **0.0** en la asignatura.
+2. La materia queda **no habilitable**.
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 78",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 78; art. 180; art. 20; art. 74,sí,,sí,sí,,4946,consultar_reglamento
+30,reglamento,¿Cuál es la nota mínima para aprobar una materia?,3.0 (arts. 110 y 113).,"Según el Reglamento Estudiantil, la nota definitiva mínima para aprobar una materia es **3.0**.
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 113",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 103; art. 113; art. 67; art. 74,sí,,sí,sí,,2477,consultar_reglamento
+31,reglamento,¿Puedo habilitar una materia si saqué 1.8?,No: para habilitar la nota final debe ser igual o superior a 2.0 (art. 103).,"No, **no puedes habilitar** la materia si obtuviste una nota de 1.8. 
+
+Según el Reglamento Estudiantil, para que una asignatura pueda ser habilitada se requiere que la nota final sea igual o superior a **2.0**.
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 103",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 103; art. 100; art. 112; art. 67,sí,,sí,sí,,4951,consultar_reglamento
+32,reglamento,¿Cuántas veces por período puedo habilitar una materia?,"Una vez por período, y solo si la materia es habilitable (art. 100).","Según el Reglamento Estudiantil, solo es posible presentar **una (1) habilitación** por cada período académico y únicamente en las asignaturas que estén definidas como habilitables, siempre y cuando se haya obtenido una nota final igual o superior a 2.0.
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 100 y 103",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 136; art. 100; art. 103; art. 74,sí,una vez|1 vez|una sola,no,sí,Correcta en revisión humana: 'una (1) habilitación por período' equivale a 'una vez por período' (art. 100); la precalificación no reconoció la paráfrasis.,4161,consultar_reglamento
+33,reglamento,¿Puedo validar una materia que perdí este mismo semestre?,"No, salvo que no exista una nueva cohorte (art. 86).","No puedes validar una materia que perdiste en el mismo semestre, **salvo que no exista una nueva cohorte** para dicha asignatura.
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 86",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 86; art. 93; art. 22; art. 74,sí,,sí,sí,,13857,consultar_reglamento
+34,reglamento,¿Qué pasa si pierdo la misma materia tres veces?,Quedo por fuera de la Universidad; se puede volver por admisión como nuevo o por transferencia (arts. 136 y 134).,"Si pierdes la misma materia por tercera vez, las consecuencias según el Reglamento Estudiantil son las siguientes:
+
+* **Exclusión de la Universidad:** Pierdes la calidad de estudiante y quedas por fuera de la institución.
+* **Opción de reingreso:** Puedes volver a la Universidad mediante el proceso de admisión regular (aspirando nuevamente como nuevo) o por transferencia, a partir del período académico siguiente a la pérdida de tu calidad de estudiante. Si regresas, se te podrán reconocer las asignaturas que ya habías aprobado anteriormente.
+
+---
+**Fuentes:**
+* Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 136 y art. 134.",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 136; art. 75; art. 135; art. 134,sí,,sí,sí,,4564,consultar_reglamento
+35,reglamento,¿Con qué promedio quedo en período de prueba al terminar el primer semestre?,Con promedio igual o superior a 2.50 e inferior a 2.80 (art. 133).,"Al terminar el primer semestre, quedas en **período de prueba** si tu promedio del período se encuentra **entre 2.50 y 2.79** (es decir, un promedio igual o superior a 2.50 e inferior a 2.80).
+
+Para contexto adicional:
+* Si obtienes un promedio de **2.80 o más**, tu matrícula será en condiciones normales.
+* Si tu promedio es **inferior a 2.50**, incurrirás en insuficiencia académica, lo cual implica la pérdida del derecho a continuar en el programa.
+
+**Fuentes:**
+* Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 131, 133 y 135",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 133; art. 135; art. 131; art. 132,sí,"2.5|2,5; 2.8|2,8",no,sí,Correcta en revisión humana: 'entre 2.50 y 2.79' (art. 133); la precalificación no reconoció 2.50/2.80 como 2.5/2.8.,4867,consultar_reglamento
+36,reglamento,¿Qué promedio en el primer semestre causa insuficiencia académica?,Un promedio inferior a 2.50 (art. 135).,"Según el Reglamento Estudiantil, para un estudiante en su **primer semestre**, se incurre en insuficiencia académica (lo que ocasiona la pérdida del derecho a continuar en el programa) si se obtiene un promedio ponderado **inferior a 2.50**.
+
+Adicionalmente, se tienen en cuenta las siguientes situaciones para el primer semestre:
+* **Matrícula normal:** Si se obtiene un promedio de **2.80 o más**.
+* **Período de prueba:** Si el promedio se ubica **entre 2.50 (inclusive) y 2.79**.
+
+**Fuentes:**
+* Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 131, art. 133, art. 135",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 135; art. 133; art. 131; art. 129,sí,"2.5|2,5",no,sí,Correcta en revisión humana: 'inferior a 2.50' (art. 135); mismo falso negativo de formato numérico.,2747,consultar_reglamento
+37,reglamento,¿Qué necesito para obtener matrícula de honor?,Al menos 12 créditos en el semestre anterior y promedio crédito superior a 4.0 (arts. 214-216).,"Para obtener la **matrícula de honor** en un programa de pregrado de la Universidad de Antioquia, debes cumplir con los siguientes requisitos en el semestre cursado:
+
+1. **Cursar un programa de más de cuatro semestres** (como es el caso de Ingeniería de Sistemas).
+2. **Matricular y cursar un mínimo de 12 créditos** en el semestre inmediatamente anterior.
+3. **Obtener un promedio crédito superior a 4.0** en dicho semestre.
+
+---
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 214-216 (modificado por AS 239/2002 y AS 425/2014)",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 214-216; art. 69; art. 42; art. 44,sí,,sí,sí,,2417,consultar_reglamento
+38,reglamento,¿Cuándo son los ajustes de matrícula?,En la primera semana del período (art. 73).,"Según el Reglamento Estudiantil, los ajustes de matrícula (adición y cambios de cursos) se realizan durante la **primera semana de cada período académico**, conforme a lo dispuesto por el consejo de facultad. 
+
+Te recomiendo estar atento a las fechas exactas publicadas en el calendario académico oficial de la Universidad para cada semestre.
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 73",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 73; art. 44; art. 60; art. 65,sí,,sí,sí,,2532,consultar_reglamento
+39,reglamento,¿Puedo matricular dos materias que se cruzan de horario?,"No, el reglamento no permite inscribir asignaturas con cruce de horario (art. 68).","No, no está permitido matricular materias cuyos horarios se crucen. 
+
+De acuerdo con el Reglamento Estudiantil, las normas de la universidad prohíben expresamente la inscripción simultánea de asignaturas con cruce de horario.
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 68",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 68; art. 42; art. 74; art. 136,sí,,sí,sí,,2007,consultar_reglamento
+40,reglamento,¿Puedo estar matriculado en dos programas de pregrado al mismo tiempo?,"No, salvo rutas curriculares especiales de doble titulación aprobadas por el Consejo Académico (art. 63).","De acuerdo con el Reglamento Estudiantil, **no** se puede estar matriculado en más de un programa de pregrado al mismo tiempo. 
+
+La norma establece que la doble titulación únicamente es posible mediante rutas curriculares especiales debidamente aprobadas por el Consejo Académico.
+
+**Fuentes:**
+- Reglamento Estudiantil de Pregrado UdeA (Acuerdo Superior 1 de 1981), art. 63",Reglamento Estudiantil de Pregrado (Acuerdo Superior 1 de 1981) | art. 63; art. 20; art. 43; art. 170,sí,,sí,sí,,2678,consultar_reglamento

@@ -11,7 +11,9 @@ generadas cumple todas las restricciones duras.
 Uso (desde backend/):
     python scripts/banco_motor.py            # oferta simulada reproducible (semilla fija)
     python scripts/banco_motor.py --vivo     # pensum y oferta en vivo de los portales UdeA
-Salida: docs/resultados/oe2_motor.md y oe2_motor.json
+    python scripts/banco_motor.py --captura ../docs/datos/oferta_mares_2026-11-18.txt
+                                             # oferta REAL capturada de MARES (formato compacto)
+Salida: docs/resultados/oe2_motor.md y oe2_motor.json (con --captura: oe2_motor_oferta_real.*)
 """
 from __future__ import annotations
 
@@ -35,6 +37,32 @@ from scripts.auditor import auditar  # noqa: E402
 
 SALIDA = RAIZ / "docs" / "resultados"
 DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado"]
+
+
+def cargar_captura(ruta: str) -> tuple[list[MateriaViva], str]:
+    """Lee una captura compacta de la oferta de MARES: una línea por materia,
+    `codigo=grupo:cupos:L0600-0800,W0600-0800;grupo:cupos:...` (L M W J V S D).
+    La primera línea identifica la captura (fecha y hora)."""
+    letras = {"L": "lunes", "M": "martes", "W": "miércoles", "J": "jueves", "V": "viernes", "S": "sábado", "D": "domingo"}
+    lineas = Path(ruta).read_text(encoding="utf-8").splitlines()
+    oferta = []
+    for ln in lineas[1:]:
+        if "=" not in ln:
+            continue
+        codigo, _, resto = ln.partition("=")
+        grupos, vistos = [], set()
+        for g in resto.split(";"):
+            numero, cupos, horario = g.split(":", 2)
+            if numero in vistos:  # MARES repite algunos grupos
+                continue
+            vistos.add(numero)
+            sesiones = []
+            for ses in filter(None, horario.split(",")):
+                ini, fin = ses[1:].split("-")
+                sesiones.append(Sesion(letras[ses[0]], f"{ini[:2]}:{ini[2:]}", f"{fin[:2]}:{fin[2:]}"))
+            grupos.append(GrupoVivo(numero, int(cupos or 0), int(cupos or 0), "", "", sesiones))
+        oferta.append(MateriaViva(codigo, codigo, grupos))
+    return oferta, lineas[0].strip()
 
 
 def oferta_simulada(materias, semilla: int = 2026) -> list[MateriaViva]:
@@ -137,12 +165,19 @@ def ejecutar(materias, oferta, cmin: int, cmax_defecto: int) -> dict:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--vivo", action="store_true")
+    ap.add_argument("--captura", help="archivo con la oferta real capturada de MARES (formato compacto)")
     args = ap.parse_args()
     from app.config import get_settings
 
     s = get_settings()
+    sufijo = ""
     if args.vivo:
         materias, oferta, origen = pensum.obtener_pensum(forzar=True), udea.obtener_oferta(forzar=True), f"en vivo ({pensum.origen_actual()} + MARES)"
+    elif args.captura:
+        materias = pensum.cargar_snapshot()[0]
+        oferta, marca = cargar_captura(args.captura)
+        origen = f"plan real v5 (snapshot) + oferta REAL de MARES ({marca}, {sum(len(m.grupos) for m in oferta)} grupos de {len(oferta)} materias del plan)"
+        sufijo = "_oferta_real"
     else:
         materias = pensum.cargar_snapshot()[0]
         oferta, origen = oferta_simulada(materias), "plan real v5 (snapshot) + oferta simulada con semilla 2026"
@@ -150,7 +185,7 @@ def main():
     r.update(fecha=date.today().isoformat(), origen=origen)
 
     SALIDA.mkdir(parents=True, exist_ok=True)
-    (SALIDA / "oe2_motor.json").write_text(json.dumps(r, ensure_ascii=False, indent=2), encoding="utf-8")
+    (SALIDA / f"oe2_motor{sufijo}.json").write_text(json.dumps(r, ensure_ascii=False, indent=2), encoding="utf-8")
     tabla = "\n".join(
         f"| {f['id']} | {f['descripcion']} | {f['franja']} | {f['tope']} | {f['propuestas']} | {f['cumplen']} | {', '.join(map(str, f['creditos'])) or '—'} |"
         for f in r["escenarios"]
@@ -184,7 +219,7 @@ pedida y tope de créditos.
 
 {chr(10).join(viol) if viol else 'Ninguna.'}
 """
-    (SALIDA / "oe2_motor.md").write_text(md, encoding="utf-8")
+    (SALIDA / f"oe2_motor{sufijo}.md").write_text(md, encoding="utf-8")
     print(md)
 
 

@@ -104,3 +104,17 @@ def test_malla_responde_preguntas_generales_del_plan(pensum_real):
 def test_malla_explica_espacios_electivos(pensum_real):
     doc = rag.buscar_malla("línea de énfasis principal", k=1)[0][0]
     assert doc.id.startswith("EE-") and "INGENIERÍA WEB" in doc.texto
+
+
+@pytest.mark.parametrize(
+    "consulta, doc_id, dato",
+    [
+        ("¿Cuál es la materia de la que más materias dependen?", "PE-CRITICAS", "ÁLGEBRA Y TRIGONOMETRÍA (30)"),
+        ("¿Cuántos cursos de inglés tiene el plan?", "PE-INGLES", "5 cursos de inglés"),
+    ],
+)
+def test_malla_responde_preguntas_de_agregacion(pensum_real, consulta, doc_id, dato):
+    # Fallas P10 y P16 del banco del OE3: ninguna materia individual responde estas preguntas.
+    rag._malla.update(clave=None, indice=None)
+    doc = rag.buscar_malla(consulta, k=3)[0][0]
+    assert doc.id == doc_id and dato in doc.texto

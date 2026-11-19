@@ -61,8 +61,18 @@ export default function Inicio() {
         <ShieldCheck size={22} />
         {resumen ? (
           <p>
-            Pensum vigente{resumen.version_pensum ? ` (versión ${resumen.version_pensum})` : ""}:{" "}
-            <b>{resumen.materias_obligatorias} materias obligatorias</b>, <b>{resumen.creditos_obligatorios} créditos</b> en <b>{resumen.niveles} semestres</b>, unidas por{" "}
+            Plan de estudios vigente{resumen.version_pensum ? ` (versión ${resumen.version_pensum})` : ""}:{" "}
+            {resumen.plan_estudios ? (
+              <>
+                <b>{resumen.plan_estudios.espacios} espacios académicos</b> ({resumen.materias_obligatorias} materias obligatorias y{" "}
+                {resumen.plan_estudios.espacios_electivos} espacios electivos), <b>{resumen.plan_estudios.creditos} créditos</b> en{" "}
+                <b>{resumen.plan_estudios.niveles} semestres</b>, unidos por{" "}
+              </>
+            ) : (
+              <>
+                <b>{resumen.materias_obligatorias} materias obligatorias</b>, <b>{resumen.creditos_obligatorios} créditos</b> en <b>{resumen.niveles} semestres</b>, unidas por{" "}
+              </>
+            )}
             <b>{resumen.aristas_prerrequisito} prerrequisitos</b> y {resumen.correquisitos} correquisitos.{" "}
             {resumen.es_aciclico ? "El grafo se verificó sin ciclos: toda materia tiene un orden válido para cursarse." : "Atención: el grafo presenta ciclos."}
           </p>

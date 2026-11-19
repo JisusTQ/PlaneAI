@@ -189,6 +189,41 @@ def documentos_malla(materias: list[pensum.MateriaPensum]) -> list[Documento]:
             fuente="Plan de estudios V.5 (Acuerdo de Facultad 868) y Cursum",
         )
     )
+
+    # Agregados que ninguna materia responde por sí sola (hallazgo de la evaluación
+    # del OE3: "¿de qué materia dependen más materias?", "¿cuántos cursos de inglés?").
+    from app.services import grafo_service as grafo
+
+    crit = grafo.criticidad(grafo.construir_grafo(materias))
+    obligatorias = [m for m in materias if m.nivel != pensum.NIVEL_ELECTIVAS]
+    ranking = sorted(obligatorias, key=lambda m: (-crit.get(m.codigo, 0), m.nivel, m.codigo))[:8]
+    docs.append(
+        Documento(
+            id="PE-CRITICAS",
+            titulo="MATERIAS MÁS CRÍTICAS de las que más materias dependen ranking criticidad cuello de botella",
+            texto=(
+                "Materias de las que más materias dependen (número de materias que las exigen directa o indirectamente "
+                "en el grafo de prerrequisitos): "
+                + ", ".join(f"{m.nombre} ({crit.get(m.codigo, 0)})" for m in ranking)
+                + ". Perder o aplazar una de ellas retrasa la mayor cantidad de materias del plan."
+            ),
+            fuente="Plan de estudios (grafo de prerrequisitos de PlaneAI sobre Cursum)",
+        )
+    )
+    ingles = sorted((m for m in obligatorias if m.nombre.upper().startswith("ENGLISH")), key=lambda m: m.codigo)
+    if ingles:
+        docs.append(
+            Documento(
+                id="PE-INGLES",
+                titulo="CURSOS DE INGLÉS english lengua extranjera idiomas",
+                texto=(
+                    f"El plan de estudios incluye {len(ingles)} cursos de inglés obligatorios: "
+                    + ", ".join(f"{m.nombre} (nivel {m.nivel}, {m.creditos} créditos)" for m in ingles)
+                    + "."
+                ),
+                fuente="Plan de estudios (Cursum), cursos de inglés",
+            )
+        )
     return docs
 
 

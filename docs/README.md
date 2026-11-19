@@ -10,23 +10,22 @@ compromiso del anteproyecto. Los archivos de `resultados/` se regeneran con los 
 |---|---|---|---|
 | **General** | Prototipo funcional desplegado y accesible en línea | ✅ Cumplido | Frontend https://plane-ai-udea.vercel.app · API https://planeai.onrender.com/docs |
 | **OE1** Modelo computable del plan y del reglamento | 100 % de las materias modeladas, grafo acíclico, coincidencia ≥ 95 % con el plan publicado | ✅ Cumplido: 55/55 espacios y 168 créditos modelados, grafo acíclico, **96,4 %** de coincidencia por espacio (99,3 % por atributo) con el plan publicado (AF 868) | `resultados/oe1_modelo.md`, `GET /pensum/plan`, `GET /reglas`, `datos/cotejo_plan_publicado.csv` |
-| **OE2** Motor de validación y recomendación | ≥ 25 casos, ≥ 90 % de propuestas cumple las restricciones duras | ✅ Cumplido: 25 casos, 51/51 propuestas (100 %) | `resultados/oe2_motor.md`, `resultados/cobertura.md` |
-| **OE3** Interfaz conversacional con LLM + RAG | ≥ 85 % correctas en 40 preguntas, trazabilidad en todas | 🟡 Listo para medir | Banco `backend/app/data/banco_preguntas.json`; correr `scripts/evaluar_asistente.py` → `resultados/oe3_banco.md` |
-| **OE4** Evaluación con usuarios | SUS ≥ 68 con ≥ 15 estudiantes + hallazgos | 🟡 Listo para aplicar | `protocolo_evaluacion.md`; analizar con `scripts/analizar_sus.py` → `resultados/oe4_sus.md` |
+| **OE2** Motor de validación y recomendación | ≥ 25 casos, ≥ 90 % de propuestas cumple las restricciones duras | ✅ Cumplido: 25 casos; 51/51 propuestas (100 %) con oferta simulada y 49/49 (100 %) con la oferta real de MARES capturada el 18-nov-2026 | `resultados/oe2_motor.md`, `resultados/oe2_motor_oferta_real.md`, `datos/oferta_mares_2026-11-18.txt`, `resultados/cobertura.md` |
+| **OE3** Interfaz conversacional con LLM + RAG | ≥ 85 % correctas en 40 preguntas, trazabilidad en todas | ✅ Cumplido (18-nov-2026, en producción): **38/40 correctas (95,0 %)**, 40/40 con la fuente esperada; latencia mediana 3,6 s | `resultados/oe3_banco.md`, `resultados/oe3_banco.csv` |
+| **OE4** Evaluación con usuarios | SUS ≥ 68 con ≥ 15 estudiantes + hallazgos | 🟡 Pendiente: sesiones con estudiantes | `protocolo_evaluacion.md`; analizar con `scripts/analizar_sus.py` → `resultados/oe4_sus.md` |
 
 ## 2. Lo que falta y quién lo hace (equipo)
 
 1. **Cotejo del plan (OE1).** Ya es automático contra el gráfico oficial del plan V.5 (AF 868), transcrito en
    `backend/app/data/plan_publicado_af868.json`. Conviene que alguien del equipo revise esa transcripción contra el PDF.
-2. **Banco de 40 preguntas (OE3).** Después de desplegar esta versión:
-   `python scripts/evaluar_asistente.py --api https://planeai.onrender.com` (≈ 10 min, usa cuota de Gemini;
-   se puede reanudar con `--desde N`). Revisar la columna `correcta` de `resultados/oe3_banco.csv` contra
-   `respuesta_esperada` y ejecutar `python scripts/evaluar_asistente.py --resumen`.
-   También se puede hacer desde la app: **Evaluación → Banco de preguntas → Correr pendientes**.
+2. **Banco de 40 preguntas (OE3).** Hecho el 18-nov-2026 contra la API desplegada (`gemini-3.5-flash-lite`).
+   La revisión humana quedó en la columna `correcta` de `resultados/oe3_banco.csv` (con su `observacion`);
+   el equipo puede confirmarla en la app (**Evaluación → Banco de preguntas**). Para repetirlo:
+   `python scripts/evaluar_asistente.py --api https://planeai.onrender.com` y luego `--resumen`.
 3. **Sesiones SUS (OE4).** Aplicar `protocolo_evaluacion.md` a 15 o más estudiantes, exportar el CSV y
    correr `python scripts/analizar_sus.py planeai-sus.csv`. Completar la tabla de hallazgos y mejoras.
-4. **Instrumentos de F1.** Si la encuesta (20 estudiantes) y las entrevistas (5) de la fase de análisis no
-   quedaron documentadas, los instrumentos están en los anexos A y B del protocolo.
+4. **Fase F1.** La encuesta (20 estudiantes) y las 5 entrevistas no se aplicaron; los requisitos salieron de la
+   revisión documental. Los instrumentos quedan en los anexos A y B del protocolo.
 
 ## 3. Arquitectura (para la sección de diseño)
 
@@ -89,6 +88,24 @@ grupo y cupo, R06 sin cruces (art. 68), R07 máximo 24 créditos (art. 66). Adve
   además Teoría de la Probabilidad y Colas para Lógica y Representación III, y la Cátedra de Formación
   Ciudadana (2517450) que reemplazó a Formación Ciudadana (2517362) ya no pide 40 créditos aprobados.
 
+- **OE3: dónde falla el asistente.** Las dos respuestas incorrectas del banco (P10 y P16) fueron preguntas de
+  agregación global ("¿de qué materia dependen más materias?", "¿cuántos cursos de inglés hay?") que ninguna
+  herramienta respondía de forma directa: el modelo combinó resultados parciales y concluyó mal, aunque citó una
+  fuente válida (trazabilidad no es lo mismo que corrección). Después de la medición se agregaron al índice de la
+  malla dos documentos de agregación (`PE-CRITICAS`, `PE-INGLES`); no se cuentan en el indicador.
+- **OE3: guardarraíl de herramientas (posterior a la medición).** En una conversación de prueba de varios turnos, el
+  asistente propuso una carga sin llamar al motor (la interfaz la marcó «Respuesta sin consulta a fuentes oficiales»)
+  y la carga incluía materias ya aprobadas y Proyecto Integrador I sin los 80 créditos. En una conversación nueva el
+  mismo pedido sí pasa por el motor. Como protección, `_conversar` repite el turno con llamada obligatoria a
+  herramientas (modo `ANY` de Gemini, solo en la primera llamada del bucle) cuando el modelo responde sin consultar
+  ninguna; los saludos y agradecimientos quedan exentos. Pruebas en `tests/test_guardarrail.py`. No cambia el indicador.
+- **OE3: precalificación automática.** Coincidió con la revisión humana en 37/40 preguntas; sus tres errores fueron
+  falsos negativos por formato numérico (2.50 frente a 2.5) o paráfrasis ("una (1) habilitación").
+- **RAG.** En las 20 preguntas de reglamento, BM25 trae el artículo esperado en la 1.ª posición en 17 y entre las
+  4 primeras en 20 (MRR = 0,93), frente a MRR = 0,90 de una línea base TF-IDF con el mismo preprocesamiento.
+- **Motor: tope de búsqueda.** Con más de ~20 materias candidatas (escenarios con electivas) el DFS llega al tope de
+  20 000 nodos (≈ 0,2 s); con un tope 100 veces mayor el puntaje de las tres mejores cargas no cambia y el tiempo
+  sube a ≈ 31 s. La mediana de generación en los 25 escenarios es 1,4 ms.
 - **Requisitos por créditos.** Cursum marca algunos requisitos como `PRERREQCRED` (el "código" es un número de
   créditos: 16, 48, 60, 65 o 132). Antes se trataban como materias inexistentes y bloqueaban 22 materias,
   entre ellas todas las modalidades de grado; ahora se validan contra los créditos aprobados (regla R04).
@@ -110,9 +127,9 @@ grupo y cupo, R06 sin cruces (art. 68), R07 máximo 24 créditos (art. 66). Adve
 ```bash
 cd backend
 python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
-pytest -q --cov=app                         # 110 pruebas; cobertura en resultados/cobertura.md
+pytest -q --cov=app                         # 126 pruebas; cobertura en resultados/cobertura.md
 python scripts/verificar_modelo.py          # OE1 (usa --snapshot sin conexión a la UdeA)
-python scripts/banco_motor.py               # OE2 (--vivo para la oferta real)
+python scripts/banco_motor.py               # OE2 (--captura ../docs/datos/oferta_mares_2026-11-18.txt para la oferta real)
 python scripts/evaluar_asistente.py --api https://planeai.onrender.com   # OE3
 python scripts/analizar_sus.py planeai-sus.csv                           # OE4
 ```

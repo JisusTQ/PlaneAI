@@ -14,7 +14,7 @@ import Segmentado from "../components/Segmentado.jsx";
 import { ListaGrupos } from "../components/Grupos.jsx";
 import { itemDeGrupo } from "../components/PanelMateria.jsx";
 
-const VERIFICACIONES = ["Prerrequisitos", "Correquisitos", "Oferta y cupos", "Sin choques de horario", "Tope de créditos"];
+const VERIFICACIONES = ["Del plan y sin aprobar", "Prerrequisitos", "Correquisitos", "Créditos aprobados", "Oferta y cupos", "Sin choques de horario", "Tope de créditos"];
 
 function PuntoDePartida() {
   const { aprobadas, habilitadas, creditosAprobados, ir, cursando, creditosCursando, proyectar, setProyectar } = useApp();
@@ -228,7 +228,7 @@ function ModoMotor({ onEditar }) {
           <div className="vacio">
             <Sparkles size={26} />
             <p className="subtitulo">Hasta tres cargas distintas, listas para matricular</p>
-            <p>Ajusta las condiciones y pulsa «Generar cargas». Cada alternativa pasa por las cinco verificaciones del motor antes de mostrarse.</p>
+            <p>Ajusta las condiciones y pulsa «Generar cargas». Cada alternativa pasa por las siete verificaciones del motor (R01–R07) antes de mostrarse.</p>
           </div>
         )}
         {estado.cargas?.length === 0 && (
